@@ -21,6 +21,19 @@ const validateRelation = (formValues, context) => {
   }
 };
 
+// Add shorthand citation attributes for related works
+const addCitations = async context => {
+  const { result } = context;
+  const relationFromName = result.relation_from.author[0].family;
+  const relationFromYear = result.relation_from.issued["date-parts"][0][0];
+  const relationToName = result.relation_to.author[0].family;
+  const relationToYear = result.relation_to.issued["date-parts"][0][0];
+
+  result.citation_from = `${relationFromName} ${relationFromYear}`;
+  result.citation_to = `${relationToName} ${relationToYear}`;
+  return context;
+};
+
 module.exports = {
   before: {
     all: [],
@@ -69,7 +82,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [],
+    get: [addCitations],
     create: [],
     update: [],
     patch: [],
