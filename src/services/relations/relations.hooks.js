@@ -34,16 +34,14 @@ const trimmer = function(node) {
   }
 };
 
-// Add shorthand citation attributes for related works
-const addCitations = async context => {
-  const { result } = context;
-  const relationFromName = result.relation_from.author[0].family;
-  const relationFromYear = result.relation_from.issued["date-parts"][0][0];
-  const relationToName = result.relation_to.author[0].family;
-  const relationToYear = result.relation_to.issued["date-parts"][0][0];
-
-  result.citation_from = `${relationFromName} ${relationFromYear}`;
-  result.citation_to = `${relationToName} ${relationToYear}`;
+// Post related works to works service
+const createWorks = async context => {
+  const { app, data } = context;
+  const worksService = app.service("works");
+  const workRelatedFrom = await worksService.create(data.relation_from);
+  const workRelatedTo = await worksService.create(data.relation_to);
+  context.data.relation_from = workRelatedFrom._id;
+  context.data.relation_to = workRelatedTo._id;
   return context;
 };
 
@@ -66,6 +64,7 @@ module.exports = {
       ),
       traverse(trimmer),
       validate(validateRelation),
+      createWorks,
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("created_at", "updated_at")
     ],
@@ -96,7 +95,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [addCitations],
+    get: [],
     create: [],
     update: [],
     patch: [],
