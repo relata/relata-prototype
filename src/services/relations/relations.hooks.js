@@ -1,4 +1,10 @@
-const { keep, required, setNow, validate } = require("feathers-hooks-common");
+const {
+  keep,
+  required,
+  setNow,
+  traverse,
+  validate
+} = require("feathers-hooks-common");
 
 // Array against which to validate relation_type field
 const validRelationTypes = [
@@ -18,6 +24,13 @@ const validateRelation = (formValues, context) => {
         ", "
       )}`
     };
+  }
+};
+
+// Traverse relation object to trim excess whitespace
+const trimmer = function(node) {
+  if (typeof node == "string") {
+    this.update(node.replace(/\s{2,}/g, " ").trim());
   }
 };
 
@@ -51,6 +64,7 @@ module.exports = {
         "relation_to.title",
         "relation_to.author"
       ),
+      traverse(trimmer),
       validate(validateRelation),
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("created_at", "updated_at")
