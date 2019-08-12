@@ -1,3 +1,5 @@
+const { Cite } = require("citation-js");
+
 // Add citation attributes to work
 const appendCitationsToWork = async work => {
   // Short citation
