@@ -1,4 +1,5 @@
 const {
+  discard,
   keep,
   required,
   setNow,
@@ -64,6 +65,7 @@ module.exports = {
       ),
       traverse(trimmer),
       validate(validateRelation),
+      discard("relation_from.id", "relation_to.id"),
       createWorks,
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("created_at", "updated_at")
