@@ -1,4 +1,17 @@
+const { readFileSync } = require("fs");
+const path = require("path");
 const Cite = require("citation-js");
+
+// Chicago 16th ed. author-date CSL template, sourced from
+// https://github.com/citation-style-language. See https://citationstyles.org
+const chicagoStyleTemplate = readFileSync(
+  path.resolve(__dirname, "chicago-author-date-16th-edition.csl"),
+  "utf-8"
+);
+Cite.CSL.register.addTemplate(
+  "chicago-author-date-16th-edition",
+  chicagoStyleTemplate
+);
 
 // Add citation attributes to work
 const appendCitationsToWork = async work => {
@@ -7,14 +20,14 @@ const appendCitationsToWork = async work => {
   const publicationYear = work.issued["date-parts"][0][0];
   const shortCitation = `${firstAuthorName} ${publicationYear}`;
 
-  // Long citation
+  // Full HTML citation in Chicago author-date format
   const cite = new Cite({
     ...work,
     id: work._id
   });
   const htmlCitation = cite.format("bibliography", {
     format: "html",
-    template: "apa",
+    template: "chicago-author-date-16th-edition",
     lang: "en-US"
   });
   return {
