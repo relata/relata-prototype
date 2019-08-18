@@ -1,4 +1,4 @@
-const { Cite } = require("citation-js");
+const Cite = require("citation-js");
 
 // Add citation attributes to work
 const appendCitationsToWork = async work => {
@@ -8,11 +8,19 @@ const appendCitationsToWork = async work => {
   const shortCitation = `${firstAuthorName} ${publicationYear}`;
 
   // Long citation
-  const longCitation = "";
+  const cite = new Cite({
+    ...work,
+    id: work._id
+  });
+  const htmlCitation = cite.format("bibliography", {
+    format: "html",
+    template: "apa",
+    lang: "en-US"
+  });
   return {
     ...work,
-    shortCitation,
-    longCitation
+    shortCitation: shortCitation,
+    htmlCitation: htmlCitation
   };
 };
 
@@ -23,7 +31,7 @@ const addCitations = async context => {
     result.data = await Promise.all(result.data.map(appendCitationsToWork));
   } else {
     // Otherwise just update the single result
-    result = await appendCitationsToWork(result);
+    context.result = await appendCitationsToWork(result);
   }
   return context;
 };
