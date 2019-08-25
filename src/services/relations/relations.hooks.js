@@ -90,6 +90,25 @@ const createWorks = async context => {
   return context;
 };
 
+// Disallow duplicate relations (i.e., don't create a relation that has the
+// exact same relation_type, relation_from, and relation_to as one already
+// existing; someday, this can be handled more robustly with SQL constraints)
+const disallowDuplicateRelation = async context => {
+  const { data, service } = context;
+  const queryResults = await service.find({
+    query: {
+      relation_type: data.relation_type,
+      relation_from: data.relation_from,
+      relation_to: data.relation_to
+    }
+  });
+  if (queryResults.data.length > 0) {
+    throw new BadRequest("That relation already exists");
+  } else {
+    return context;
+  }
+};
+
 module.exports = {
   before: {
     all: [],
@@ -111,6 +130,7 @@ module.exports = {
       validate(validateRelation),
       discard("relation_from.id", "relation_to.id"),
       createWorks,
+      disallowDuplicateRelation,
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("created_at", "updated_at")
     ],
@@ -127,11 +147,13 @@ module.exports = {
         "relation_to.author"
       ),
       validate(validateRelation),
+      disallowDuplicateRelation,
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("updated_at")
     ],
     patch: [
       validate(validateRelation),
+      disallowDuplicateRelation,
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("updated_at")
     ],
