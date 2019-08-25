@@ -1,3 +1,4 @@
+const { BadRequest } = require("@feathersjs/errors");
 const {
   discard,
   keep,
@@ -6,6 +7,7 @@ const {
   traverse,
   validate
 } = require("feathers-hooks-common");
+const Fuse = require("fuse.js");
 
 // Array against which to validate relation_type field
 const validRelationTypes = [
@@ -35,14 +37,56 @@ const trimmer = function(node) {
   }
 };
 
+// Determine if a work already exists (fuzzy match on title, first author)
+let fuseOptions = {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 50,
+  maxPatternLength: 32,
+  minMatchCharLength: 2
+  // keys: ["title", "author.family"]
+};
+const findExistingWork = (work, existingWorks) => {
+  const titleSearch = new Fuse(existingWorks, {
+    ...fuseOptions,
+    keys: ["title"]
+  });
+  const titleResults = titleSearch.search(work.title);
+
+  const authorSearch = new Fuse(existingWorks, {
+    ...fuseOptions,
+    keys: ["author.family"]
+  });
+  const authorResults = authorSearch.search(work.author[0].family);
+
+  if (titleResults.length == 0 && authorResults.length == 0) {
+    return null;
+  } else {
+    for (let result of [...titleResults, ...authorResults]) {
+      return result._id;
+    }
+  }
+};
+
 // Post related works to works service
 const createWorks = async context => {
   const { app, data } = context;
   const worksService = app.service("works");
-  const workRelatedFrom = await worksService.create(data.relation_from);
-  const workRelatedTo = await worksService.create(data.relation_to);
-  context.data.relation_from = workRelatedFrom._id;
-  context.data.relation_to = workRelatedTo._id;
+
+  // Create work(s) if they do not already exist; if they do, grab existing IDs
+  const existingWorks = await worksService.find();
+  for (let attribute of ["relation_from", "relation_to"]) {
+    let existingWorkID = findExistingWork(data[attribute], existingWorks.data);
+
+    if (existingWorkID == null) {
+      let workCreated = await worksService.create(data[attribute]);
+      context.data[attribute] = workCreated._id;
+    } else {
+      context.data[attribute] = existingWorkID;
+    }
+  }
+
   return context;
 };
 
