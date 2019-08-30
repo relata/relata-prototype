@@ -1,0 +1,53 @@
+#left {}
+
+#right {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* Menu */
+
+.results-list {
+  margin-top: 15px;
+}
+
+.result.critique {
+  border-left: 5px solid #FF3300;
+}
+
+.result.extension {
+  border-left: 5px solid #0099CC;
+}
+
+.result.absence {
+  border-left: 5px solid #FF9900;
+}
+
+.result .type {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.result.critique .type {
+  color: #FF3300;
+}
+
+.result.extension .type {
+  color: #0099CC;
+}
+
+.result.absence .type {
+  color: #FF9900;
+}
+
+.result .author {
+  margin-right: 5px;
+}
+
+/* Graph */
+
+#graph g.node:hover {
+  cursor: hand;
+  cursor: pointer;
+}
