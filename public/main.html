@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Relata</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+    integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="main.css">
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Relata</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Search <span class="sr-only">(current)</span></a></li>
+          <li><a href="#">Concept</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div id="left" class="col-sm-4">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search critiques, extensions, absences of...">
+          </div>
+        </form>
+        <div class="panel panel-default" style="border-color: #000">
+          <div class="panel-body">
+            <span>Helmreich, Stefan. 2008. &ldquo;Species of Biocapital.&rdquo; <em>Science as Culture</em> 17, no. 4,
+              463-478.</span>
+          </div>
+        </div>
+        <ul class="nav nav-tabs">
+          <li role="presentation">
+            <a href="#">
+              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            </a>
+          </li>
+          <li role="presentation" class="active">
+            <a href="#">
+              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            </a>
+          </li>
+          <button type="button" class="btn btn-success pull-right">Add</button>
+        </ul>
+        <div class="results-list">
+          <div class="panel panel-default result extension">
+            <div class="panel-body">
+              <span class="type">extension</span>
+              <span>Birch, Kean, and David Tyfield. 2013. &ldquo;Theorizing the Bioeconomy: Biovalue, Biocapital,
+                Bioeconomics or... What?&rdquo; <em>Science, Technology, and Human Values</em> 38, no. 3,
+                299&ndash;327.</span>
+            </div>
+            <div class="panel-footer">
+              <a href="#"><span class="author">Stefan Helmreich</span></a>
+              <span>Birch and Tyfield seek to place “biocapital” itself in a wider conversation about political
+                economy.</span>
+            </div>
+          </div>
+          <div class="panel panel-default result extension">
+            <div class="panel-body">
+              <span class="type">extension</span>
+              <span>Vora, Kalindi. 2015. <em>Life Support: Biocapital and the New History of Outsourced Labor</em>.
+                Minneapolis: University of Minnesota Press.</span>
+            </div>
+            <div class="panel-footer">
+              <a href="#"><span class="author">Stefan Helmreich</span></a>
+            </div>
+          </div>
+          <div class="panel panel-default result extension">
+            <div class="panel-body">
+              <span class="type">extension</span>
+              <span>Hauskeller, Christine, and Lorenzo Beltrame. 2016. &ldquo;The Hybrid Bioeconomy of Umbilical Cord
+                Blood Banking: Re-Examining the Narrative of Opposition Between Public and Private Services.&rdquo;
+                <em>BioSocieties</em> 11, no. 4, 415&ndash;434.</span>
+            </div>
+            <div class="panel-footer">
+              <a href="#"><span class="author">Stefan Helmreich</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="right" class="col-sm-8">
+        <!-- Graph goes here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
