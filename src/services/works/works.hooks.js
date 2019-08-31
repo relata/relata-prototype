@@ -49,6 +49,50 @@ const addCitations = async context => {
   return context;
 };
 
+const appendDigraph = async context => {
+  const { app, config, result } = context;
+
+  // Look up relations to and from this work
+  const relations = await app.service("relations").find({
+    query: {
+      $select: ["relation_type", "annotation", "relation_from", "relation_to"],
+      $or: [
+        // eslint-disable
+        {
+          relation_to: result._id
+        },
+        {
+          relation_from: result._id
+        }
+        // eslint-enable
+      ]
+    }
+  });
+
+  // Set default digraph styling
+  const nodeDefaults = `node [
+    shape = "rect",
+    style = "filled, rounded",
+    fillcolor = "#f6f6f6",
+    color = "#dddddd",
+    fontname = "Helvetica, Arial",
+    fontsize = 9
+  ]`;
+  let digraph = `digraph {
+    rankdir = "LR";
+    ${nodeDefaults}`;
+
+  for (let relation of relations.data) {
+    let color = app.get("relata").colors[relation.relation_type || "*"];
+    digraph += `;\n"${relation.relation_from}" [id = "${relation.relation_from}"]`;
+    digraph += `;\n"${relation.relation_to}" [id = "${relation.relation_to}"]`;
+    digraph += `;\n"${relation.relation_from}" -> "${relation.relation_to}" [color = "${color}"]\n`;
+  }
+  digraph += "}";
+  result.digraph = digraph;
+  return context;
+};
+
 module.exports = {
   before: {
     all: [],
@@ -63,7 +107,7 @@ module.exports = {
   after: {
     all: [addCitations],
     find: [],
-    get: [],
+    get: [appendDigraph],
     create: [],
     update: [],
     patch: [],

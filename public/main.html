@@ -103,13 +103,46 @@
         </div>
       </div>
       <div id="right" class="col-sm-8">
-        <!-- Graph goes here -->
+        <div id="graph">
+          <!--  -->
+        </div>
       </div>
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous">
+  </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
     integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@5.12.0/dist/d3.min.js"
+    integrity="sha256-+9Mf3cAVmxxudDsr1XwXUeRZFtvdWVYdq5/vcgiYyNU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/viz.js@1.8.2/viz.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
+  <script>
+    var graph = d3.select("#graph");
+    var currentWork;
+
+    var setCurrentWork = function (id) {
+      $.getJSON("/works/" + id, function (data) {
+        currentWork = data;
+        d3.select("#graph")
+          .graphviz()
+          .transition()
+          .renderDot(data.digraph, updateDOM);
+      });
+    }
+
+    var updateDOM = function () {
+      d3.selectAll('g.node').on('click', function (event) {
+        console.log('Setting work to', event.key);
+        setCurrentWork(event.key);
+      });
+    }
+
+    setCurrentWork('9XihvtxArmDbTwlK');
+
   </script>
 </body>
 

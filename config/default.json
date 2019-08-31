@@ -28,5 +28,15 @@
       "passwordField": "password"
     }
   },
-  "nedb": "../data"
+  "nedb": "../data",
+  "relata": {
+    "colors": {
+      "critique": "red",
+      "extension": "green",
+      "rejoinder": "orange",
+      "absence": "blue",
+      "omission": "yellow",
+      "*": "gray"
+    }
+  }
 }
