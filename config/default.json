@@ -31,12 +31,12 @@
   "nedb": "../data",
   "relata": {
     "colors": {
-      "critique": "red",
-      "extension": "green",
-      "rejoinder": "orange",
-      "absence": "blue",
-      "omission": "yellow",
-      "*": "gray"
+      "critique": "#b10026",
+      "extension": "#51bb82",
+      "rejoinder": "#ff5235",
+      "absence": "#0f3363",
+      "omission": "#ffd121",
+      "*": "#999899"
     }
   }
 }

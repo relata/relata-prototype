@@ -76,8 +76,9 @@ const appendDigraph = async context => {
     fillcolor = "#f6f6f6",
     color = "#dddddd",
     fontname = "Helvetica, Arial",
-    fontsize = 9
-  ]`;
+    fontsize = 10
+  ];
+  edge [fontname = "Helvetica, Arial", fontsize = 8]`;
   let digraph = `digraph {
     rankdir = "LR";
     ${nodeDefaults}`;
@@ -86,7 +87,7 @@ const appendDigraph = async context => {
     let color = app.get("relata").colors[relation.relation_type || "*"];
     digraph += `;\n"${relation.relation_from}" [id = "${relation.relation_from}"]`;
     digraph += `;\n"${relation.relation_to}" [id = "${relation.relation_to}"]`;
-    digraph += `;\n"${relation.relation_from}" -> "${relation.relation_to}" [color = "${color}"]\n`;
+    digraph += `;\n"${relation.relation_from}" -> "${relation.relation_to}" [label = "${relation.relation_type}", color = "${color}"]\n`;
   }
   digraph += "}";
   result.digraph = digraph;
