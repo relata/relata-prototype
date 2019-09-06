@@ -90,7 +90,12 @@ const appendDigraph = async context => {
     digraph += `;\n"${relation.relation_from}" -> "${relation.relation_to}" [label = "${relation.relation_type}", color = "${color}"]\n`;
   }
   digraph += "}";
-  result.digraph = digraph;
+  // Fix this hacky workaround
+  result.digraph = digraph.replace(
+    RegExp(result._id, "g"),
+    result.shortCitation
+  );
+  console.log(result.digraph);
   return context;
 };
 
