@@ -125,14 +125,16 @@
     var currentWork;
 
     var focusOnWork = function (id) {
-      $.getJSON("/works/" + id, function (data) {
+      $.getJSON("/graphs/" + id, function (data) {
         currentWork = data;
+        console.log(data);
         d3.select("#graph")
           .graphviz()
           .transition()
           .renderDot(data.digraph, updateDOM);
 
         $('#current-work-citation').html(data.htmlCitation);
+        var resultsList = $('div.results-list');
       });
     }
 
