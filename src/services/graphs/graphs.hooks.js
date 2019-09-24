@@ -14,6 +14,7 @@ const appendDigraph = async context => {
   // Look up relations to and from this work
   const relations = await app.service("relations").find({
     query: {
+      $limit: 1000,
       $select: ["relation_type", "annotation", "relation_from", "relation_to"],
       $or: [
         // eslint-disable
