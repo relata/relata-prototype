@@ -10,10 +10,11 @@ Running the app in development mode is easy:
 2. Clone this repository.
 3. Go to the project folder (`cd path/to/relata-prototype`) and install dependencies by executing `npm install`.
 4. Start the app by executing `npm run dev`.
+5. Go to <http://localhost:3030> in your browser.
 
 ## Creating relations
 
-Relations can be created or modified via HTTP calls to the app's underlying API. For example, to create a new relation, submit a POST request with a JSON body resembling the following. Note that bibliographic works submitted via the `relation_from` and `relation_to` attributes must be in [CSL JSON](https://github.com/citation-style-language/schema/blob/master/csl-data.json) format. (Zotero and other reference management tools will readily export CSL JSON for you.)
+Relations can be created or modified via HTTP calls to the app's underlying API. For example, to create a new relation, submit a POST request with a JSON body resembling the following to `/relations`. Note that bibliographic works submitted via the `relation_from` and `relation_to` attributes must be in [CSL JSON](https://github.com/citation-style-language/schema/blob/master/csl-data.json) format. (Zotero and other reference management tools will readily export CSL JSON for you.)
 
 ```json
 {
