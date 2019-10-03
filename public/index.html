@@ -177,7 +177,7 @@
           currentWork = data;
           console.log(data);
           d3.select("#graph")
-            .graphviz()
+            .graphviz({ zoom: false })
             .transition()
             .renderDot(data.digraph, updateDOM);
 
