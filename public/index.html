@@ -152,6 +152,7 @@
       </div>
     </div>
 
+    <script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
     <script
       src="https://code.jquery.com/jquery-1.12.4.min.js"
       integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
@@ -170,21 +171,28 @@
     <script src="https://cdn.jsdelivr.net/npm/viz.js@1.8.2/viz.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
     <script>
+      var app = feathers();
+      var restClient = feathers.rest();
+      app.configure(restClient.jquery(window.jQuery));
+      app.configure(feathers.authentication());
+
       var graph = d3.select("#graph");
       var currentWork;
 
       var focusOnWork = function(id) {
-        $.getJSON("/graphs/" + id, function(data) {
-          currentWork = data;
-          console.log(data);
-          d3.select("#graph")
-            .graphviz({ zoom: false })
-            .transition()
-            .renderDot(data.digraph, updateDOM);
+        app
+          .service("graphs")
+          .get(id)
+          .then(function(data) {
+            currentWork = data;
+            d3.select("#graph")
+              .graphviz({ zoom: false })
+              .transition()
+              .renderDot(data.digraph, updateDOM);
 
-          $("#current-work-citation").html(data.htmlCitation);
-          var resultsList = $("div.results-list");
-        });
+            $("#current-work-citation").html(data.htmlCitation);
+            var resultsList = $("div.results-list");
+          });
       };
 
       var updateDOM = function() {
