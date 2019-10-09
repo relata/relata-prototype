@@ -179,19 +179,56 @@
       var graph = d3.select("#graph");
       var currentWork;
 
+      var makePanelHtml = function(relation) {
+        var annotationDiv;
+        if (relation.annotation) {
+          annotationDiv =
+            "<div class='panel-footer'>" + relation.annotation + "</div>";
+        } else {
+          annotationDiv = "";
+        }
+        var panelHtml = $(
+          "<div class='panel panel-default result " +
+            relation.relation_type +
+            "'>" +
+            "<div class='panel-body'>" +
+            "<span class='type'>" +
+            relation.relation_type +
+            "</span>" +
+            $(relation.work.htmlCitation)
+              .children()
+              .first()
+              .html() +
+            "</div>" +
+            annotationDiv +
+            "</div>"
+        );
+        return panelHtml;
+      };
+
       var focusOnWork = function(id) {
         app
           .service("graphs")
           .get(id)
           .then(function(data) {
-            currentWork = data;
+            currentWork = data.work;
+
+            // Update graph
             d3.select("#graph")
               .graphviz({ zoom: false })
               .transition()
               .renderDot(data.digraph, updateDOM);
 
-            $("#current-work-citation").html(data.htmlCitation);
-            var resultsList = $("div.results-list");
+            // Update current citation
+            $("#current-work-citation").html(currentWork.htmlCitation);
+
+            // Map related-to works to left-hand panels
+            $(".results-list").empty();
+            data.relationsTo.map(function(relation) {
+              var panelHtml = makePanelHtml(relation);
+
+              $(".results-list").append(panelHtml);
+            });
           });
       };
 
@@ -200,6 +237,13 @@
           focusOnWork(instance.attributes.id);
         });
       };
+
+      // Event handler for clicking side panels
+      $("div.result").on("click", function(eventObject) {
+        alert("hi");
+        console.log(eventObject);
+        // focusOnWork(event.instance.attributes.id);
+      });
 
       // Select an arbitrary work to kick things off
       focusOnWork("9XihvtxArmDbTwlK");
