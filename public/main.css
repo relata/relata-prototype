@@ -1,4 +1,5 @@
-#left {}
+#left {
+}
 
 #right {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
@@ -8,20 +9,25 @@
 
 /* Menu */
 
+.result:hover {
+  cursor: hand;
+  cursor: pointer;
+}
+
 .results-list {
   margin-top: 15px;
 }
 
 .result.critique {
-  border-left: 5px solid #FF3300;
+  border-left: 5px solid #ff3300;
 }
 
 .result.extension {
-  border-left: 5px solid #0099CC;
+  border-left: 5px solid #0099cc;
 }
 
 .result.absence {
-  border-left: 5px solid #FF9900;
+  border-left: 5px solid #ff9900;
 }
 
 .result .type {
@@ -30,15 +36,15 @@
 }
 
 .result.critique .type {
-  color: #FF3300;
+  color: #ff3300;
 }
 
 .result.extension .type {
-  color: #0099CC;
+  color: #0099cc;
 }
 
 .result.absence .type {
-  color: #FF9900;
+  color: #ff9900;
 }
 
 .result .author {

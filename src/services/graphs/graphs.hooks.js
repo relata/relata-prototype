@@ -4,31 +4,25 @@ const getWork = async context => {
   const { app, id, result } = context;
   const worksService = app.service("works");
   const work = await worksService.get(id);
-  context.result = work;
+  context.result = { work: work };
   return context;
 };
 
-const appendDigraph = async context => {
+const generateGraph = async context => {
   const { app, result } = context;
+  const { work } = result;
 
   // Look up relations to and from this work
   const relations = await app.service("relations").find({
     query: {
       $limit: 1000,
       $select: ["relation_type", "annotation", "relation_from", "relation_to"],
-      $or: [
-        // eslint-disable
-        {
-          relation_to: result._id
-        },
-        {
-          relation_from: result._id
-        }
-        // eslint-enable
-      ]
+      $or: [{ relation_to: work._id }, { relation_from: work._id }]
     }
   });
 
+  const relationsFrom = [];
+  const relationsTo = [];
   const digraphLines = [];
 
   // Set default digraph styling
@@ -37,16 +31,23 @@ const appendDigraph = async context => {
     style = "filled, rounded",
     fillcolor = "#f6f6f6",
     color = "#dddddd",
-    fontname = "Helvetica, Arial",
+    fontname = "helvetica",
     fontsize = 10
   ];
-  edge [fontname = "Helvetica, Arial", fontsize = 8]`;
+  edge [fontname = "helvetica", fontsize = 8]`;
   digraphLines.push(`digraph {
     rankdir = "LR";
     ${nodeDefaults}`);
 
   digraphLines.push(
-    `;\n"${result.shortCitation}" [ id = "${result._id}", penwidth = 2 ]`
+    `;\n"${work.shortCitation}" [
+      id = "${work._id}",
+      fontname = "helvetica-bold",
+      style = "filled, square",
+      fillcolor="#ffffff",
+      color="#000000",
+      fontsize = 11
+    ]`
   );
 
   // Iterate over relations and works
@@ -57,6 +58,19 @@ const appendDigraph = async context => {
       app.get("relata").colors["*"];
     let relationFrom = await worksService.get(relation.relation_from);
     let relationTo = await worksService.get(relation.relation_to);
+    if (relation.relation_from == work._id) {
+      relationsTo.push({
+        relation_type: relation.relation_type,
+        work: relationTo,
+        annotation: relation.annotation
+      });
+    } else if (relation.relation_to == work._id) {
+      relationsFrom.push({
+        relation_type: relation.relation_type,
+        work: relationFrom,
+        annotation: relation.annotation
+      });
+    }
     digraphLines.push(
       `;\n"${relationFrom.shortCitation}" [id = "${relationFrom._id}"]`
     );
@@ -68,6 +82,10 @@ const appendDigraph = async context => {
     );
   }
   digraphLines.push("\n}");
+
+  // Add relations to result
+  result.relationsFrom = relationsFrom;
+  result.relationsTo = relationsTo;
 
   // Filter digraph lines for repeats
   result.digraph = digraphLines
@@ -93,7 +111,7 @@ module.exports = {
   after: {
     all: [],
     find: [],
-    get: [getWork, appendDigraph],
+    get: [getWork, generateGraph],
     create: [],
     update: [],
     patch: [],
