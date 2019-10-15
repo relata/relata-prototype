@@ -188,7 +188,9 @@
           annotationDiv = "";
         }
         var panelHtml = $(
-          "<div class='panel panel-default result " +
+          "<div id='panel-" +
+            relation.work._id +
+            "' class='panel panel-default result " +
             relation.relation_type +
             "'>" +
             "<div class='panel-body'>" +
@@ -228,23 +230,21 @@
               var panelHtml = makePanelHtml(relation);
 
               $(".results-list").append(panelHtml);
+              panelHtml.click(function(event) {
+                focusOnWork(event.currentTarget.id.slice(6));
+              });
             });
+
+            // Automatically jump back to top of page
+            window.scrollTo(0, 0);
           });
       };
 
       var updateDOM = function() {
         d3.selectAll("g.node").on("click", function(instance) {
-          focusOnWork(instance.attributes.id);
+          focusOnWork(instance.attributes.id.slice(5));
         });
       };
-
-      // Event handler for clicking side panels
-      $("div.result").on("click", function(eventObject) {
-        alert("hi");
-        console.log(eventObject);
-        // focusOnWork(event.instance.attributes.id);
-      });
-
       // Select an arbitrary work to kick things off
       focusOnWork("9XihvtxArmDbTwlK");
     </script>

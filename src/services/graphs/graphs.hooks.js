@@ -42,8 +42,8 @@ const generateGraph = async context => {
   digraphLines.push(
     `;\n"${work.shortCitation}" [
       id = "${work._id}",
+      style = "square",
       fontname = "helvetica-bold",
-      style = "filled, square",
       fillcolor="#ffffff",
       color="#000000",
       fontsize = 11
@@ -72,10 +72,10 @@ const generateGraph = async context => {
       });
     }
     digraphLines.push(
-      `;\n"${relationFrom.shortCitation}" [id = "${relationFrom._id}"]`
+      `;\n"${relationFrom.shortCitation}" [id = "node-${relationFrom._id}"]`
     );
     digraphLines.push(
-      `;\n"${relationTo.shortCitation}" [id = "${relationTo._id}"]`
+      `;\n"${relationTo.shortCitation}" [id = "node-${relationTo._id}"]`
     );
     digraphLines.push(
       `;\n"${relationFrom.shortCitation}" -> "${relationTo.shortCitation}" [label = "${relation.relation_type}", color = "${color}"]`
