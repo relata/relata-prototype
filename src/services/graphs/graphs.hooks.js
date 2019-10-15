@@ -36,12 +36,13 @@ const generateGraph = async context => {
   ];
   edge [fontname = "helvetica", fontsize = 8]`;
   digraphLines.push(`digraph {
+    tooltip = "Click on a work to view relations to and from that work";
     rankdir = "LR";
     ${nodeDefaults}`);
 
   digraphLines.push(
     `;\n"${work.shortCitation}" [
-      id = "${work._id}",
+      id = "node-${work._id}",
       style = "square",
       fontname = "helvetica-bold",
       fillcolor="#ffffff",
