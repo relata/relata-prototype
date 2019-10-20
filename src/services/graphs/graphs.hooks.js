@@ -1,11 +1,25 @@
 const { disallow } = require("feathers-hooks-common");
 
 const getWork = async context => {
-  const { app, id, result } = context;
+  const { app, id } = context;
   const worksService = app.service("works");
   const work = await worksService.get(id);
   context.result = { work: work };
   return context;
+};
+
+const getFurtherRelationsCount = async (relatedWorkId, currentWorkId, app) => {
+  // Get a count of further relations to and from this work
+  const relations = await app.service("relations").find({
+    query: {
+      $limit: 0, // We only want to count relations, not get them
+      $or: [{ relation_to: relatedWorkId }, { relation_from: relatedWorkId }],
+      // Exclude relations to the current work, since those are in the graph
+      relation_to: { $ne: currentWorkId },
+      relation_from: { $ne: currentWorkId }
+    }
+  });
+  return relations.total;
 };
 
 const generateGraph = async context => {
@@ -36,7 +50,7 @@ const generateGraph = async context => {
   ];
   edge [fontname = "helvetica", fontsize = 8]`;
   digraphLines.push(`digraph {
-    tooltip = "Click on a work to view relations to and from that work";
+    tooltip = "Relata";
     rankdir = "LR";
     ${nodeDefaults}`);
 
@@ -61,25 +75,53 @@ const generateGraph = async context => {
       app.get("relata").colors["*"];
     let relationFrom = await worksService.get(relation.relation_from);
     let relationTo = await worksService.get(relation.relation_to);
+
+    // Handle relations from the current work
     if (relation.relation_from == work._id) {
+      relationTo.furtherRelationsCount = await getFurtherRelationsCount(
+        relationTo._id,
+        work._id,
+        app
+      );
       relationsTo.push({
         relation_type: relation.relation_type,
         work: relationTo,
         annotation: relation.annotation
       });
+      let furtherRelationsString =
+        relationTo.furtherRelationsCount > 0
+          ? ' <FONT COLOR="#999999">+' +
+            relationTo.furtherRelationsCount +
+            "</FONT>"
+          : "";
+      digraphLines.push(
+        `;\n"${relationTo._id}" [id = "node-${relationTo._id}", label = <${relationTo.shortCitation}${furtherRelationsString}>, tooltip = "${relationTo.title}" ]`
+      );
+
+      // Handle relations to the current work
     } else if (relation.relation_to == work._id) {
+      relationFrom.furtherRelationsCount = await getFurtherRelationsCount(
+        relationFrom._id,
+        work._id,
+        app
+      );
       relationsFrom.push({
         relation_type: relation.relation_type,
         work: relationFrom,
         annotation: relation.annotation
       });
+      let furtherRelationsString =
+        relationFrom.furtherRelationsCount > 0
+          ? ' <FONT COLOR="#999999">+' +
+            relationFrom.furtherRelationsCount +
+            "</FONT>"
+          : "";
+      digraphLines.push(
+        `;\n"${relationFrom._id}" [id = "node-${relationFrom._id}", label = <${relationFrom.shortCitation}${furtherRelationsString}>, tooltip = "${relationFrom.title}" ]`
+      );
     }
-    digraphLines.push(
-      `;\n"${relationFrom._id}" [id = "node-${relationFrom._id}", label = "${relationFrom.shortCitation}", tooltip = "${relationFrom.title}" ]`
-    );
-    digraphLines.push(
-      `;\n"${relationTo._id}" [id = "node-${relationTo._id}", label = "${relationTo.shortCitation}", tooltip = "${relationTo.title}" ]`
-    );
+
+    // Add edge
     digraphLines.push(
       `;\n"${relationFrom._id}" -> "${relationTo._id}" [label = "${relation.relation_type}", color = "${color}"]`
     );
