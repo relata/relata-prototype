@@ -57,3 +57,7 @@
   cursor: hand;
   cursor: pointer;
 }
+
+#graph a:hover {
+  text-decoration: none;
+}
