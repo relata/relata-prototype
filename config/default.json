@@ -10,15 +10,12 @@
     "entity": "user",
     "service": "users",
     "secret": "exX9zpHbXmVaInJF1Bf8mWRbEO0=",
-    "authStrategies": [
-      "jwt",
-      "local"
-    ],
+    "authStrategies": ["jwt", "local"],
     "jwtOptions": {
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
+      "audience": "relata",
       "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"

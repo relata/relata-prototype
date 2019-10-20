@@ -126,7 +126,11 @@
       var app = feathers();
       var restClient = feathers.rest();
       app.configure(restClient.jquery(window.jQuery));
-      app.configure(feathers.authentication());
+      app.configure(
+        feathers.authentication({
+          storage: window.localStorage
+        })
+      );
 
       var graph = d3.select("#graph");
       var currentWork;
@@ -197,6 +201,7 @@
           focusOnWork(instance.attributes.id.slice(5));
         });
       };
+
       // Select an arbitrary work to kick things off
       focusOnWork("9XihvtxArmDbTwlK");
     </script>
