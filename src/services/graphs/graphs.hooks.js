@@ -41,8 +41,10 @@ const generateGraph = async context => {
     ${nodeDefaults}`);
 
   digraphLines.push(
-    `;\n"${work.shortCitation}" [
+    `;\n"${work._id}" [
       id = "node-${work._id}",
+      label = "${work.shortCitation}",
+      tooltip = "${work.title}",
       style = "square",
       fontname = "helvetica-bold",
       fillcolor="#ffffff",
@@ -73,13 +75,13 @@ const generateGraph = async context => {
       });
     }
     digraphLines.push(
-      `;\n"${relationFrom.shortCitation}" [id = "node-${relationFrom._id}"]`
+      `;\n"${relationFrom._id}" [id = "node-${relationFrom._id}", label = "${relationFrom.shortCitation}", tooltip = "${relationFrom.title}" ]`
     );
     digraphLines.push(
-      `;\n"${relationTo.shortCitation}" [id = "node-${relationTo._id}"]`
+      `;\n"${relationTo._id}" [id = "node-${relationTo._id}", label = "${relationTo.shortCitation}", tooltip = "${relationTo.title}" ]`
     );
     digraphLines.push(
-      `;\n"${relationFrom.shortCitation}" -> "${relationTo.shortCitation}" [label = "${relation.relation_type}", color = "${color}"]`
+      `;\n"${relationFrom._id}" -> "${relationTo._id}" [label = "${relation.relation_type}", color = "${color}"]`
     );
   }
   digraphLines.push("\n}");
