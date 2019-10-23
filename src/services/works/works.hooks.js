@@ -25,6 +25,12 @@ const appendCitationsToWork = async work => {
     ...work,
     id: work._id
   });
+  const fullCitation = cite
+    .format("bibliography", {
+      template: "chicago-author-date-16th-edition",
+      lang: "en-US"
+    })
+    .trim();
   const htmlCitation = cite.format("bibliography", {
     format: "html",
     template: "chicago-author-date-16th-edition",
@@ -33,6 +39,7 @@ const appendCitationsToWork = async work => {
   return {
     ...work,
     shortCitation: shortCitation,
+    fullCitation: fullCitation,
     htmlCitation: htmlCitation
   };
 };
