@@ -54,11 +54,13 @@ const generateGraph = async context => {
     rankdir = "LR";
     ${nodeDefaults}`);
 
+  // Count relations from current work
+  relationsCount = relations.data.length;
   digraphLines.push(
     `;\n"${work._id}" [
       id = "node-${work._id}",
       label = "${work.shortCitation}",
-      tooltip = "${work.title}",
+      tooltip = "${relationsCount} relation(s)",
       style = "square",
       fontname = "helvetica-bold",
       fillcolor="#ffffff",
@@ -95,7 +97,7 @@ const generateGraph = async context => {
             "</FONT>"
           : "";
       digraphLines.push(
-        `;\n"${relationTo._id}" [id = "node-${relationTo._id}", label = <${relationTo.shortCitation}${furtherRelationsString}>, tooltip = "${relationTo.title}" ]`
+        `;\n"${relationTo._id}" [id = "node-${relationTo._id}", label = <${relationTo.shortCitation}${furtherRelationsString}>, tooltip = "${relationTo.furtherRelationsCount} further relation(s)" ]`
       );
 
       // Handle relations to the current work
@@ -117,13 +119,18 @@ const generateGraph = async context => {
             "</FONT>"
           : "";
       digraphLines.push(
-        `;\n"${relationFrom._id}" [id = "node-${relationFrom._id}", label = <${relationFrom.shortCitation}${furtherRelationsString}>, tooltip = "${relationFrom.title}" ]`
+        `;\n"${relationFrom._id}" [id = "node-${relationFrom._id}", label = <${relationFrom.shortCitation}${furtherRelationsString}>, tooltip = "${relationFrom.furtherRelationsCount} further relation(s)" ]`
       );
     }
 
     // Add edge
     digraphLines.push(
-      `;\n"${relationFrom._id}" -> "${relationTo._id}" [label = "${relation.relation_type}", color = "${color}"]`
+      `;\n"${relationFrom._id}" -> "${relationTo._id}" [
+        label = "${relation.relation_type}",
+        tooltip = "${relationFrom.shortCitation} -> ${relationTo.shortCitation}",
+        labeltooltip = "${relationFrom.shortCitation} -> ${relationTo.shortCitation}",
+        color = "${color}"
+      ]`
     );
   }
   digraphLines.push("\n}");
