@@ -1,3 +1,8 @@
+body {
+  /* Allow room for fixed navbar */
+  padding-top: 71px;
+}
+
 #left {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
