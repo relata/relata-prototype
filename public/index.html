@@ -107,14 +107,10 @@
     <script src="https://cdn.jsdelivr.net/npm/viz.js@1.8.2/viz.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
     <script>
-      var app = feathers();
-      var restClient = feathers.rest();
-      app.configure(restClient.jquery(window.jQuery));
-      app.configure(
-        feathers.authentication({
-          storage: window.localStorage
-        })
-      );
+      var client = feathers();
+      client
+        .configure(feathers.rest("http://localhost:3030").jquery(window.jQuery))
+        .configure(feathers.authentication({ storage: window.localStorage }));
 
       var graph = d3.select("#graph");
       var currentWork;
@@ -149,7 +145,7 @@
       };
 
       var focusOnWork = function(id) {
-        app
+        client
           .service("graphs")
           .get(id)
           .then(function(data) {
