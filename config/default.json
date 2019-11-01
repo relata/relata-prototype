@@ -28,7 +28,8 @@
       "redirect": "/",
       "github": {
         "key": "<github oauth key>",
-        "secret": "<github oauth secret>"
+        "secret": "<github oauth secret>",
+        "scope": ["read:user"]
       }
     }
   },
