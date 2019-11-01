@@ -9,7 +9,7 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "exX9zpHbXmVaInJF1Bf8mWRbEO0=",
+    "secret": "mQSIGEVqC5cHGsOmfFjZyL7CNbo=",
     "authStrategies": ["jwt", "local"],
     "jwtOptions": {
       "header": {
@@ -23,6 +23,13 @@
     "local": {
       "usernameField": "email",
       "passwordField": "password"
+    },
+    "oauth": {
+      "redirect": "/",
+      "github": {
+        "key": "<github oauth key>",
+        "secret": "<github oauth secret>"
+      }
     }
   },
   "nedb": "../data",
