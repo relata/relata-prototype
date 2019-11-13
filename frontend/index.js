@@ -1,3 +1,5 @@
+const feathers = require("@feathersjs/client");
+
 const client = feathers();
 client
   .configure(feathers.rest("http://localhost:3030").jquery(window.jQuery))
