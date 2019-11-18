@@ -2,16 +2,14 @@
   "env": {
     "es6": true,
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "jquery": true
   },
   "parserOptions": {
     "ecmaVersion": 2018
   },
   "extends": ["plugin:prettier/recommended"],
   "rules": {
-    "indent": [
-      "error",
-      2
-    ]
+    "indent": ["error", 2]
   }
 }
