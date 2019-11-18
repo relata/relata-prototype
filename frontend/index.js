@@ -1,8 +1,12 @@
 const feathers = require("@feathersjs/client");
+const $ = require("jquery");
+const d3 = require("d3");
+require("viz.js");
+require("d3-graphviz");
 
 const client = feathers();
 client
-  .configure(feathers.rest("http://localhost:3030").jquery(window.jQuery))
+  .configure(feathers.rest("http://localhost:3030").jquery($))
   .configure(feathers.authentication({ storage: window.localStorage }));
 
 const graph = d3.select("#graph");
@@ -22,7 +26,7 @@ const makePanelHtml = relation => {
     }">
         <div class="panel-body">
             <span class="type">${relation.relation_type}</span>
-            ${jQuery(relation.work.htmlCitation).children().first().html()}
+            ${$(relation.work.htmlCitation).children().first().html()}
         </div>
         ${annotationDiv}
       </div>`
@@ -38,7 +42,7 @@ const focusOnWork = id => {
       currentWork = data.work;
 
       // Update graph
-      d3.select("#graph")
+      graph
         .graphviz({ zoom: false })
         .transition()
         .renderDot(data.digraph, updateDOM);

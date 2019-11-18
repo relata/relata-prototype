@@ -1,3 +1,5 @@
+const webpack = require("webpack");
+
 module.exports = {
   entry: "./frontend/index.js",
   module: {
@@ -19,5 +21,12 @@ module.exports = {
   },
   devServer: {
     contentBase: "./public"
-  }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
+    })
+  ]
 };
