@@ -4,6 +4,8 @@ const d3 = require("d3");
 require("viz.js");
 require("d3-graphviz");
 
+const css = require("./main.css");
+
 const client = feathers();
 client
   .configure(feathers.rest("http://localhost:3030").jquery($))
