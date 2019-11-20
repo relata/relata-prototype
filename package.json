@@ -25,7 +25,8 @@
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "dev": "nodemon src/ & npm run start",
+    "dev": "run-p serve start",
+    "serve": "nodemon src/",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "mocha": "mocha test/ --recursive --exit"
   },
@@ -69,6 +70,7 @@
     "mocha": "^6.2.0",
     "nodemon": "^1.19.2",
     "npm-check": "^5.9.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "1.18.2",
     "style-loader": "^1.0.1",
     "webpack": "^4.41.3",
