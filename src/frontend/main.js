@@ -22,13 +22,13 @@ const makePanelHtml = relation => {
   }
   // prettier-ignore
   let panelHtml = $(
-    `<div id="panel-${relation.work._id}" class="panel panel-default result ${relation.relation_type}">
-        <div class="panel-body">
-            <span class="type">${relation.relation_type}</span>
-            ${$(relation.work.htmlCitation).children().first().html()}
-        </div>
-        ${annotationDiv}
-      </div>`
+    '<div id="panel-' + relation.work._id + '" class="panel panel-default result ' + relation.relation_type + '">' +
+        '<div class="panel-body">' +
+            '<span class="type">' + relation.relation_type + '</span>' +
+            $(relation.work.htmlCitation).children().first().html() +
+        '</div>' +
+        annotationDiv +
+      '</div>'
   );
   return panelHtml;
 };
