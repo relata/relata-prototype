@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./frontend/index.js",
+  entry: "./src/frontend/main.js",
   module: {
     rules: [
       {

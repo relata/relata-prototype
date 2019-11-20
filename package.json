@@ -55,7 +55,6 @@
     "jquery": "^3.4.1",
     "nedb": "^1.8.0",
     "serve-favicon": "^2.5.0",
-    "viz.js": "^2.1.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {

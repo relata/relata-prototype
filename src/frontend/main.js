@@ -1,7 +1,6 @@
 const feathers = require("@feathersjs/client");
 const $ = require("jquery");
 const d3 = require("d3");
-require("viz.js");
 require("d3-graphviz");
 
 const css = require("./main.css");
@@ -23,9 +22,7 @@ const makePanelHtml = relation => {
   }
   // prettier-ignore
   let panelHtml = $(
-    `<div id="panel-${relation.work._id}" class="panel panel-default result ${
-      relation.relation_type
-    }">
+    `<div id="panel-${relation.work._id}" class="panel panel-default result ${relation.relation_type}">
         <div class="panel-body">
             <span class="type">${relation.relation_type}</span>
             ${$(relation.work.htmlCitation).children().first().html()}
