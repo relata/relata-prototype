@@ -10,26 +10,28 @@ client
   .configure(feathers.rest("http://localhost:3030").jquery($))
   .configure(feathers.authentication({ storage: window.localStorage }));
 
-const graph = d3.select("#graph");
-let currentWork;
-
 const makePanelHtml = relation => {
-  let annotationDiv;
-  if (relation.annotation) {
-    annotationDiv = `<div class='panel-footer'>${relation.annotation}</div>`;
-  } else {
-    annotationDiv = "";
+  const panelHtml = $("<div></div>").attr({
+    id: "panel-" + relation.work._id,
+    class: "panel panel-default result " + relation.relation_type
+  });
+  const panelBody = $("<div></div>").attr({ class: "panel-body" });
+  const panelSpan = $("<span></span>")
+    .attr({ class: "type" })
+    .text(relation.relation_type);
+  const panelCitation = $(relation.work.htmlCitation)
+    .children()
+    .first()
+    .html();
+  panelBody.append(panelSpan);
+  panelBody.append(panelCitation);
+  panelHtml.append(panelBody);
+  if (relation.annotation != "undefined") {
+    const annotationDiv = $("<div></div>")
+      .attr({ class: "panel-footer" })
+      .text(relation.annotation);
+    panelHtml.append(annotationDiv);
   }
-  // prettier-ignore
-  let panelHtml = $(
-    '<div id="panel-' + relation.work._id + '" class="panel panel-default result ' + relation.relation_type + '">' +
-        '<div class="panel-body">' +
-            '<span class="type">' + relation.relation_type + '</span>' +
-            $(relation.work.htmlCitation).children().first().html() +
-        '</div>' +
-        annotationDiv +
-      '</div>'
-  );
   return panelHtml;
 };
 
@@ -41,19 +43,22 @@ const focusOnWork = id => {
       currentWork = data.work;
 
       // Update graph
-      graph
-        .graphviz({ zoom: false })
+      const graphTransition = d3
         .transition()
+        .duration(360)
+        .ease(d3.easeQuad);
+      d3.select("#graph")
+        .graphviz({ zoom: false })
+        .transition(graphTransition)
         .renderDot(data.digraph, updateDOM);
 
       // Update current citation
-      $("#current-work-citation").html(currentWork.htmlCitation);
+      $("#current-work-citation").html(data.work.htmlCitation);
 
       // Map related-to works to left-hand panels
       $(".results-list").empty();
       data.relationsTo.map(relation => {
-        let panelHtml = makePanelHtml(relation);
-
+        const panelHtml = makePanelHtml(relation);
         $(".results-list").append(panelHtml);
         panelHtml.click(event => {
           focusOnWork(event.currentTarget.id.slice(6));
