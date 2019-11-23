@@ -2,13 +2,13 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-const feathers = require("@feathersjs/client");
-const $ = require("jquery");
-const d3 = require("d3");
-require("d3-graphviz");
+import * as feathers from "@feathersjs/client";
+import * as $ from "jquery";
+import * as d3 from "d3";
+import "d3-graphviz";
 
 // Require our CSS file so it gets bundled by Webpack
-const css = require("./main.css");
+import "./main.css";
 
 // Initialize Feathers client
 const client = feathers();
