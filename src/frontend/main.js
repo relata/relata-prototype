@@ -1,14 +1,41 @@
+// Polyfills
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 const feathers = require("@feathersjs/client");
 const $ = require("jquery");
 const d3 = require("d3");
 require("d3-graphviz");
 
+// Require our CSS file so it gets bundled by Webpack
 const css = require("./main.css");
 
+// Initialize Feathers client
 const client = feathers();
 client
   .configure(feathers.rest("http://localhost:3030").jquery($))
   .configure(feathers.authentication({ storage: window.localStorage }));
+
+const login = async () => {
+  try {
+    // Try to authenticate using an existing token
+    console.log("Trying to reauthenticate");
+    await client.authenticate();
+
+    // If successful, show the chat page
+    // showChat();
+  } catch (error) {
+    // If we got an error, show the login page
+    console.log("Can't reauthenticate");
+    // showLogin(error);
+  }
+};
+
+// Export to browser for debugging
+window.client = client;
+window.login = login;
+
+// Graph UI
 
 const makePanelHtml = relation => {
   const panelHtml = $("<div></div>").attr({
@@ -35,39 +62,33 @@ const makePanelHtml = relation => {
   return panelHtml;
 };
 
-const focusOnWork = id => {
-  client
-    .service("graphs")
-    .get(id)
-    .then(data => {
-      currentWork = data.work;
+const focusOnWork = async id => {
+  const data = await client.service("graphs").get(id);
+  // Update graph
+  const graphTransition = d3
+    .transition()
+    .duration(360)
+    .ease(d3.easeQuad);
+  d3.select("#graph")
+    .graphviz({ zoom: false })
+    .transition(graphTransition)
+    .renderDot(data.digraph, updateDOM);
 
-      // Update graph
-      const graphTransition = d3
-        .transition()
-        .duration(360)
-        .ease(d3.easeQuad);
-      d3.select("#graph")
-        .graphviz({ zoom: false })
-        .transition(graphTransition)
-        .renderDot(data.digraph, updateDOM);
+  // Update current citation
+  $("#current-work-citation").html(data.work.htmlCitation);
 
-      // Update current citation
-      $("#current-work-citation").html(data.work.htmlCitation);
-
-      // Map related-to works to left-hand panels
-      $(".results-list").empty();
-      data.relationsTo.map(relation => {
-        const panelHtml = makePanelHtml(relation);
-        $(".results-list").append(panelHtml);
-        panelHtml.click(event => {
-          focusOnWork(event.currentTarget.id.slice(6));
-        });
-      });
-
-      // Automatically jump back to top of page
-      $("html, body").animate({ scrollTop: 0 }, 60);
+  // Map related-to works to left-hand panels
+  $(".results-list").empty();
+  data.relationsTo.map(relation => {
+    const panelHtml = makePanelHtml(relation);
+    $(".results-list").append(panelHtml);
+    panelHtml.click(event => {
+      focusOnWork(event.currentTarget.id.slice(6));
     });
+  });
+
+  // Automatically jump back to top of page
+  $("html, body").animate({ scrollTop: 0 }, 60);
 };
 
 const updateDOM = () => {
