@@ -23,6 +23,10 @@ body {
   margin-top: 15px;
 }
 
+.result {
+  border-left: 5px solid #999899;
+}
+
 .result.critique {
   border-left: 5px solid #b10026;
 }
@@ -46,6 +50,7 @@ body {
 .result .type {
   font-weight: bold;
   margin-right: 5px;
+  color: #999899;
 }
 
 .result.critique .type {
