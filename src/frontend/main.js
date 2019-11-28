@@ -19,21 +19,49 @@ client
 const login = async () => {
   try {
     // Try to authenticate using an existing token
-    console.log("Trying to reauthenticate");
-    await client.authenticate();
+    console.log("Trying to authenticate");
+    const { user } = await client.authenticate();
 
-    // If successful, show the chat page
-    // showChat();
+    console.log("Successful auth!");
+    console.log(user);
+
+    // Update login status
+    const githubUserLink = $("<a></a>")
+      .attr({
+        href: "https://github.com/" + user.githubUsername,
+        target: "_blank"
+      })
+      .text(user.githubUsername);
+    const signOutLink = $("<a></a>")
+      .attr({ href: "#" })
+      .text("Sign Out")
+      .click(async event => {
+        await client.authentication.logout();
+        createLoginLink();
+      });
+    $("#login-status").append([
+      "Signed in as ",
+      githubUserLink,
+      " (",
+      signOutLink,
+      ")"
+    ]);
   } catch (error) {
-    // If we got an error, show the login page
-    console.log("Can't reauthenticate");
-    // showLogin(error);
+    console.log("Failed to authenticate");
+    console.log(error);
+    createLoginLink();
   }
+};
+
+const createLoginLink = () => {
+  $("ul.nav").append($("li").html('<a href="/oauth/github">Login</a>'));
 };
 
 // Export to browser for debugging
 window.client = client;
 window.login = login;
+
+login();
 
 // Graph UI
 
