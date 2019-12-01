@@ -20,32 +20,9 @@ const login = async () => {
   try {
     // Try to authenticate using an existing token
     console.log("Trying to authenticate");
-    const { user } = await client.authenticate();
-
+    const auth = await client.authenticate();
     console.log("Successful auth!");
-    console.log(user);
-
-    // Update login status
-    const githubUserLink = $("<a></a>")
-      .attr({
-        href: "https://github.com/" + user.githubUsername,
-        target: "_blank"
-      })
-      .text(user.githubUsername);
-    const signOutLink = $("<a></a>")
-      .attr({ href: "#" })
-      .text("Sign Out")
-      .click(async event => {
-        await client.authentication.logout();
-        createLoginLink();
-      });
-    $("#login-status").append([
-      "Signed in as ",
-      githubUserLink,
-      " (",
-      signOutLink,
-      ")"
-    ]);
+    createAuthedUserLinks(auth.user);
   } catch (error) {
     console.log("Failed to authenticate");
     console.log(error);
@@ -54,7 +31,35 @@ const login = async () => {
 };
 
 const createLoginLink = () => {
-  $("ul.nav").append($("li").html('<a href="/oauth/github">Login</a>'));
+  const loginLink = $("<a></a>")
+    .attr({ href: "/oauth/github" })
+    .html("Sign In via GitHub");
+  $("#nav-login").html(loginLink);
+};
+
+const createAuthedUserLinks = user => {
+  const accountLink = $("<a></a>")
+    .attr({ href: "#" })
+    .text("My Relations");
+  $("#nav-account").html(accountLink);
+
+  const githubUserLink = $("<a></a>")
+    .attr({
+      href: "https://github.com/" + user.githubUsername,
+      target: "_blank"
+    })
+    .text(user.githubUsername);
+  const logoutLink = $("<a></a>")
+    .attr({ href: "#" })
+    .text("Sign Out")
+    .click(async event => {
+      await client.authentication.logout();
+      createLoginLink();
+      window.open("/", "_self");
+    });
+  $("#nav-login")
+    .empty()
+    .append(["Signed in as ", githubUserLink, " (", logoutLink, ")"]);
 };
 
 // Export to browser for debugging
