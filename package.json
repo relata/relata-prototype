@@ -24,11 +24,11 @@
   },
   "scripts": {
     "test": "npm run eslint && npm run mocha",
+    "mocha": "mocha test/ --recursive --exit",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "dev": "run-p serve start",
-    "serve": "nodemon src/",
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "mocha": "mocha test/ --recursive --exit"
+    "start": "run-p watch:server watch:build",
+    "watch:build": "webpack --mode development --watch",
+    "watch:server": "nodemon src/ --watch src/"
   },
   "babel": {
     "presets": [
