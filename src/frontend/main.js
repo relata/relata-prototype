@@ -3,6 +3,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import * as feathers from "@feathersjs/client";
+import * as auth from "@feathersjs/authentication-client";
 import * as $ from "jquery";
 import "bootstrap";
 import * as d3 from "d3";
@@ -15,18 +16,21 @@ import "./main.css";
 const client = feathers();
 client
   .configure(feathers.rest("http://localhost:3030").jquery($))
+  .configure(auth({ storageKey: "auth" }))
   .configure(feathers.authentication({ storage: window.localStorage }));
+
+// Authentication
 
 const login = async () => {
   try {
     // Try to authenticate using an existing token
-    console.log("Trying to authenticate");
-    const auth = await client.authenticate();
-    console.log("Successful auth!");
-    createAuthedUserLinks(auth.user);
+    console.log("Attempting to authenticate…");
+    const { user } = await client.authenticate();
+    console.log("Authentication successful!");
+    createAuthedUserLinks(user);
+    return user;
   } catch (error) {
-    console.log("Failed to authenticate");
-    console.log(error);
+    console.log("Not authenticated");
     createLoginLink();
   }
 };
@@ -41,10 +45,24 @@ const createLoginLink = () => {
 const createAuthedUserLinks = user => {
   const accountLink = $("<a></a>")
     .attr({
+      id: "contributions-modal-link",
       href: "#contributions-modal",
       "data-toggle": "modal"
     })
-    .text("My Contributions");
+    .text("My Contributions")
+    .click(async event => {
+      console.log("Clicked!");
+      const contributions = await findMyContributions();
+      $("#contributions-list").empty();
+      contributions.map(relation => {
+        const element = $("<li></li>").text(
+          relation.annotation + ": " + relation
+        );
+        $("#contributions-list").append(
+          $("<li>" + relation.annotation + "</li>")
+        );
+      });
+    });
   $("#nav-account").html(accountLink);
 
   const githubUserLink = $("<a></a>")
@@ -69,7 +87,21 @@ const createAuthedUserLinks = user => {
 window.client = client;
 window.login = login;
 
+// Attempt to login upon page load
 login();
+
+// Contributions
+
+const findMyContributions = async () => {
+  const { user } = await client.authenticate();
+  const queryResults = await client.service("relations").find({
+    query: {
+      user_id: user._id,
+      $limit: 50
+    }
+  });
+  return queryResults.data;
+};
 
 // Graph UI
 

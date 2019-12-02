@@ -1,4 +1,5 @@
 const { BadRequest } = require("@feathersjs/errors");
+const { authenticate } = require("@feathersjs/authentication").hooks;
 const {
   discard,
   keep,
@@ -98,6 +99,7 @@ module.exports = {
     find: [],
     get: [],
     create: [
+      authenticate("jwt"),
       required(
         "relation_type",
         "relation_from",
@@ -118,6 +120,7 @@ module.exports = {
       setNow("created_at", "updated_at")
     ],
     update: [
+      authenticate("jwt"),
       required(
         "relation_type",
         "relation_from",
@@ -135,12 +138,13 @@ module.exports = {
       setNow("updated_at")
     ],
     patch: [
+      authenticate("jwt"),
       validate(validateRelation),
       disallowDuplicateRelation,
       keep("relation_type", "annotation", "relation_from", "relation_to"),
       setNow("updated_at")
     ],
-    remove: []
+    remove: [authenticate("jwt")]
   },
 
   after: {
