@@ -1,0 +1,10 @@
+{
+  "authentication": {
+    "oauth": {
+      "github": {
+        "key": "RELATA_OAUTH_GITHUB_KEY",
+        "secret": "RELATA_OAUTH_GITHUB_SECRET"
+      }
+    }
+  }
+}
