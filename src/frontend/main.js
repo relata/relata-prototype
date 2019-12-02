@@ -4,6 +4,7 @@ import "regenerator-runtime/runtime";
 
 import * as feathers from "@feathersjs/client";
 import * as $ from "jquery";
+import "bootstrap";
 import * as d3 from "d3";
 import "d3-graphviz";
 
@@ -39,8 +40,11 @@ const createLoginLink = () => {
 
 const createAuthedUserLinks = user => {
   const accountLink = $("<a></a>")
-    .attr({ href: "#" })
-    .text("My Relations");
+    .attr({
+      href: "#contributions-modal",
+      "data-toggle": "modal"
+    })
+    .text("My Contributions");
   $("#nav-account").html(accountLink);
 
   const githubUserLink = $("<a></a>")
@@ -54,7 +58,6 @@ const createAuthedUserLinks = user => {
     .text("Sign Out")
     .click(async event => {
       await client.authentication.logout();
-      createLoginLink();
       window.open("/", "_self");
     });
   $("#nav-login")
