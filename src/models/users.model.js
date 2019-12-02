@@ -8,7 +8,7 @@ module.exports = function(app) {
     autoload: true
   });
 
-  Model.ensureIndex({ fieldName: "email", unique: true });
+  Model.ensureIndex({ fieldName: "githubUsername", unique: true });
 
   return Model;
 };
