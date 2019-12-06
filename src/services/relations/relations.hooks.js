@@ -46,21 +46,15 @@ const createWorks = async context => {
   for (let attribute of ["relation_from", "relation_to"]) {
     const queryResults = await worksService.find({
       query: {
-        $select: ["_id"],
         $limit: 1,
         $or: [
           // eslint-disable
-          {
-            title: data[attribute].title.trim()
-          },
-          {
-            "author.family": data[attribute].author[0].family.trim()
-          }
+          { title: data[attribute].title.trim() },
+          { "author.family": data[attribute].author[0].family.trim() }
           // eslint-enable
         ]
       }
     });
-    console.log(queryResults);
     if (queryResults.data.length == 0) {
       console.log("No existing works found");
       let workCreated = await worksService.create(data[attribute]);
