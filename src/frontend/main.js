@@ -19,6 +19,9 @@ client
   .configure(auth({ storageKey: "auth" }))
   .configure(feathers.authentication({ storage: window.localStorage }));
 
+// Initialize reference to current work in focus
+let currentWork;
+
 // Authentication
 
 const login = async () => {
@@ -59,7 +62,33 @@ const createAuthedUserLinks = user => {
           relation.annotation + ": " + relation
         );
         $("#contributions-list").append(
-          $("<li>" + relation.annotation + "</li>")
+          $("<li></li>")
+            .attr({
+              class: "list-group-item result " + relation.relation_type
+            })
+            .append(
+              $("<span></span>")
+                .attr({ class: "badge warn" })
+                .text("Delete")
+                .click(event => {
+                  alert("Delete!");
+                }),
+              $("<span></span>")
+                .attr({ class: "type" })
+                .text(relation.relation_type),
+              " " +
+                relation.relation_from.shortCitation +
+                " → " +
+                relation.relation_to.shortCitation
+            )
+            .click(event => {
+              if (currentWork == relation.relation_from._id) {
+                return;
+              } else {
+                focusOnWork(relation.relation_from._id);
+                $("#close-contributions-modal").click();
+              }
+            })
         );
       });
     });
@@ -94,13 +123,8 @@ login();
 
 const findMyContributions = async () => {
   const { user } = await client.authenticate();
-  const queryResults = await client.service("relations").find({
-    query: {
-      user_id: user._id,
-      $limit: 50
-    }
-  });
-  return queryResults.data;
+  const contributions = await client.service("contributions").get(user._id);
+  return contributions;
 };
 
 // Graph UI
@@ -131,6 +155,7 @@ const makePanelHtml = relation => {
 };
 
 const focusOnWork = async id => {
+  currentWork = id;
   const data = await client.service("graphs").get(id);
   // Update graph
   const graphTransition = d3

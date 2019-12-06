@@ -33,6 +33,13 @@ body {
   text-decoration: none;
 }
 
+/* Contributions */
+
+.contributions-list-container {
+  overflow: scroll;
+  max-height: 70vh;
+}
+
 /* Menu */
 
 .result:hover {
