@@ -59,18 +59,19 @@
       role="dialog"
       aria-labelledby="contributions-modal-label"
     >
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h4 id="contributions-modal-label">My Contributions</h2>
           </div>
-          <div class="modal-body">
+          <div class="modal-body contributions-list-container">
             <p>You have contributed the following relations:</p>
-            <ul id="contributions-list">
-              <!--  -->
+            <ul id="contributions-list" class="list-group">
             </ul>
           </div>
-          <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div>
+          <div class="modal-footer">
+            <button id="close-contributions-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>

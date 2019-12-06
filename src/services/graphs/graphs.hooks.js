@@ -152,12 +152,12 @@ const generateGraph = async context => {
 module.exports = {
   before: {
     all: [],
-    find: [disallow],
+    find: [disallow()],
     get: [],
-    create: [disallow],
-    update: [disallow],
-    patch: [disallow],
-    remove: [disallow]
+    create: [disallow()],
+    update: [disallow()],
+    patch: [disallow()],
+    remove: [disallow()]
   },
 
   after: {
