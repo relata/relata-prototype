@@ -145,7 +145,7 @@ const makePanelHtml = relation => {
   panelBody.append(panelSpan);
   panelBody.append(panelCitation);
   panelHtml.append(panelBody);
-  if (relation.annotation != "undefined") {
+  if (relation.annotation) {
     const annotationDiv = $("<div></div>")
       .attr({ class: "panel-footer" })
       .text(relation.annotation);
