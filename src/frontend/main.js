@@ -22,6 +22,11 @@ client
 // Initialize reference to current work in focus
 let currentWork;
 
+const deleteRelation = async relationId => {
+  const result = await client.service("relations").remove(relationId);
+  return result;
+};
+
 // Authentication
 
 const login = async () => {
@@ -54,42 +59,47 @@ const createAuthedUserLinks = user => {
     })
     .text("My Contributions")
     .click(async event => {
-      console.log("Clicked!");
       const contributions = await findMyContributions();
       $("#contributions-list").empty();
       contributions.map(relation => {
-        const element = $("<li></li>").text(
-          relation.annotation + ": " + relation
-        );
-        $("#contributions-list").append(
-          $("<li></li>")
-            .attr({
-              class: "list-group-item result " + relation.relation_type
-            })
-            .append(
-              $("<span></span>")
-                .attr({ class: "badge warn" })
-                .text("Delete")
-                .click(event => {
-                  alert("Delete!");
-                }),
-              $("<span></span>")
-                .attr({ class: "type" })
-                .text(relation.relation_type),
-              " " +
+        const deleteButton = $(`<button type="button" class="btn btn-xs btn-danger delete-relation-button pull-right">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+        </button>`).click(async event => {
+          console.log("Deleting " + relation._id);
+          const result = await deleteRelation(relation._id);
+          if (result._id != "undefined" && result._id === relation._id) {
+            console.log("Deleted relation " + relation._id);
+            contributionItem.remove();
+            focusOnWork(currentWork);
+          }
+        });
+        const relationTypeSpan = $("<span></span>")
+          .attr({ class: "type" })
+          .text(relation.relation_type);
+        const contributionItem = $("<a></a>")
+          .attr({
+            class: "list-group-item result " + relation.relation_type
+          })
+          .append(
+            deleteButton,
+            relationTypeSpan,
+            " ",
+            $("<span></span>")
+              .html(
                 relation.relation_from.shortCitation +
-                " → " +
-                relation.relation_to.shortCitation
-            )
-            .click(event => {
-              if (currentWork == relation.relation_from._id) {
-                return;
-              } else {
-                focusOnWork(relation.relation_from._id);
-                $("#close-contributions-modal").click();
-              }
-            })
-        );
+                  " → " +
+                  relation.relation_to.shortCitation
+              )
+              .click(event => {
+                if (currentWork == relation.relation_from._id) {
+                  return;
+                } else {
+                  focusOnWork(relation.relation_from._id);
+                  // $("#close-contributions-modal").click();
+                }
+              })
+          );
+        $("#contributions-list").append(contributionItem);
       });
     });
   $("#nav-account").html(accountLink);
@@ -176,6 +186,7 @@ const focusOnWork = async id => {
     const panelHtml = makePanelHtml(relation);
     $(".results-list").append(panelHtml);
     panelHtml.click(event => {
+      // Slice work ID from panel attribute (e.g., get "XX" from "panel-XXXX")
       focusOnWork(event.currentTarget.id.slice(6));
     });
   });
@@ -186,6 +197,7 @@ const focusOnWork = async id => {
 
 const updateDOM = () => {
   d3.selectAll("g.node").on("click", instance => {
+    // Slice work ID from node attribute (e.g., get "XX" from "node-XXXX")
     focusOnWork(instance.attributes.id.slice(5));
   });
 };
