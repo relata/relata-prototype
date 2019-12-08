@@ -23,6 +23,10 @@ body {
   text-decoration: none;
 }
 
+.navbar-inverse a:link {
+  text-decoration: none;
+}
+
 #login-status a {
   color: inherit;
   text-decoration: none;
