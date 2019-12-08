@@ -6,11 +6,12 @@ const getContributionsByUser = async context => {
   const worksService = app.service("works");
   const userContributions = await relationsService.find({
     query: {
-      user_id: id
-    },
-    paginate: false
+      user_id: id,
+      $limit: 50
+    }
+    // paginate: false
   });
-  const sortedContributions = userContributions.sort((a, b) => {
+  const sortedContributions = userContributions.data.sort((a, b) => {
     if (a.relation_type > b.relation_type) {
       return 1;
     }
