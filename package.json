@@ -1,7 +1,8 @@
 {
   "name": "relata-prototype",
   "description": "Relata prototype web app",
-  "version": "0.0.0",
+  "private": true,
+  "version": "0.1.0",
   "homepage": "https://github.com/relata/relata-prototype",
   "main": "src",
   "keywords": [
@@ -23,12 +24,15 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "dev": "nodemon src/",
-    "debug": "nodemon --inspect src/",
-    "start": "node src/",
-    "mocha": "mocha test/ --recursive --exit"
+    "mocha": "mocha test/ --recursive --exit",
+    "test": "npm run eslint && npm run mocha",
+    "build": "cd frontend/ && npm run build && cd ../",
+    "frontend-start": "cd frontend/ && npm start",
+    "serve-dev": "nodemon src/",
+    "serve-prod": "node src/",
+    "dev": "run-p --print-name --race serve-dev frontend-start",
+    "start": "run-s --print-name build serve-prod"
   },
   "dependencies": {
     "@feathersjs/authentication": "^4.4.3",

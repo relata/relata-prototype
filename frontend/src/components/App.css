@@ -1,0 +1,4 @@
+.relation-card,
+.node:hover {
+  cursor: pointer;
+}
