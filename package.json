@@ -29,7 +29,7 @@
     "test": "npm run eslint && npm run mocha",
     "build": "cd frontend/ && npm run build && cd ../",
     "frontend-start": "cd frontend/ && npm start",
-    "serve-dev": "nodemon src/",
+    "serve-dev": "nodemon src/ --ignore ./frontend",
     "serve-prod": "node src/",
     "dev": "run-p --print-name --race serve-dev frontend-start",
     "start": "run-s --print-name build serve-prod"
