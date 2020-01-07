@@ -13,21 +13,14 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    currentWork: null,
+    currentWorkBibliography: null,
+    currentWorkCitation: null,
     digraph: null,
     relations: []
   };
 
   componentDidMount() {
-    fetch("/graphs/1")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          currentWork: data.bibliography,
-          digraph: data.digraph,
-          relations: data.relationsFrom
-        });
-      });
+    this.selectWork(1);
   }
 
   selectWork = workId => {
@@ -35,7 +28,8 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          currentWork: data.bibliography,
+          currentWorkBibliography: data.bibliography,
+          currentWorkCitation: data.citation,
           digraph: data.digraph,
           relations: data.relationsFrom
         });
@@ -50,7 +44,8 @@ class App extends Component {
           <Row>
             <Col sm={12} md={4} className="mb-3">
               <RelationsPane
-                currentWork={this.state.currentWork}
+                currentWorkBibliography={this.state.currentWorkBibliography}
+                currentWorkCitation={this.state.currentWorkCitation}
                 relations={this.state.relations}
                 selectWork={this.selectWork}
               />

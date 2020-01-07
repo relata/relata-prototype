@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-import AddRelationModal from "./AddRelationModal";
+import AddRelationModal from "./AddRelationModal/AddRelationModal";
 import CurrentWorkCard from "./CurrentWorkCard";
 
 const RelationCard = props => {
@@ -38,7 +38,12 @@ class RelationsPane extends Component {
   };
 
   render() {
-    const { currentWork, relations, selectWork } = this.props;
+    const {
+      currentWorkBibliography,
+      currentWorkCitation,
+      relations,
+      selectWork
+    } = this.props;
 
     const RelationCards = relations.map((relation, index) => {
       return (
@@ -48,14 +53,14 @@ class RelationsPane extends Component {
 
     return (
       <div>
-        <CurrentWorkCard currentWork={currentWork} />
+        <CurrentWorkCard currentWorkBibliography={currentWorkBibliography} />
         <div className="mt-3 text-right">
           <Button variant="success" onClick={this.toggleAddRelationModal}>
             Add Relation
           </Button>
           <AddRelationModal
             show={this.state.addRelationModalIsOpen}
-            currentWork={currentWork}
+            currentWorkCitation={currentWorkCitation}
             toggleAddRelationModal={this.toggleAddRelationModal}
           />
         </div>
