@@ -1,19 +1,51 @@
 import React, { Component } from "react";
 
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-
-import AddDOI from "./AddDOI";
 import Card from "react-bootstrap/Card";
+import Modal from "react-bootstrap/Modal";
+import Nav from "react-bootstrap/Nav";
+import Tab from "react-bootstrap/Tab";
+
+import AddCrossRefPane from "./AddCrossRefPane";
+import AddDOIPane from "./AddDOIPane";
+
+const AddRelationTabs = props => {
+  const { currentWorkCitation } = props;
+  return (
+    <Tab.Container defaultActiveKey="doi">
+      <Card>
+        <Card.Header>
+          <Nav variant="tabs">
+            <Nav.Item>
+              <Nav.Link eventKey="doi">DOI</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="crossref-search">CrossRef Search</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Card.Header>
+        <Card.Body>
+          <Tab.Content>
+            <Tab.Pane eventKey="doi">
+              <AddDOIPane currentWorkCitation={currentWorkCitation} />
+            </Tab.Pane>
+            <Tab.Pane eventKey="crossref-search">
+              <AddCrossRefPane currentWorkCitation={currentWorkCitation} />
+            </Tab.Pane>
+          </Tab.Content>
+        </Card.Body>
+      </Card>
+    </Tab.Container>
+  );
+};
 
 class AddRelationModal extends Component {
   render() {
+    const { currentWorkCitation, show, toggleAddRelationModal } = this.props;
     return (
       <Modal
-        show={this.props.show}
-        onHide={this.props.toggleAddRelationModal}
+        show={show}
+        onHide={toggleAddRelationModal}
         animation={false}
         size="lg"
       >
@@ -22,36 +54,15 @@ class AddRelationModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <p>
-            Select one of the following methods to add a relation from{" "}
-            <b>{this.props.currentWorkCitation}</b>:
+            Select a method to add a relation from <b>{currentWorkCitation}</b>:
           </p>
-          <Card>
-            <Card.Header>
-              <Tabs defaultActiveKey="doi" id="add-relation-tabs">
-                <Tab eventKey="doi" title="DOI">
-                  <AddDOI
-                    currentWorkCitation={this.props.currentWorkCitation}
-                  />
-                </Tab>
-                <Tab eventKey="crossref-search" title="CrossRef Search">
-                  <p>hello</p>
-                </Tab>
-              </Tabs>
-            </Card.Header>
-          </Card>
+          <AddRelationTabs currentWorkCitation={currentWorkCitation} />
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="outline-secondary"
-            onClick={this.props.toggleAddRelationModal}
-          >
+          <Button variant="outline-secondary" onClick={toggleAddRelationModal}>
             Cancel
           </Button>
-          <Button
-            disabled
-            variant="primary"
-            onClick={this.props.toggleAddRelationModal}
-          >
+          <Button disabled variant="primary" onClick={toggleAddRelationModal}>
             Submit
           </Button>
         </Modal.Footer>

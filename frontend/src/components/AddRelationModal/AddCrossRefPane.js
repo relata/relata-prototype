@@ -11,20 +11,35 @@ import { Cite } from "@citation-js/core";
 import "@citation-js/plugin-csl";
 import "@citation-js/plugin-doi";
 
-class AddDOI extends Component {
+class AddCrossRefPane extends Component {
   state = {
-    targetDoi: "10.1093/ahr/rhz239",
+    targetQueryString: "",
     targetWork: null,
     targetRelationType: null
   };
 
-  getCite = () => {
-    const cite = new Cite(this.state.targetDoi, { forceType: "@doi/id" });
+  queryCrossRef = async query => {
+    const url = new URL("https://api.crossref.org/works");
+    url.searchParams.set("rows", 10);
+    url.searchParams.set("query.bibliographic", query);
+
+    const response = await fetch(url.href, {
+      // headers: {
+      //   Accept: "application/vnd.citationstyles.csl+json"
+      // }
+    });
+    const results = await response.json();
+    return results.message.items.pop();
+  };
+
+  getCite = async () => {
+    const work = await this.queryCrossRef(this.state.targetQueryString);
+    const cite = new Cite(work, { forceType: "@csl/object" });
     this.setState({ targetWork: cite });
   };
 
   render() {
-    const { targetDoi, targetWork, targetRelationType } = this.state;
+    const { targetQueryString, targetWork, targetRelationType } = this.state;
     var targetBibliography;
     var targetCitation;
     if (this.state.targetWork !== null) {
@@ -36,17 +51,19 @@ class AddDOI extends Component {
     }
     return (
       <Container className="p-3">
-        <label id="doi-search-input-label" htmlFor="doi-search-input">
-          Digital Object Identifier (DOI)
+        <label id="crossref-search-input-label" htmlFor="crossref-search-input">
+          Search terms (title, author, year of publication)
         </label>
         <InputGroup className="mb-3">
           <FormControl
-            id="doi-search-input"
-            placeholder="e.g., 10.1093/ahr/rhz239"
-            defaultValue={targetDoi}
-            aria-label="DOI"
-            aria-describedby="doi-search-input-label"
-            onChange={event => this.setState({ targetDoi: event.target.value })}
+            id="crossref-search-input"
+            placeholder="e.g., rachel carson sea around us"
+            defaultValue={targetQueryString}
+            aria-label="Search terms"
+            aria-describedby="crossref-search-input-label"
+            onChange={event =>
+              this.setState({ targetQueryString: event.target.value })
+            }
           />
           <InputGroup.Append>
             <Button variant="primary" onClick={this.getCite}>
@@ -55,7 +72,7 @@ class AddDOI extends Component {
           </InputGroup.Append>
         </InputGroup>
         <Dropdown>
-          <Dropdown.Toggle id="doi-relation-type-dropdown">
+          <Dropdown.Toggle id="crossref-relation-type-dropdown">
             Relation Type
           </Dropdown.Toggle>
 
@@ -100,4 +117,4 @@ class AddDOI extends Component {
   }
 }
 
-export default AddDOI;
+export default AddCrossRefPane;
