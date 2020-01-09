@@ -4,25 +4,27 @@ const convert = {
   data: "json"
 };
 
+// Despite documentation, an error crops up when adding sequelizeConvert hook
+// to create action; seems to work fine when leaving that action out
 module.exports = {
   before: {
-    all: [sequelizeConvert(convert)],
-    find: [],
-    get: [],
+    all: [],
+    find: [sequelizeConvert(convert)],
+    get: [sequelizeConvert(convert)],
     create: [],
-    update: [],
-    patch: [],
-    remove: []
+    update: [sequelizeConvert(convert)],
+    patch: [sequelizeConvert(convert)],
+    remove: [sequelizeConvert(convert)]
   },
 
   after: {
-    all: [sequelizeConvert(convert)],
-    find: [],
-    get: [],
+    all: [],
+    find: [sequelizeConvert(convert)],
+    get: [sequelizeConvert(convert)],
     create: [],
-    update: [],
-    patch: [],
-    remove: []
+    update: [sequelizeConvert(convert)],
+    patch: [sequelizeConvert(convert)],
+    remove: [sequelizeConvert(convert)]
   },
 
   error: {
