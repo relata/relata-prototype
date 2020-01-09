@@ -13,23 +13,33 @@ import "@citation-js/plugin-doi";
 
 class AddDOIPane extends Component {
   state = {
-    targetDoi: "10.1093/ahr/rhz239",
-    targetWork: null,
+    targetDoi: "",
+    targetCite: null,
     targetRelationType: null
   };
 
   getCite = () => {
-    const cite = new Cite(this.state.targetDoi, { forceType: "@doi/id" });
-    this.setState({ targetWork: cite });
+    const { setTargetWork } = this.props;
+    try {
+      const cite = new Cite(this.state.targetDoi, { forceType: "@doi/id" });
+      this.setState({ targetCite: cite });
+
+      const works = cite.format("data", { format: "object" });
+      setTargetWork(works.pop());
+    } catch (error) {
+      return;
+    }
   };
 
   render() {
-    const { targetDoi, targetWork, targetRelationType } = this.state;
+    const { targetCite, targetDoi, targetRelationType } = this.state;
+    const { targetWork } = this.props;
+
     var targetBibliography;
     var targetCitation;
-    if (this.state.targetWork !== null) {
-      targetBibliography = targetWork.format("bibliography");
-      targetCitation = targetWork.format("citation");
+    if (targetCite != null) {
+      targetBibliography = targetCite.format("bibliography");
+      targetCitation = targetCite.format("citation");
     } else {
       targetBibliography = "No bibliography";
       targetCitation = "n/a";
@@ -58,7 +68,6 @@ class AddDOIPane extends Component {
           <Dropdown.Toggle id="doi-relation-type-dropdown">
             Relation Type
           </Dropdown.Toggle>
-
           <Dropdown.Menu>
             <Dropdown.Item
               eventKey="extension"
@@ -67,22 +76,6 @@ class AddDOIPane extends Component {
               }
             >
               extension
-            </Dropdown.Item>
-            <Dropdown.Item
-              eventKey="omission"
-              onSelect={(eventKey, event) =>
-                this.setState({ targetRelationType: eventKey })
-              }
-            >
-              omission
-            </Dropdown.Item>
-            <Dropdown.Item
-              eventKey="absence"
-              onSelect={(eventKey, event) =>
-                this.setState({ targetRelationType: eventKey })
-              }
-            >
-              absence
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
