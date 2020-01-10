@@ -32,8 +32,8 @@ class AddDOIPane extends Component {
   };
 
   render() {
+    const { currentWork } = this.props;
     const { targetCite, targetDoi, targetRelationType } = this.state;
-    const { targetWork } = this.props;
 
     var targetBibliography;
     var targetCitation;
@@ -83,7 +83,7 @@ class AddDOIPane extends Component {
           <Card.Body>
             <p>{targetBibliography}</p>
             <p>
-              <b>{this.props.currentWorkCitation}</b> represents an instance of{" "}
+              <b>{currentWork.citation}</b> represents an instance of{" "}
               <b>{targetRelationType}</b> in relation to {targetCitation}.
             </p>
           </Card.Body>

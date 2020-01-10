@@ -5,7 +5,7 @@ import "d3-graphviz";
 
 class GraphPane extends Component {
   drawGraph = () => {
-    const { selectWork } = this.props;
+    const { currentWork, selectWork } = this.props;
 
     // Draw graph
     const graphTransition = d3

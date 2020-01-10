@@ -16,7 +16,7 @@ app.configure(restClient.fetch(window.fetch));
 const worksService = app.service("works");
 
 const AddRelationTabs = props => {
-  const { currentWorkCitation, setTargetWork, targetWork } = props;
+  const { currentWork, setTargetWork, targetWork } = props;
   return (
     <Tab.Container defaultActiveKey="doi">
       <Card>
@@ -31,7 +31,7 @@ const AddRelationTabs = props => {
           <Tab.Content>
             <Tab.Pane eventKey="doi">
               <AddDOIPane
-                currentWorkCitation={currentWorkCitation}
+                currentWork={currentWork}
                 setTargetWork={setTargetWork}
                 targetWork={targetWork}
               />
@@ -61,8 +61,8 @@ class AddRelationModal extends Component {
   };
 
   render() {
+    const { currentWork, show, toggleAddRelationModal } = this.props;
     const { targetWork } = this.state;
-    const { currentWorkCitation, show, toggleAddRelationModal } = this.props;
     return (
       <Modal
         show={show}
@@ -75,10 +75,10 @@ class AddRelationModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <p>
-            You are adding a relation to <b>{currentWorkCitation}</b>:
+            You are adding a relation to <b>{currentWork.citation}</b>:
           </p>
           <AddRelationTabs
-            currentWorkCitation={currentWorkCitation}
+            currentWork={currentWork}
             setTargetWork={this.setTargetWork}
             targetWork={targetWork}
           />
