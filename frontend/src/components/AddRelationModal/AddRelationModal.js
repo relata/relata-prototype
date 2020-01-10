@@ -67,7 +67,7 @@ class AddRelationModal extends Component {
       <Modal
         show={show}
         onHide={toggleAddRelationModal}
-        animation={false}
+        animation={true}
         size="lg"
       >
         <Modal.Header closeButton>
