@@ -15,12 +15,17 @@ class GraphPane extends Component {
     d3.select("#graph")
       .graphviz({ zoom: false })
       .transition(graphTransition)
-      .renderDot(this.props.digraph);
+      .renderDot(currentWork.digraph);
 
-    // Add click handlers to all nodes
-    d3.selectAll(".node").on("click", node => {
-      selectWork(node.key);
-    });
+    // Add click handlers to all nodes except for current work
+    d3.selectAll(".node").on("click", null);
+    d3.selectAll(".node")
+      .filter((element, index) => {
+        return element.attributes.id !== `node-${currentWork.id}`;
+      })
+      .on("click", node => {
+        selectWork(node.key);
+      });
   };
 
   componentDidUpdate() {
