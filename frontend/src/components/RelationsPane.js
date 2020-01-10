@@ -39,14 +39,10 @@ class RelationsPane extends Component {
   };
 
   render() {
-    const {
-      currentWorkBibliography,
-      currentWorkCitation,
-      relations,
-      selectWork
-    } = this.props;
+    const { currentWork, selectWork } = this.props;
+    const { addRelationModalIsOpen } = this.state;
 
-    const RelationCards = relations.map((relation, index) => {
+    const RelationCards = currentWork.relationsFrom.map((relation, index) => {
       return (
         <RelationCard key={index} relation={relation} selectWork={selectWork} />
       );
@@ -54,14 +50,14 @@ class RelationsPane extends Component {
 
     return (
       <div>
-        <CurrentWorkCard currentWorkBibliography={currentWorkBibliography} />
+        <CurrentWorkCard currentWork={currentWork} />
         <div className="mt-3 text-right">
           <Button variant="success" onClick={this.toggleAddRelationModal}>
             Add Relation
           </Button>
           <AddRelationModal
-            show={this.state.addRelationModalIsOpen}
-            currentWorkCitation={currentWorkCitation}
+            show={addRelationModalIsOpen}
+            currentWork={currentWork}
             toggleAddRelationModal={this.toggleAddRelationModal}
           />
         </div>

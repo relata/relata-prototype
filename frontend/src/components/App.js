@@ -13,10 +13,7 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    currentWorkBibliography: null,
-    currentWorkCitation: null,
-    digraph: null,
-    relations: []
+    currentWork: { relationsFrom: [] }
   };
 
   componentDidMount() {
@@ -28,15 +25,13 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          currentWorkBibliography: data.bibliography,
-          currentWorkCitation: data.citation,
-          digraph: data.digraph,
-          relations: data.relationsFrom
+          currentWork: data
         });
       });
   };
 
   render() {
+    const { currentWork } = this.state;
     return (
       <div className="App">
         <Navigation />
@@ -44,15 +39,13 @@ class App extends Component {
           <Row>
             <Col sm={12} md={4} className="mb-3">
               <RelationsPane
-                currentWorkBibliography={this.state.currentWorkBibliography}
-                currentWorkCitation={this.state.currentWorkCitation}
-                relations={this.state.relations}
+                currentWork={currentWork}
                 selectWork={this.selectWork}
               />
             </Col>
             <Col sm={12} md={8}>
               <GraphPane
-                digraph={this.state.digraph}
+                currentWork={currentWork}
                 selectWork={this.selectWork}
               />
             </Col>
