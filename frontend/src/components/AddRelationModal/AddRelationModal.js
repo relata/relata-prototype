@@ -56,7 +56,7 @@ class AddRelationModal extends Component {
 
     const payload = { data: targetWork };
     console.log(payload);
-    const result = worksService.create(payload);
+    worksService.create(payload);
     toggleAddRelationModal();
   };
 

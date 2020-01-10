@@ -16,18 +16,8 @@ const Navigation = () => {
           >
             About
           </Nav.Link>
-          <Nav.Link
-            href="https://culanth.org/engagements/relata"
-            target="_blank"
-          >
-            My Contributions
-          </Nav.Link>
-          <Nav.Link
-            href="https://culanth.org/engagements/relata"
-            target="_blank"
-          >
-            Sign Up
-          </Nav.Link>
+          <Nav.Link target="_blank">My Contributions</Nav.Link>
+          <Nav.Link target="_blank">Sign Up</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

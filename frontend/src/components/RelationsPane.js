@@ -32,6 +32,7 @@ class RelationsPane extends Component {
   state = {
     addRelationModalIsOpen: false
   };
+
   toggleAddRelationModal = () => {
     this.setState({
       addRelationModalIsOpen: !this.state.addRelationModalIsOpen
