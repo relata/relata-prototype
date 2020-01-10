@@ -13,6 +13,7 @@ const RelationCard = props => {
       <Card
         className="relation-card mt-3"
         onClick={() => selectWork(relation.workTo.id)}
+        style={{ borderLeft: `5px solid ${relation.color}` }}
       >
         <Card.Body>
           <Card.Text>
