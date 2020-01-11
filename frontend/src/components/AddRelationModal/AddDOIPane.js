@@ -12,11 +12,15 @@ import "@citation-js/plugin-csl";
 import "@citation-js/plugin-doi";
 
 class AddDOIPane extends Component {
-  state = {
-    targetDoi: "",
-    targetCite: null,
-    targetRelationType: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      targetDoi: "",
+      targetCite: null,
+      targetRelationType: null
+    };
+  }
 
   getCite = () => {
     const { setTargetWork } = this.props;

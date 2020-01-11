@@ -11,23 +11,33 @@ import RelationsPane from "./RelationsPane";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import client from "../feathers";
+
 class App extends Component {
-  state = {
-    currentWork: { relationsFrom: [] }
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentWork: { relationsFrom: [] },
+      client: client
+    };
+  }
 
   componentDidMount() {
+    // Select a work to initialize app
     this.selectWork(1);
   }
 
+  // Fetch a new work graph from the Feathers backend
   selectWork = workId => {
-    fetch("/graphs/" + workId)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          currentWork: data
-        });
+    const { client } = this.state;
+    const graphsService = client.service("graphs");
+
+    graphsService.get(workId).then(graph => {
+      this.setState({
+        currentWork: graph
       });
+    });
   };
 
   render() {
