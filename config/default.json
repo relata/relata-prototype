@@ -39,13 +39,30 @@
   },
   "sqlite": "sqlite://data/sql_relata.sqlite",
   "relata": {
-    "colors": {
-      "critique": "#b10026",
-      "extension": "#51bb82",
-      "rejoinder": "#ff5235",
-      "absence": "#0f3363",
-      "omission": "#ffd121",
-      "*": "#999899"
+    "types": {
+      "critique": {
+        "color": "#b10026",
+        "preposition": "of"
+      },
+      "extension": {
+        "color": "#51bb82",
+        "preposition": "of"
+      },
+      "rejoinder": {
+        "color": "#ff5235",
+        "preposition": "to"
+      },
+      "absence": {
+        "color": "#0f3363",
+        "preposition": "in"
+      },
+      "omission": {
+        "color": "#ffd121",
+        "preposition": "in"
+      },
+      "*": {
+        "color": "#999899"
+      }
     }
   }
 }
