@@ -1,12 +1,21 @@
+const { disallow } = require("feathers-hooks-common");
+
+// Get Relata app configuration (relation types, colors, etc.)
+const getConfig = context => {
+  const { app } = context;
+  const relataConfig = app.get("relata");
+  context.result = relataConfig;
+};
+
 module.exports = {
   before: {
     all: [],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    find: [getConfig],
+    get: [disallow],
+    create: [disallow],
+    update: [disallow],
+    patch: [disallow],
+    remove: [disallow]
   },
 
   after: {
