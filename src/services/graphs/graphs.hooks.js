@@ -26,6 +26,7 @@ const getFurtherRelationsCount = async (app, workId, excludeWorkId) => {
 // Obtain relations to/from this work
 const getRelations = async (app, work) => {
   const sequelize = app.get("sequelizeClient");
+  const relataConfig = await app.service("config").find();
   sequelize.raw = true;
 
   // Get all relations to and from this work
@@ -36,13 +37,14 @@ const getRelations = async (app, work) => {
     },
     paginate: false
   })).map(relation => {
-    const relationColor =
-      app.get("relata").colors[relation.type] || app.get("relata").colors["*"];
+    const typeConfig =
+      relataConfig.types[relation.type] || relataConfig.types["*"];
+    const relationColor = typeConfig.color;
     return {
       id: relation.id,
       user: relation.user.githubId,
       type: relation.type,
-      color: relationColor || null,
+      color: relationColor,
       annotation: relation.annotation,
       annotationAuthor: relation.annotationAuthor,
       workFrom: {
