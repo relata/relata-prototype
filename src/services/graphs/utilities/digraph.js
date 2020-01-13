@@ -19,6 +19,7 @@ const makeRelationNode = (relation, key) => {
 
   const workNode = `"${work.id}" [
       id = "node-${work.id}",
+      class = "relation-node",
       label = <${citation}${furtherRelationsIndicator}>,
       tooltip = "${work.furtherRelationsCount} further ${furtherRelationsDescription}"
     ];`;
@@ -75,6 +76,7 @@ const makeDigraph = async graph => {
   );
   const currentWorkNode = `"${graph.id}" [
       id = "node-${graph.id}",
+      class = "current-work-node",
       label = "${graph.citation}",
       tooltip = "${relationsCountDescription}",
       style = "square",

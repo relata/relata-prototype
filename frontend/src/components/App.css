@@ -1,4 +1,9 @@
 .relation-card,
-.node:hover {
+.relation-node:hover {
   cursor: pointer;
+}
+
+.current-work-node:hover,
+.edge:hover {
+  cursor: default;
 }
