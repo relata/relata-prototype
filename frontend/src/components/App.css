@@ -1,3 +1,8 @@
+a,
+a:hover {
+  color: inherit;
+}
+
 .relation-card,
 .relation-node:hover {
   cursor: pointer;
