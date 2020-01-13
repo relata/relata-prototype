@@ -12,3 +12,13 @@ a:hover {
 .edge:hover {
   cursor: default;
 }
+
+.relation-card {
+  border-left: 0.25rem solid;
+}
+
+.relation-lead {
+  font-weight: bold;
+  color: #494949;
+  margin-right: 0.25rem;
+}
