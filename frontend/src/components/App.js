@@ -4,9 +4,9 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-import GraphPane from "./GraphPane";
-import Navigation from "./Navigation";
-import RelationsPane from "./RelationsPane";
+import GraphPane from "./GraphPane/GraphPane";
+import Navigation from "./Navigation/Navigation";
+import RelationsPane from "./RelationsPane/RelationsPane";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
