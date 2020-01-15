@@ -46,6 +46,7 @@ class AddRelationModal extends Component {
           </Button>
           <Button
             disabled={disableSubmit}
+            style={disableSubmit ? { cursor: "not-allowed" } : {}}
             variant="primary"
             onClick={this.submitRelation}
           >
