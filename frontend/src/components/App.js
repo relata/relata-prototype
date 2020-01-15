@@ -18,8 +18,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentWork: { relationsFrom: [] },
-      client: client
+      currentWork: { relationsFrom: [] }
     };
   }
 
@@ -30,7 +29,6 @@ class App extends Component {
 
   // Fetch a new work graph from the Feathers backend
   selectWork = workId => {
-    const { client } = this.state;
     const graphsService = client.service("graphs");
 
     graphsService.get(workId).then(graph => {
