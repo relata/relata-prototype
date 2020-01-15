@@ -39,8 +39,8 @@ class AddDOIPane extends Component {
     const { currentWork } = this.props;
     const { targetCite, targetDoi, targetRelationType } = this.state;
 
-    var targetBibliography;
-    var targetCitation;
+    let targetBibliography;
+    let targetCitation;
     if (targetCite != null) {
       targetBibliography = targetCite.format("bibliography");
       targetCitation = targetCite.format("citation");
