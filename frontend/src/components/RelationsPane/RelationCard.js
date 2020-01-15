@@ -4,9 +4,9 @@ import Card from "react-bootstrap/Card";
 const RelationCard = props => {
   const { relation, selectWork } = props;
 
-  var annotation;
+  let annotation;
   if (relation.annotation) {
-    var annotationAuthor = relation.annotationAuthor ? (
+    let annotationAuthor = relation.annotationAuthor ? (
       <b className="relation-lead">{relation.annotationAuthor}</b>
     ) : (
       ""
