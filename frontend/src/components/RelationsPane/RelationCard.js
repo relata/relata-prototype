@@ -13,7 +13,7 @@ const RelationCard = props => {
     );
     annotation = (
       <Card.Footer>
-        <Card.Text>
+        <Card.Text className="text-dark">
           {annotationAuthor} {relation.annotation}
         </Card.Text>
       </Card.Footer>
