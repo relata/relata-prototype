@@ -22,7 +22,7 @@ class RelationsPane extends Component {
   };
 
   render() {
-    const { currentWork, selectWork } = this.props;
+    const { currentWork, relataConfig, selectWork } = this.props;
     const { addRelationModalIsOpen } = this.state;
 
     const RelationCards = currentWork.relationsFrom.map((relation, index) => {
@@ -39,8 +39,9 @@ class RelationsPane extends Component {
             Add Relation
           </Button>
           <AddRelationModal
-            show={addRelationModalIsOpen}
             currentWork={currentWork}
+            show={addRelationModalIsOpen}
+            relataConfig={relataConfig}
             toggleAddRelationModal={this.toggleAddRelationModal}
           />
         </div>
