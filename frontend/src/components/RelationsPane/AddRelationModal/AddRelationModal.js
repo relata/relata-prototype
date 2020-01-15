@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import SelectRelationType from "./SelectRelationType";
 import StagingSummaryCard from "./StagingSummaryCard";
 
 class AddRelationModal extends Component {
@@ -12,17 +13,26 @@ class AddRelationModal extends Component {
     this.state = {
       stagedWorkFrom: null,
       stagedWorkTo: {},
-      stagedRelation: {},
+      stagedRelationType: null,
       disableSubmit: true
     };
   }
 
+  setStagedRelationType = type => {
+    this.setState({ stagedRelationType: type });
+  };
+
   render() {
-    const { currentWork, show, toggleAddRelationModal } = this.props;
+    const {
+      currentWork,
+      relataConfig,
+      show,
+      toggleAddRelationModal
+    } = this.props;
     const {
       stagedWorkFrom,
       stagedWorkTo,
-      stagedRelation,
+      stagedRelationType,
       disableSubmit
     } = this.state;
 
@@ -35,9 +45,14 @@ class AddRelationModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <StagingSummaryCard
+            relataConfig={relataConfig}
             stagedWorkFrom={defaultStagedWorkFrom}
             stagedWorkTo={stagedWorkTo}
-            stagedRelation={stagedRelation}
+            stagedRelationType={stagedRelationType}
+          />
+          <SelectRelationType
+            relataConfig={relataConfig}
+            setStagedRelationType={this.setStagedRelationType}
           />
         </Modal.Body>
         <Modal.Footer>

@@ -18,28 +18,42 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentWork: { relationsFrom: [] }
+      currentWork: { relationsFrom: [] },
+      relataConfig: {}
     };
   }
 
   componentDidMount() {
     // Select a work to initialize app
     this.selectWork(1);
+
+    // Get Relata config settings for relation types, colors, etc.
+    this.getRelataConfig();
   }
+
+  getRelataConfig = () => {
+    client
+      .service("config")
+      .find()
+      .then(relataConfig => {
+        this.setState({ relataConfig: relataConfig });
+      });
+  };
 
   // Fetch a new work graph from the Feathers backend
   selectWork = workId => {
-    const graphsService = client.service("graphs");
-
-    graphsService.get(workId).then(graph => {
-      this.setState({
-        currentWork: graph
+    client
+      .service("graphs")
+      .get(workId)
+      .then(graph => {
+        this.setState({
+          currentWork: graph
+        });
       });
-    });
   };
 
   render() {
-    const { currentWork } = this.state;
+    const { currentWork, relataConfig } = this.state;
     return (
       <div className="App">
         <Navigation />
@@ -47,6 +61,7 @@ class App extends Component {
           <Row>
             <Col sm={12} md={4} className="mb-3">
               <RelationsPane
+                relataConfig={relataConfig}
                 currentWork={currentWork}
                 selectWork={this.selectWork}
               />
