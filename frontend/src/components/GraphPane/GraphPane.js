@@ -17,8 +17,8 @@ class GraphPane extends Component {
       .transition(graphTransition)
       .renderDot(currentWork.digraph);
 
-    // Add click handlers to all nodes except for current work
-    d3.selectAll(".relation-node").on("click", node => {
+    // Add click handlers to all nodes
+    d3.selectAll(".node").on("click", node => {
       selectWork(node.key);
     });
   };
