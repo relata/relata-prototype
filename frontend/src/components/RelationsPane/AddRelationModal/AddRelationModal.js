@@ -18,8 +18,23 @@ class AddRelationModal extends Component {
     };
   }
 
+  setInitialState = () => {
+    this.setState({
+      stagedWorkFrom: null,
+      stagedWorkTo: {},
+      stagedRelationType: null,
+      disableSubmit: true
+    });
+  };
+
   setStagedRelationType = type => {
     this.setState({ stagedRelationType: type });
+  };
+
+  cancelModal = () => {
+    const { toggleAddRelationModal } = this.props;
+    toggleAddRelationModal();
+    this.setInitialState();
   };
 
   render() {
@@ -56,7 +71,7 @@ class AddRelationModal extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-secondary" onClick={toggleAddRelationModal}>
+          <Button variant="outline-secondary" onClick={this.cancelModal}>
             Cancel
           </Button>
           <Button
