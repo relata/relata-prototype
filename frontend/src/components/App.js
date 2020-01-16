@@ -24,11 +24,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Select a work to initialize app
-    this.selectWork(1);
-
-    // Get Relata config settings for relation types, colors, etc.
-    this.getRelataConfig();
+    // Select a work and get Relata config to populate initial state
+    this.setInitialState();
   }
 
   getRelataConfig = () => {
@@ -37,6 +34,23 @@ class App extends Component {
       .find()
       .then(relataConfig => {
         this.setState({ relataConfig: relataConfig });
+      });
+  };
+
+  // Fetch initial work and Relata config. It's important to use this instead
+  // of selectWork for the initial load; otherwise, the multiple initial API
+  // calls cause cryptic GraphViz errors for some reason. This seems to be the
+  // best workaround
+  setInitialState = () => {
+    const initialWorkId = 1;
+    client
+      .service("graphs")
+      .get(initialWorkId)
+      .then(graph => {
+        this.setState({
+          currentWork: graph
+        });
+        this.getRelataConfig();
       });
   };
 
