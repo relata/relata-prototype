@@ -8,7 +8,8 @@ const StagingSummaryCard = props => {
     relataConfig,
     stagedWorkFrom,
     stagedWorkTo,
-    stagedRelationType
+    stagedRelationType,
+    stagedAnnotation
   } = props;
 
   const blankValue = "____________";
@@ -21,12 +22,22 @@ const StagingSummaryCard = props => {
     ? relationConfig.preposition
     : "in relation to";
   const relationSummary = `${indefinite(relationType)} ${relationPreposition}`;
+  const annotationFooter = stagedAnnotation ? (
+    <Card.Footer>
+      <Card.Text className="text-dark">
+        <b className="relation-lead">Username</b> {stagedAnnotation}
+      </Card.Text>
+    </Card.Footer>
+  ) : (
+    ""
+  );
 
   return (
-    <Card>
+    <Card border="dark">
       <Card.Body>
         {workFromSummary} represents {relationSummary} {workToSummary}.
       </Card.Body>
+      {annotationFooter}
     </Card>
   );
 };

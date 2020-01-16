@@ -14,6 +14,7 @@ class AddRelationModal extends Component {
       stagedWorkFrom: null,
       stagedWorkTo: {},
       stagedRelationType: null,
+      stagedAnnotation: null,
       disableSubmit: true
     };
   }
@@ -23,6 +24,7 @@ class AddRelationModal extends Component {
       stagedWorkFrom: null,
       stagedWorkTo: {},
       stagedRelationType: null,
+      stagedAnnotation: null,
       disableSubmit: true
     });
   };
@@ -31,10 +33,21 @@ class AddRelationModal extends Component {
     this.setState({ stagedRelationType: type });
   };
 
+  setStagedAnnotation = annotation => {
+    this.setState({ stagedAnnotation: annotation });
+  };
+
   cancelModal = () => {
     const { toggleAddRelationModal } = this.props;
+
+    // Close modal
     toggleAddRelationModal();
+
+    // Wipe state
     this.setInitialState();
+
+    // Clear inputs
+    document.querySelector("#annotation-textarea").value = "";
   };
 
   render() {
@@ -48,6 +61,7 @@ class AddRelationModal extends Component {
       stagedWorkFrom,
       stagedWorkTo,
       stagedRelationType,
+      stagedAnnotation,
       disableSubmit
     } = this.state;
 
@@ -56,7 +70,7 @@ class AddRelationModal extends Component {
     return (
       <Modal show={show} onHide={toggleAddRelationModal} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Add Relation</Modal.Title>
+          <Modal.Title>Add or Edit Relation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <StagingSummaryCard
@@ -64,10 +78,12 @@ class AddRelationModal extends Component {
             stagedWorkFrom={defaultStagedWorkFrom}
             stagedWorkTo={stagedWorkTo}
             stagedRelationType={stagedRelationType}
+            stagedAnnotation={stagedAnnotation}
           />
           <SelectRelationType
             relataConfig={relataConfig}
             setStagedRelationType={this.setStagedRelationType}
+            setStagedAnnotation={this.setStagedAnnotation}
           />
         </Modal.Body>
         <Modal.Footer>
