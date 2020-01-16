@@ -45,18 +45,10 @@ class AddRelationModal extends Component {
 
     // Wipe state
     this.setInitialState();
-
-    // Clear inputs
-    document.querySelector("#annotation-textarea").value = "";
   };
 
   render() {
-    const {
-      currentWork,
-      relataConfig,
-      show,
-      toggleAddRelationModal
-    } = this.props;
+    const { currentWork, relataConfig, show } = this.props;
     const {
       stagedWorkFrom,
       stagedWorkTo,
@@ -68,7 +60,7 @@ class AddRelationModal extends Component {
     const defaultStagedWorkFrom = stagedWorkFrom || currentWork;
 
     return (
-      <Modal show={show} onHide={toggleAddRelationModal} size="lg">
+      <Modal show={show} onHide={this.cancelModal} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Add or Edit Relation</Modal.Title>
         </Modal.Header>
