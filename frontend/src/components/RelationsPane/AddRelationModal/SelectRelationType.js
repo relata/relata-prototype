@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
@@ -20,7 +21,7 @@ class SelectRelationType extends Component {
   };
 
   render() {
-    const { relataConfig } = this.props;
+    const { relataConfig, setStagedAnnotation } = this.props;
     const { buttonTitle } = this.state;
 
     // Insert relation types as items in dropdown
@@ -49,14 +50,31 @@ class SelectRelationType extends Component {
     return (
       <Card className="mt-3">
         <Card.Body>
-          Select a relation type:
-          <DropdownButton
-            variant="outline-primary"
-            title={buttonTitle}
-            style={{ display: "inline-block", marginLeft: "0.25rem" }}
-          >
-            {dropdownItems}
-          </DropdownButton>
+          <div className="mb-2">
+            Select a relation type:
+            <DropdownButton
+              className="ml-1"
+              variant="outline-primary"
+              title={buttonTitle}
+              style={{ display: "inline-block" }}
+            >
+              {dropdownItems}
+            </DropdownButton>
+          </div>
+          <Form.Group controlId="annotation-textarea">
+            <Form.Label>Enter an annotation (optional):</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows="2"
+              style={{ minHeight: "2.4rem" }}
+              maxLength={500}
+              onChange={event =>
+                setStagedAnnotation(
+                  event.target.value.replace(/\s+/g, " ").trim()
+                )
+              }
+            />
+          </Form.Group>
         </Card.Body>
       </Card>
     );
