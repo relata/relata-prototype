@@ -1,6 +1,7 @@
 import React from "react";
 import indefinite from "indefinite";
 
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 const StagingSummaryCard = props => {
@@ -9,13 +10,16 @@ const StagingSummaryCard = props => {
     stagedWorkFrom,
     stagedWorkTo,
     stagedRelationType,
-    stagedAnnotation
+    stagedAnnotation,
+    swapStagedWorks
   } = props;
 
   const blankValue = "____________";
 
-  const workFromSummary = stagedWorkFrom.citation || blankValue;
-  const workToSummary = stagedWorkTo.citation || blankValue;
+  const workFromSummary =
+    stagedWorkFrom === null ? blankValue : stagedWorkFrom.citation;
+  const workToSummary =
+    stagedWorkTo === null ? blankValue : stagedWorkTo.citation;
   const relationType = stagedRelationType || blankValue;
   const relationConfig = relataConfig.types[stagedRelationType];
   const relationPreposition = relationConfig
@@ -36,6 +40,14 @@ const StagingSummaryCard = props => {
     <Card border="dark">
       <Card.Body>
         {workFromSummary} represents {relationSummary} {workToSummary}.
+        <Button
+          className="float-right"
+          variant="success"
+          size="sm"
+          onClick={swapStagedWorks}
+        >
+          Swap Works
+        </Button>
       </Card.Body>
       {annotationFooter}
     </Card>

@@ -11,18 +11,28 @@ class AddRelationModal extends Component {
     super(props);
 
     this.state = {
+      isInitialState: true,
       stagedWorkFrom: null,
-      stagedWorkTo: {},
+      stagedWorkTo: null,
       stagedRelationType: null,
       stagedAnnotation: null,
       disableSubmit: true
     };
   }
 
+  componentDidUpdate() {
+    const { currentWork } = this.props;
+    const { isInitialState, stagedWorkTo } = this.state;
+    if (isInitialState & (stagedWorkTo != currentWork)) {
+      this.setState({ stagedWorkTo: currentWork, isInitialState: false });
+    }
+  }
+
   setInitialState = () => {
     this.setState({
+      isInitialState: true,
       stagedWorkFrom: null,
-      stagedWorkTo: {},
+      stagedWorkTo: null,
       stagedRelationType: null,
       stagedAnnotation: null,
       disableSubmit: true
@@ -37,6 +47,14 @@ class AddRelationModal extends Component {
     this.setState({ stagedAnnotation: annotation });
   };
 
+  swapStagedWorks = () => {
+    const { stagedWorkFrom, stagedWorkTo } = this.state;
+    this.setState({
+      stagedWorkFrom: stagedWorkTo,
+      stagedWorkTo: stagedWorkFrom
+    });
+  };
+
   cancelModal = () => {
     const { toggleAddRelationModal } = this.props;
 
@@ -48,7 +66,7 @@ class AddRelationModal extends Component {
   };
 
   render() {
-    const { currentWork, relataConfig, show } = this.props;
+    const { relataConfig, show } = this.props;
     const {
       stagedWorkFrom,
       stagedWorkTo,
@@ -57,20 +75,19 @@ class AddRelationModal extends Component {
       disableSubmit
     } = this.state;
 
-    const defaultStagedWorkFrom = stagedWorkFrom || currentWork;
-
     return (
       <Modal show={show} onHide={this.cancelModal} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Add or Edit Relation</Modal.Title>
+          <Modal.Title>Add/Edit Relation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <StagingSummaryCard
             relataConfig={relataConfig}
-            stagedWorkFrom={defaultStagedWorkFrom}
+            stagedWorkFrom={stagedWorkFrom}
             stagedWorkTo={stagedWorkTo}
             stagedRelationType={stagedRelationType}
             stagedAnnotation={stagedAnnotation}
+            swapStagedWorks={this.swapStagedWorks}
           />
           <SelectRelationType
             relataConfig={relataConfig}
