@@ -70,7 +70,7 @@ class App extends Component {
     const { currentWork, relataConfig } = this.state;
     return (
       <div className="App">
-        <Navigation />
+        <Navigation relataConfig={relataConfig} selectWork={this.selectWork} />
         <Container fluid="true" className="mt-3">
           <Row>
             <Col sm={12} md={4} className="mb-3">
