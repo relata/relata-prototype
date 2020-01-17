@@ -3,8 +3,16 @@ a:hover {
   color: inherit;
 }
 
-.relation-card,
+.relation-card:hover,
 .relation-node:hover {
+  cursor: pointer;
+}
+
+.select-work-card-staged {
+  cursor: pointer;
+}
+
+.search-result-list-item {
   cursor: pointer;
 }
 

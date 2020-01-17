@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 
 class SelectRelationType extends Component {
   constructor(props) {
@@ -50,31 +52,38 @@ class SelectRelationType extends Component {
     return (
       <Card className="mt-3">
         <Card.Body>
-          <div className="mb-2">
-            Select a relation type:
-            <DropdownButton
-              className="ml-1"
-              variant="outline-primary"
-              title={buttonTitle}
-              style={{ display: "inline-block" }}
-            >
-              {dropdownItems}
-            </DropdownButton>
-          </div>
-          <Form.Group controlId="annotation-textarea">
-            <Form.Label>Enter an annotation (optional):</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows="2"
-              style={{ minHeight: "2.4rem" }}
-              maxLength={500}
-              onChange={event =>
-                setStagedAnnotation(
-                  event.target.value.replace(/\s+/g, " ").trim()
-                )
-              }
-            />
-          </Form.Group>
+          <Row>
+            <Col sm={3}>
+              <Form.Label htmlFor="relation-type-dropdown">
+                Relation Type
+              </Form.Label>
+              <DropdownButton
+                id="relation-type-dropdown"
+                variant="outline-primary"
+                title={buttonTitle}
+              >
+                {dropdownItems}
+              </DropdownButton>
+            </Col>
+            <Col sm={9}>
+              <Form.Group controlId="annotation-textarea">
+                <Form.Label>
+                  Annotation <i>(optional)</i>
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows="1"
+                  style={{ minHeight: "2.4rem" }}
+                  maxLength={500}
+                  onChange={event =>
+                    setStagedAnnotation(
+                      event.target.value.replace(/\s+/g, " ").trim()
+                    )
+                  }
+                />
+              </Form.Group>
+            </Col>
+          </Row>
         </Card.Body>
       </Card>
     );

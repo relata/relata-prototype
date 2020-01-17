@@ -14,7 +14,13 @@ const detectDuplicates = (workA, workB) => {
   const workACitation = makeCitations({ data: workA }).bibliography;
   const workBCitation = makeCitations({ data: workB }).bibliography;
   const score = compareTwoStrings(workACitation, workBCitation);
-  return score > 0.67;
+  const threshold = 0.9;
+  if (score > threshold) {
+    console.log("Detected likely duplicates:");
+    console.log(workACitation);
+    console.log(workBCitation);
+  }
+  return score > threshold;
 };
 
 // Hook to reject a work if it appears to be a duplicate of an existing work in
@@ -31,7 +37,7 @@ const rejectDuplicateWork = async context => {
     }
   });
   for (existingWork of results) {
-    if (detectDuplicates(data, existingWork.data)) {
+    if (detectDuplicates(data.data, existingWork.data)) {
       context.result = existingWork;
       break;
     }

@@ -56,12 +56,6 @@ class App extends Component {
 
   // Fetch a new work graph from the Feathers backend
   selectWork = workId => {
-    const { currentWork } = this.state;
-    // Don't make an unnecessary API call if this work is already selected
-    if (workId == currentWork.id) {
-      return;
-    }
-
     client
       .service("graphs")
       .get(workId)
