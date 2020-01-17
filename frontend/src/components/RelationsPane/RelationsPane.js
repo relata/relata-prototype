@@ -35,13 +35,14 @@ class RelationsPane extends Component {
       <div>
         <CurrentWorkCard currentWork={currentWork} />
         <div className="mt-3 text-right">
-          <Button variant="success" onClick={this.toggleAddRelationModal}>
+          <Button variant="primary" onClick={this.toggleAddRelationModal}>
             Add Relation
           </Button>
           <AddRelationModal
             currentWork={currentWork}
             show={addRelationModalIsOpen}
             relataConfig={relataConfig}
+            selectWork={selectWork}
             toggleAddRelationModal={this.toggleAddRelationModal}
           />
         </div>

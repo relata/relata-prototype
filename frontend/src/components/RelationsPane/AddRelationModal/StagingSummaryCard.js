@@ -28,9 +28,7 @@ const StagingSummaryCard = props => {
   const relationSummary = `${indefinite(relationType)} ${relationPreposition}`;
   const annotationFooter = stagedAnnotation ? (
     <Card.Footer>
-      <Card.Text className="text-dark">
-        <b className="relation-lead">Username</b> {stagedAnnotation}
-      </Card.Text>
+      <Card.Text className="text-dark">{stagedAnnotation}</Card.Text>
     </Card.Footer>
   ) : (
     ""
@@ -42,11 +40,11 @@ const StagingSummaryCard = props => {
         {workFromSummary} represents {relationSummary} {workToSummary}.
         <Button
           className="float-right"
-          variant="success"
+          variant="primary"
           size="sm"
           onClick={swapStagedWorks}
         >
-          Swap Works
+          Reverse
         </Button>
       </Card.Body>
       {annotationFooter}

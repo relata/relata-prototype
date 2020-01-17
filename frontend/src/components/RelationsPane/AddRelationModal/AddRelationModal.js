@@ -4,7 +4,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import SelectRelationType from "./SelectRelationType";
+import SelectWork from "./SelectWork/SelectWork";
 import StagingSummaryCard from "./StagingSummaryCard";
+
+import client from "../../../feathers";
 
 class AddRelationModal extends Component {
   constructor(props) {
@@ -15,15 +18,14 @@ class AddRelationModal extends Component {
       stagedWorkFrom: null,
       stagedWorkTo: null,
       stagedRelationType: null,
-      stagedAnnotation: null,
-      disableSubmit: true
+      stagedAnnotation: null
     };
   }
 
   componentDidUpdate() {
     const { currentWork } = this.props;
     const { isInitialState, stagedWorkTo } = this.state;
-    if (isInitialState & (stagedWorkTo != currentWork)) {
+    if (isInitialState && stagedWorkTo === null) {
       this.setState({ stagedWorkTo: currentWork, isInitialState: false });
     }
   }
@@ -34,8 +36,7 @@ class AddRelationModal extends Component {
       stagedWorkFrom: null,
       stagedWorkTo: null,
       stagedRelationType: null,
-      stagedAnnotation: null,
-      disableSubmit: true
+      stagedAnnotation: null
     });
   };
 
@@ -47,6 +48,14 @@ class AddRelationModal extends Component {
     this.setState({ stagedAnnotation: annotation });
   };
 
+  setStagedWork = (workType, work) => {
+    if (workType === "workFrom") {
+      this.setState({ stagedWorkFrom: work });
+    } else {
+      this.setState({ stagedWorkTo: work });
+    }
+  };
+
   swapStagedWorks = () => {
     const { stagedWorkFrom, stagedWorkTo } = this.state;
     this.setState({
@@ -55,14 +64,90 @@ class AddRelationModal extends Component {
     });
   };
 
+  // Enable submission when all required properties are populated
+  readyToSubmit = () => {
+    const { stagedWorkFrom, stagedWorkTo, stagedRelationType } = this.state;
+
+    if (
+      stagedWorkFrom !== null &&
+      stagedWorkTo !== null &&
+      stagedRelationType !== null
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // Submit both staged works and the relation to Feathers backend
+  submitRelation = async () => {
+    const { currentWork, selectWork } = this.props;
+    const {
+      stagedWorkFrom,
+      stagedWorkTo,
+      stagedRelationType,
+      stagedAnnotation
+    } = this.state;
+
+    const worksService = client.service("works");
+    const relationsService = client.service("relations");
+
+    // Attempt to submit works; get IDs back
+    let workFromResult;
+    let workFromId;
+    let workToResult;
+    let workToId;
+    try {
+      // If we already know the work is in the backend because it's a /graphs
+      // element (i.e., no data property), skip the API call and just grab the
+      // ID
+      workFromResult = stagedWorkFrom.data
+        ? await worksService.create(stagedWorkFrom)
+        : stagedWorkFrom;
+      workFromId = workFromResult.id;
+
+      workToResult = stagedWorkTo.data
+        ? await worksService.create(stagedWorkTo)
+        : stagedWorkTo;
+      workToId = workToResult.id;
+    } catch (error) {
+      return;
+    }
+
+    // Attempt to submit relation
+    const stagedRelation = {
+      type: stagedRelationType,
+      workFromId: workFromId,
+      workToId: workToId,
+      annotation: stagedAnnotation || null,
+      annotationAuthor: null,
+      userId: 1
+    };
+    try {
+      // eslint-disable-next-line
+      const relationResult = await relationsService.create(stagedRelation);
+    } catch (error) {
+      return;
+    }
+
+    // Since our attempts were successful, we now refresh the graph view and
+    // close the modal
+    if (currentWork.id === workFromId || currentWork.id === workToId) {
+      selectWork(currentWork.id);
+    } else {
+      selectWork(workFromId);
+    }
+    this.cancelModal();
+  };
+
   cancelModal = () => {
     const { toggleAddRelationModal } = this.props;
 
-    // Close modal
-    toggleAddRelationModal();
-
     // Wipe state
     this.setInitialState();
+
+    // Close modal
+    toggleAddRelationModal();
   };
 
   render() {
@@ -71,14 +156,15 @@ class AddRelationModal extends Component {
       stagedWorkFrom,
       stagedWorkTo,
       stagedRelationType,
-      stagedAnnotation,
-      disableSubmit
+      stagedAnnotation
     } = this.state;
+
+    const disableSubmit = !this.readyToSubmit();
 
     return (
       <Modal show={show} onHide={this.cancelModal} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Add/Edit Relation</Modal.Title>
+          <Modal.Title>Add Relation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <StagingSummaryCard
@@ -93,6 +179,16 @@ class AddRelationModal extends Component {
             relataConfig={relataConfig}
             setStagedRelationType={this.setStagedRelationType}
             setStagedAnnotation={this.setStagedAnnotation}
+          />
+          <SelectWork
+            stagedWork={stagedWorkFrom}
+            stagedWorkType="workFrom"
+            setStagedWork={this.setStagedWork}
+          />
+          <SelectWork
+            stagedWork={stagedWorkTo}
+            stagedWorkType="workTo"
+            setStagedWork={this.setStagedWork}
           />
         </Modal.Body>
         <Modal.Footer>
