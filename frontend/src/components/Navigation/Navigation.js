@@ -31,6 +31,7 @@ class Navigation extends Component {
             <Nav.Link
               href="https://culanth.org/engagements/relata"
               target="_blank"
+              rel="noopener noreferrer"
             >
               About
             </Nav.Link>
