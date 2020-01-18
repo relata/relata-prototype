@@ -2,7 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 
 const RelationCard = props => {
-  const { relation, selectWork } = props;
+  const { relation, selectWork, onClick } = props;
 
   let annotation;
   if (relation.annotation) {
@@ -23,23 +23,27 @@ const RelationCard = props => {
   }
 
   return (
-    <div>
-      <Card
-        className="relation-card mt-3"
-        onClick={() => selectWork(relation.workTo.id)}
-        style={{ borderLeftColor: relation.color }}
-      >
-        <Card.Body>
-          <Card.Text>
-            <b className="relation-lead" style={{ color: relation.color }}>
-              {relation.type}
-            </b>{" "}
-            {relation.workTo.bibliography}
-          </Card.Text>
-        </Card.Body>
-        {annotation}
-      </Card>
-    </div>
+    <Card
+      className="relation-card mt-3"
+      onClick={() => selectWork(relation.workTo.id)}
+      onKeyPress={event => {
+        if (event.key === "Enter") {
+          selectWork(relation.workTo.id);
+        }
+      }}
+      style={{ borderLeftColor: relation.color }}
+      tabIndex={0}
+    >
+      <Card.Body>
+        <Card.Text>
+          <b className="relation-lead" style={{ color: relation.color }}>
+            {relation.type}
+          </b>{" "}
+          {relation.workTo.bibliography}
+        </Card.Text>
+      </Card.Body>
+      {annotation}
+    </Card>
   );
 };
 

@@ -39,6 +39,12 @@ class SelectWork extends Component {
           onClick={() => {
             setStagedWork(stagedWorkType, null);
           }}
+          onKeyPress={event => {
+            if (event.key === "Enter") {
+              setStagedWork(stagedWorkType, null);
+            }
+          }}
+          tabIndex={0}
         >
           <Card.Header>
             {heading} <i>(click to edit)</i>

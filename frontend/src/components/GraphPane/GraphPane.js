@@ -15,12 +15,21 @@ class GraphPane extends Component {
     d3.select("#graph")
       .graphviz({ zoom: false })
       .transition(graphTransition)
-      .renderDot(currentWork.digraph);
-
-    // Add click handlers to all nodes
-    d3.selectAll(".node").on("click", node => {
-      selectWork(node.key);
-    });
+      .renderDot(currentWork.digraph)
+      .on("end", () => {
+        // Add tabindex for accessibility
+        d3.selectAll(".relation-node")
+          .attr("tabindex", "0")
+          // .attr("focusable", "true")
+          .on("click", node => {
+            selectWork(node.key);
+          })
+          .on("keypress", node => {
+            if (d3.event.keyCode === 13) {
+              selectWork(node.key);
+            }
+          });
+      });
   };
 
   componentDidUpdate() {
