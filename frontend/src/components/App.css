@@ -12,10 +12,6 @@ a:hover {
   cursor: pointer;
 }
 
-.search-result-list-item {
-  cursor: pointer;
-}
-
 .current-work-node:hover,
 .edge:hover {
   cursor: default;
@@ -28,4 +24,10 @@ a:hover {
 .relation-lead {
   font-weight: bold;
   margin-right: 0.25rem;
+}
+
+#graph {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 56px;
 }
