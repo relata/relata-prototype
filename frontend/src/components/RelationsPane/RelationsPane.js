@@ -27,7 +27,11 @@ class RelationsPane extends Component {
 
     const RelationCards = currentWork.relationsFrom.map((relation, index) => {
       return (
-        <RelationCard key={index} relation={relation} selectWork={selectWork} />
+        <RelationCard
+          key={relation.id}
+          relation={relation}
+          selectWork={selectWork}
+        />
       );
     });
 
