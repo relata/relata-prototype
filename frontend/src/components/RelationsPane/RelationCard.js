@@ -36,9 +36,7 @@ const RelationCard = props => {
     >
       <Card.Body>
         <Card.Text>
-          <b className="relation-lead" style={{ color: relation.color }}>
-            {relation.type}
-          </b>{" "}
+          <b className="relation-lead">{relation.type}</b>{" "}
           {relation.workTo.bibliography}
         </Card.Text>
       </Card.Body>

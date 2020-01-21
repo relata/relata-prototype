@@ -97,10 +97,10 @@ class SearchModal extends Component {
             >
               Delete
             </Button>
-            <span className="relation-lead" style={{ color: color }}>
-              {relation.type}
+            <span className="align-middle">
+              <span className="relation-lead">{relation.type}</span>{" "}
+              {workFrom.citation} → {workTo.citation}
             </span>
-            {workFrom.citation} → {workTo.citation}
           </ListGroup.Item>
         );
       });
