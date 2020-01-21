@@ -17,10 +17,8 @@ class GraphPane extends Component {
       .transition(graphTransition)
       .renderDot(currentWork.digraph)
       .on("end", () => {
-        // Add tabindex for accessibility
         d3.selectAll(".relation-node")
           .attr("tabindex", "0")
-          // .attr("focusable", "true")
           .on("click", node => {
             selectWork(node.key);
           })

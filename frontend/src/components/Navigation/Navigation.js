@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
@@ -24,6 +25,14 @@ class Navigation extends Component {
 
     return (
       <Navbar bg="dark" variant="dark" expand="lg" fluid="true">
+        <Button
+          className="sr-only sr-only-focusable p-2 pl-3 pr-3"
+          variant="light"
+          href="#content"
+          style={{ position: "absolute" }}
+        >
+          Skip to main content
+        </Button>
         <Navbar.Brand href="/">Relata</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse>
