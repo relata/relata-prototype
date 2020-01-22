@@ -24,7 +24,7 @@ class Navigation extends Component {
     const { relataConfig, selectWork } = this.props;
 
     return (
-      <Navbar bg="dark" variant="dark" expand="lg" fluid="true">
+      <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
         <Button
           className="sr-only sr-only-focusable p-2 pl-3 pr-3"
           variant="light"
