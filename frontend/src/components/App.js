@@ -71,6 +71,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation relataConfig={relataConfig} selectWork={this.selectWork} />
+        {/* eslint-disable-next-line */}
         <a id="content" style={{ position: "absolute", top: 0 }}></a>
         <Container fluid="true" className="mt-3">
           <Row>

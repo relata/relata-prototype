@@ -2,7 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 
 const RelationCard = props => {
-  const { relation, selectWork, onClick } = props;
+  const { relation, selectWork } = props;
 
   let annotation;
   if (relation.annotation) {

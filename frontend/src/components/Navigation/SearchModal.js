@@ -44,6 +44,7 @@ class SearchModal extends Component {
   deleteRelation = async relationId => {
     const relationsService = client.service("relations");
     try {
+      // eslint-disable-next-line
       const result = relationsService.remove(relationId);
       this.getUserRelations(1);
     } catch (error) {
