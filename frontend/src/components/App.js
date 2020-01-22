@@ -71,7 +71,8 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation relataConfig={relataConfig} selectWork={this.selectWork} />
-        <Container id="content" fluid="true" className="mt-3">
+        <a id="content" style={{ position: "absolute", top: 0 }}></a>
+        <Container fluid="true" className="mt-3">
           <Row>
             <Col sm={12} md={4} className="mb-3">
               <RelationsPane
