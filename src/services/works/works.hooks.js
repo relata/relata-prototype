@@ -7,6 +7,29 @@ const convert = {
   data: "json"
 };
 
+// Add bibliographic entry to FlexSearch index on creation
+const addWorkToIndex = async context => {
+  const { result, service } = context;
+  const { bibliography } = makeCitations(result);
+  service.index.add(result.id, bibliography);
+  return context;
+};
+
+// Update existing entry in FlexSearch index on update
+const updateWorkInIndex = async context => {
+  const { result, service } = context;
+  const { bibliography } = makeCitations(result);
+  service.index.update(result.id, bibliography);
+  return context;
+};
+
+// Remove existing entry from FlexSearch index on update
+const removeWorkFromIndex = async context => {
+  const { result, service } = context;
+  service.index.remove(result.id);
+  return context;
+};
+
 // Very rough duplicate-detection function that performs fuzzy comparison of
 // one bibliographic citation to another. Not very sophisticated; just a guard
 // against simple cases
@@ -62,10 +85,10 @@ module.exports = {
     all: [],
     find: [sequelizeConvert(convert)],
     get: [sequelizeConvert(convert)],
-    create: [],
-    update: [sequelizeConvert(convert)],
-    patch: [sequelizeConvert(convert)],
-    remove: [sequelizeConvert(convert)]
+    create: [addWorkToIndex],
+    update: [sequelizeConvert(convert), updateWorkInIndex],
+    patch: [sequelizeConvert(convert), updateWorkInIndex],
+    remove: [sequelizeConvert(convert), removeWorkFromIndex]
   },
 
   error: {
