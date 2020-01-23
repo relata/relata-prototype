@@ -3,6 +3,37 @@ const { disallow } = require("feathers-hooks-common");
 const { makeCitations } = require("./utilities/citations");
 const { makeDigraph } = require("./utilities/digraph");
 
+// If searchQuery param is set, search FlexSearch index with supplied query
+// and return the result
+const handleSearchIndexQueries = async context => {
+  const { app, params, service } = context;
+
+  if (params.query) {
+    const { searchQuery, ...query } = params.query;
+
+    if (searchQuery) {
+      const worksService = app.service("works");
+      const workIds = worksService.index.search(searchQuery, { limit: 20 });
+      const results = [];
+      for (workId of workIds) {
+        let graph = await service.get(workId);
+        let result = {
+          id: graph.id,
+          bibliography: graph.bibliography,
+          citation: graph.citation
+        };
+        results.push(result);
+      }
+      context.result = results;
+    }
+
+    // Update the query to drop searchQuery
+    context.params.query = query;
+  }
+
+  return context;
+};
+
 // Get a work by its ID
 const getWork = async context => {
   const { app, id } = context;
@@ -106,7 +137,7 @@ const makeGraph = async context => {
 module.exports = {
   before: {
     all: [],
-    find: [disallow],
+    find: [handleSearchIndexQueries],
     get: [],
     create: [disallow],
     update: [disallow],
