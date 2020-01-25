@@ -33,17 +33,11 @@ const removeWorkFromIndex = async context => {
 // Very rough duplicate-detection function that performs fuzzy comparison of
 // one bibliographic citation to another. Not very sophisticated; just a guard
 // against simple cases
-const detectDuplicates = (workA, workB) => {
+const detectDuplicates = (workA, workB, threshold) => {
   const workACitation = makeCitations({ data: workA }).bibliography;
   const workBCitation = makeCitations({ data: workB }).bibliography;
   const score = compareTwoStrings(workACitation, workBCitation);
-  const threshold = 0.9;
-  if (score > threshold) {
-    console.log("Detected likely duplicates:");
-    console.log(workACitation);
-    console.log(workBCitation);
-  }
-  return score > threshold;
+  return score >= threshold;
 };
 
 // Hook to reject a work if it appears to be a duplicate of an existing work in
@@ -59,8 +53,10 @@ const rejectDuplicateWork = async context => {
       max: 30000
     }
   });
+  const relataConfig = app.get("relata");
+  const threshold = relataConfig.duplicateWorkThreshold || 0.67;
   for (existingWork of results) {
-    if (detectDuplicates(data.data, existingWork.data)) {
+    if (detectDuplicates(data.data, existingWork.data, threshold)) {
       context.result = existingWork;
       break;
     }

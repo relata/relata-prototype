@@ -39,6 +39,7 @@
   },
   "sqlite": "sqlite://data/sql_relata.sqlite",
   "relata": {
+    "duplicateWorkThreshold": 0.67,
     "types": {
       "critique": {
         "color": "#b10026",
