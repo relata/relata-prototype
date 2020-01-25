@@ -21,7 +21,7 @@ class Navigation extends Component {
 
   render() {
     const { searchModalIsOpen } = this.state;
-    const { relataConfig, selectWork } = this.props;
+    const { getRelationColor, selectWork } = this.props;
 
     return (
       <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
@@ -52,7 +52,7 @@ class Navigation extends Component {
         </Navbar.Collapse>
         <SearchModal
           show={searchModalIsOpen}
-          relataConfig={relataConfig}
+          getRelationColor={getRelationColor}
           selectWork={selectWork}
           toggleSearchModal={this.toggleSearchModal}
         />

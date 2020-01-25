@@ -66,11 +66,28 @@ class App extends Component {
       });
   };
 
+  // Look up the configured color for a given relation type
+  getRelationColor = relationType => {
+    const { relataConfig } = this.state;
+    try {
+      const typeConfig =
+        relataConfig.types[relationType] || relataConfig.types["*"];
+      return typeConfig.color;
+    } catch (error) {
+      // Return default color if there was an error looking up the color, e.g.,
+      // if relataConfig is not yet loaded from the backend
+      return "#666666";
+    }
+  };
+
   render() {
     const { currentWork, relataConfig } = this.state;
     return (
       <div className="App">
-        <Navigation relataConfig={relataConfig} selectWork={this.selectWork} />
+        <Navigation
+          getRelationColor={this.getRelationColor}
+          selectWork={this.selectWork}
+        />
         {/* eslint-disable-next-line */}
         <a id="content" style={{ position: "absolute", top: 0 }}></a>
         <Container fluid="true" className="mt-3">

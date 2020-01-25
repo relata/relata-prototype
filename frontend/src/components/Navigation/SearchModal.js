@@ -60,7 +60,7 @@ class SearchModal extends Component {
   };
 
   render() {
-    const { relataConfig, show, selectWork } = this.props;
+    const { getRelationColor, show, selectWork } = this.props;
     const { userRelations } = this.state;
 
     let relationListItems;
@@ -74,15 +74,7 @@ class SearchModal extends Component {
           ...relation.workTo,
           ...makeCitations(relation.workTo)
         };
-        let color;
-        if (relataConfig.types) {
-          const typeConfig = relataConfig.types[relation.type];
-          if (typeConfig) {
-            color = typeConfig.color;
-          } else {
-            color = "";
-          }
-        }
+        const color = getRelationColor(relation.type);
         return (
           <ListGroup.Item
             key={relation.id}
