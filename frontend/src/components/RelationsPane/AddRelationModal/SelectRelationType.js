@@ -30,21 +30,21 @@ class SelectRelationType extends Component {
     let relationTypes;
     if (relataConfig.types) {
       relationTypes = Object.keys(relataConfig.types)
-        .filter(type => type !== "*")
+        .filter(relationType => relationType !== "*")
         .sort();
     } else {
       relationTypes = [];
     }
-    const dropdownItems = relationTypes.map((type, index) => {
-      const color = relataConfig.types[type].color;
+    const dropdownItems = relationTypes.map((relationType, index) => {
+      const color = relataConfig.types[relationType].color;
       const style = { borderLeft: `0.25rem solid ${color}` };
       return (
         <Dropdown.Item
           key={index}
           style={style}
-          onClick={() => this.handleClick(type)}
+          onClick={() => this.handleClick(relationType)}
         >
-          {type}
+          {relationType}
         </Dropdown.Item>
       );
     });
