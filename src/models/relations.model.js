@@ -42,6 +42,11 @@ module.exports = function(app) {
               "annotationAuthor was supplied without an annotation"
             );
           }
+        },
+        noRelationToSameWork() {
+          if (this.workFromId == this.workToId) {
+            throw new Error("Cannot add a relation from a work to itself");
+          }
         }
       },
       hooks: {
