@@ -23,9 +23,9 @@ class AddRelationModal extends Component {
   }
 
   componentDidUpdate() {
-    const { currentWork } = this.props;
-    const { isInitialState, stagedWorkTo } = this.state;
-    if (isInitialState && stagedWorkTo === null) {
+    const { currentWork, show } = this.props;
+    const { isInitialState } = this.state;
+    if (show && isInitialState) {
       this.setState({ stagedWorkTo: currentWork, isInitialState: false });
     }
   }
