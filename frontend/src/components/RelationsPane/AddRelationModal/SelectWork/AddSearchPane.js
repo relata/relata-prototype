@@ -13,6 +13,21 @@ import LinkifyBibliography from "../../LinkifyBibliography";
 import { makeCitations } from "./utilities/citations";
 import { queryCrossRefApi } from "./utilities/crossRefApi";
 
+// Transform invalid CSL JSON types from CrossRef API to make them compliant;
+// because CrossRef API won't serve requests on works endpoint when we specify
+// a content type of CSL JSON, we have to fix work types ourselves as
+// described here: https://github.com/CrossRef/rest-api-doc/issues/222
+const fixCrossRefWork = work => {
+  const typeMappings = {
+    "journal-article": "article-journal",
+    "book-chapter": "chapter",
+    "posted-content": "manuscript",
+    "proceedings-article": "paper-conference"
+  };
+  work.type = typeMappings[work.type] || work.type;
+  return work;
+};
+
 class AddSearchPane extends Component {
   state = {
     targetSearchQuery: "",
@@ -35,7 +50,7 @@ class AddSearchPane extends Component {
       const queryResults = await queryCrossRefApi(targetSearchQuery);
 
       // Process results, generate citations
-      const works = queryResults.map(result => {
+      const works = queryResults.map(fixCrossRefWork).map(result => {
         const citations = makeCitations({ data: result });
         const work = { data: result, ...citations };
         return work;
