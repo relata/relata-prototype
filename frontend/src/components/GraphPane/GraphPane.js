@@ -10,7 +10,7 @@ class GraphPane extends Component {
     // Draw graph
     const graphTransition = d3
       .transition()
-      .duration(450)
+      .duration(360)
       .ease(d3.easeQuad);
     d3.select("#graph")
       .graphviz({ zoom: false })
