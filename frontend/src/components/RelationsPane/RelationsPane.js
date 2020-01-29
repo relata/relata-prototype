@@ -11,19 +11,42 @@ class RelationsPane extends Component {
     super(props);
 
     this.state = {
-      addRelationModalIsOpen: false
+      addRelationModalIsOpen: false,
+      stagedWorkFrom: null,
+      stagedWorkTo: null
     };
   }
 
   toggleAddRelationModal = () => {
+    const { currentWork } = this.props;
+    const { addRelationModalIsOpen } = this.state;
+    if (!addRelationModalIsOpen) {
+      this.setStagedWork("workTo", currentWork);
+    }
     this.setState({
-      addRelationModalIsOpen: !this.state.addRelationModalIsOpen
+      addRelationModalIsOpen: !addRelationModalIsOpen
+    });
+  };
+
+  setStagedWork = (workType, work) => {
+    if (workType === "workFrom") {
+      this.setState({ stagedWorkFrom: work });
+    } else {
+      this.setState({ stagedWorkTo: work });
+    }
+  };
+
+  swapStagedWorks = () => {
+    const { stagedWorkFrom, stagedWorkTo } = this.state;
+    this.setState({
+      stagedWorkFrom: stagedWorkTo,
+      stagedWorkTo: stagedWorkFrom
     });
   };
 
   render() {
     const { currentWork, relataConfig, selectWork } = this.props;
-    const { addRelationModalIsOpen } = this.state;
+    const { addRelationModalIsOpen, stagedWorkFrom, stagedWorkTo } = this.state;
 
     const RelationCards = currentWork.relationsFrom.map((relation, index) => {
       return (
@@ -47,6 +70,10 @@ class RelationsPane extends Component {
             show={addRelationModalIsOpen}
             relataConfig={relataConfig}
             selectWork={selectWork}
+            setStagedWork={this.setStagedWork}
+            stagedWorkFrom={stagedWorkFrom}
+            stagedWorkTo={stagedWorkTo}
+            swapStagedWorks={this.swapStagedWorks}
             toggleAddRelationModal={this.toggleAddRelationModal}
           />
         </div>

@@ -15,26 +15,25 @@ class AddRelationModal extends Component {
 
     this.state = {
       isInitialState: true,
-      stagedWorkFrom: null,
-      stagedWorkTo: null,
       stagedRelationType: null,
       stagedAnnotation: null
     };
   }
 
   componentDidUpdate() {
-    const { currentWork, show } = this.props;
+    const { show } = this.props;
     const { isInitialState } = this.state;
     if (show && isInitialState) {
-      this.setState({ stagedWorkTo: currentWork, isInitialState: false });
+      this.setState({ isInitialState: false });
     }
   }
 
   setInitialState = () => {
+    const { setStagedWork } = this.props;
+    setStagedWork("workFrom", null);
+
     this.setState({
       isInitialState: true,
-      stagedWorkFrom: null,
-      stagedWorkTo: null,
       stagedRelationType: null,
       stagedAnnotation: null
     });
@@ -46,22 +45,6 @@ class AddRelationModal extends Component {
 
   setStagedAnnotation = annotation => {
     this.setState({ stagedAnnotation: annotation });
-  };
-
-  setStagedWork = (workType, work) => {
-    if (workType === "workFrom") {
-      this.setState({ stagedWorkFrom: work });
-    } else {
-      this.setState({ stagedWorkTo: work });
-    }
-  };
-
-  swapStagedWorks = () => {
-    const { stagedWorkFrom, stagedWorkTo } = this.state;
-    this.setState({
-      stagedWorkFrom: stagedWorkTo,
-      stagedWorkTo: stagedWorkFrom
-    });
   };
 
   // Enable submission when all required properties are populated
@@ -81,13 +64,13 @@ class AddRelationModal extends Component {
 
   // Submit both staged works and the relation to Feathers backend
   submitRelation = async () => {
-    const { currentWork, selectWork } = this.props;
     const {
+      currentWork,
+      selectWork,
       stagedWorkFrom,
-      stagedWorkTo,
-      stagedRelationType,
-      stagedAnnotation
-    } = this.state;
+      stagedWorkTo
+    } = this.props;
+    const { stagedRelationType, stagedAnnotation } = this.state;
 
     const worksService = client.service("works");
     const relationsService = client.service("relations");
@@ -151,13 +134,15 @@ class AddRelationModal extends Component {
   };
 
   render() {
-    const { relataConfig, show } = this.props;
     const {
+      relataConfig,
+      setStagedWork,
+      show,
       stagedWorkFrom,
       stagedWorkTo,
-      stagedRelationType,
-      stagedAnnotation
-    } = this.state;
+      swapStagedWorks
+    } = this.props;
+    const { stagedRelationType, stagedAnnotation } = this.state;
 
     const disableSubmit = !this.readyToSubmit();
 
@@ -173,7 +158,7 @@ class AddRelationModal extends Component {
             stagedWorkTo={stagedWorkTo}
             stagedRelationType={stagedRelationType}
             stagedAnnotation={stagedAnnotation}
-            swapStagedWorks={this.swapStagedWorks}
+            swapStagedWorks={swapStagedWorks}
           />
           <SelectRelationType
             relataConfig={relataConfig}
@@ -183,12 +168,12 @@ class AddRelationModal extends Component {
           <SelectWork
             stagedWork={stagedWorkFrom}
             stagedWorkType="workFrom"
-            setStagedWork={this.setStagedWork}
+            setStagedWork={setStagedWork}
           />
           <SelectWork
             stagedWork={stagedWorkTo}
             stagedWorkType="workTo"
-            setStagedWork={this.setStagedWork}
+            setStagedWork={setStagedWork}
           />
         </Modal.Body>
         <Modal.Footer>
