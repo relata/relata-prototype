@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
+import NavSearch from "./NavSearch";
 import SearchModal from "./SearchModal";
 
 class Navigation extends Component {
@@ -50,6 +51,7 @@ class Navigation extends Component {
             <Nav.Link target="_blank">Sign Up</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        <NavSearch selectWork={selectWork} />
         <SearchModal
           show={searchModalIsOpen}
           getRelationColor={getRelationColor}
