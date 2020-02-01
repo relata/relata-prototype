@@ -52,22 +52,22 @@ class NavSearch extends Component {
     const { highlightOnlyResult, isLoading, options } = this.state;
 
     return (
-      <div id="nav-search-div" className="col-md-4 col-sm-12 p-0">
-        <AsyncTypeahead
-          id="nav-search"
-          isLoading={isLoading}
-          delay={360}
-          labelKey="citation"
-          filterBy={["citation", "bibliography"]}
-          renderMenuItemChildren={this._renderMenuItemChildren}
-          highlightOnlyResult={highlightOnlyResult}
-          options={options}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          onSearch={this.onSearch}
-          placeholder="Search for bibliographic works…"
-        />
-      </div>
+      <AsyncTypeahead
+        id="nav-search"
+        className="col-md-4 col-sm-12 p-0"
+        isLoading={isLoading}
+        delay={360}
+        labelKey="citation"
+        filterBy={["citation", "bibliography"]}
+        renderMenuItemChildren={this._renderMenuItemChildren}
+        highlightOnlyResult={highlightOnlyResult}
+        options={options}
+        onChange={this.onChange}
+        onSearch={this.onSearch}
+        maxHeight={"67vh"}
+        placeholder="Search for bibliographic works…"
+        clearButton
+      />
     );
   }
 }
