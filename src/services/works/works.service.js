@@ -25,7 +25,12 @@ module.exports = function(app) {
   service.hooks(hooks);
 
   // Initialize a FlexSearch index on this service and add all current works
-  service.index = new FlexSearch("speed", { tokenize: "forward" });
+  service.index = new FlexSearch("speed", {
+    tokenize: "forward",
+    encode: "advanced"
+  }).addMatcher({
+    "[øØ]": "o"
+  });
   service
     .find({
       $limit: 30000,
