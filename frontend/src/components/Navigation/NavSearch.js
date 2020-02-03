@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import { AsyncTypeahead, Highlighter } from "react-bootstrap-typeahead";
+import { AsyncTypeahead, defaultFilterBy } from "react-bootstrap-typeahead";
+import { compareTwoStrings } from "string-similarity";
 
 import client from "../../feathers";
 
@@ -13,15 +14,23 @@ class NavSearch extends Component {
 
   _renderMenuItemChildren = (option, props, index) => {
     return [
-      <Highlighter key="citation" search={props.text}>
-        {option.citation}
-      </Highlighter>,
+      option.citation,
       <div className="dropdown-item-bibliography" key="bibliography">
-        <Highlighter key="bibliography" search={props.text}>
-          {option.bibliography}
-        </Highlighter>
+        {option.bibliography}
       </div>
     ];
+  };
+
+  filterBy = (option, props) => {
+    const { text } = props;
+    return Boolean(
+      option.id ||
+        defaultFilterBy(option, {
+          ...props,
+          filterBy: ["citation", "bibliography"]
+        }) ||
+        compareTwoStrings(text, option.bibliography) > 0.1
+    );
   };
 
   // Query FlexSearch index using graphs endpoint with searchQuery param
@@ -56,16 +65,16 @@ class NavSearch extends Component {
         id="nav-search"
         className="col-md-4 col-sm-12 p-0"
         isLoading={isLoading}
-        delay={360}
+        delay={670}
         labelKey="citation"
-        filterBy={["citation", "bibliography"]}
+        filterBy={this.filterBy}
         renderMenuItemChildren={this._renderMenuItemChildren}
         highlightOnlyResult={highlightOnlyResult}
         options={options}
         onChange={this.onChange}
         onSearch={this.onSearch}
         maxHeight={"67vh"}
-        placeholder="Search for bibliographic works…"
+        placeholder="Search for works in Relata…"
         clearButton
       />
     );
