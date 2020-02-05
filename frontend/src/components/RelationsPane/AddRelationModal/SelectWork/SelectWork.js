@@ -37,10 +37,12 @@ class SelectWork extends Component {
         <Card
           className="mt-3 select-work-card-staged"
           onClick={() => {
+            this.setTargetWork(stagedWork);
             setStagedWork(stagedWorkType, null);
           }}
           onKeyPress={event => {
             if (event.key === "Enter") {
+              this.setTargetWork(stagedWork);
               setStagedWork(stagedWorkType, null);
             }
           }}
