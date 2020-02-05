@@ -75,11 +75,7 @@ class AddDOIPane extends Component {
         </InputGroup>
         <Card>
           <Card.Body>
-            <Card.Text>
-              <small>
-                <LinkifyBibliography>{targetBibliography}</LinkifyBibliography>
-              </small>
-            </Card.Text>
+            <Card.Text>{targetBibliography}</Card.Text>
           </Card.Body>
         </Card>
       </>
