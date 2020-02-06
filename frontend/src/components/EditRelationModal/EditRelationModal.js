@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import SelectRelationType from "./SelectRelationType";
-// import SelectWork from "./SelectWork/SelectWork";
+import StageWork from "./StageWork/StageWork";
 import StagingSummaryCard from "./StagingSummaryCard";
 
 import client from "../../feathers";
@@ -63,10 +63,20 @@ class EditRelationModal extends Component {
             setStagedRelation={setStagedRelation}
             stagedRelation={stagedRelation}
           />
+          <StageWork
+            setStagedRelation={setStagedRelation}
+            stagedRelation={stagedRelation}
+            stagedWorkType="workFrom"
+          />
           <SelectRelationType
             relataConfig={relataConfig}
             setStagedRelation={setStagedRelation}
             stagedRelation={stagedRelation}
+          />
+          <StageWork
+            setStagedRelation={setStagedRelation}
+            stagedRelation={stagedRelation}
+            stagedWorkType="workTo"
           />
         </Modal.Body>
         <Modal.Footer>
