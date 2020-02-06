@@ -8,8 +8,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import Cite from "citation-js";
 
-import LinkifyBibliography from "../../LinkifyBibliography";
-
 import { makeCitations } from "./utilities/citations";
 
 class AddDOIPane extends Component {
@@ -53,7 +51,7 @@ class AddDOIPane extends Component {
         <InputGroup className="mb-3">
           <FormControl
             id="doi-search-input"
-            placeholder="e.g., 10.1093/ahr/rhz239"
+            placeholder="Enter a DOI, such as 10.1093/ahr/rhz239"
             defaultValue={targetDoi}
             aria-label="Digital Object Identifier (DOI)"
             aria-describedby="doi-search-input-label"
