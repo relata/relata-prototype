@@ -61,25 +61,31 @@ class ContributionsModal extends Component {
       toggleEditRelationModal,
       toggleContributionsModal
     } = this.props;
+    const { workFrom, workTo } = relation;
 
-    toggleContributionsModal();
+    // Add citations to existing works
+    const workFromWithCitations = { ...workFrom, ...makeCitations(workFrom) };
+    const workToWithCitations = { ...workTo, ...makeCitations(workTo) };
 
     setStagedRelation({
       ...stagedRelation,
       id: relation.id,
-      workFrom: relation.workFrom,
-      workTo: relation.workTo,
+      workFrom: workFromWithCitations,
+      workTo: workToWithCitations,
       annotation: relation.annotation
     });
+
+    toggleContributionsModal();
     toggleEditRelationModal();
   };
 
   render() {
     const {
       getRelationColor,
-      showContributionsModal,
+      relataConfig,
       selectWork,
       setStagedRelation,
+      showContributionsModal,
       showEditRelationModal,
       stagedRelation,
       toggleEditRelationModal,
@@ -154,6 +160,7 @@ class ContributionsModal extends Component {
             </ListGroup>
             <EditRelationModal
               showEditRelationModal={showEditRelationModal}
+              relataConfig={relataConfig}
               setStagedRelation={setStagedRelation}
               stagedRelation={stagedRelation}
               toggleEditRelationModal={toggleEditRelationModal}

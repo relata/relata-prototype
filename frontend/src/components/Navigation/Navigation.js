@@ -23,6 +23,7 @@ class Navigation extends Component {
   render() {
     const {
       getRelationColor,
+      relataConfig,
       selectWork,
       setStagedRelation,
       showEditRelationModal,
@@ -62,6 +63,7 @@ class Navigation extends Component {
         <ContributionsModal
           showContributionsModal={showContributionsModal}
           getRelationColor={getRelationColor}
+          relataConfig={relataConfig}
           selectWork={selectWork}
           setStagedRelation={setStagedRelation}
           showEditRelationModal={showEditRelationModal}
