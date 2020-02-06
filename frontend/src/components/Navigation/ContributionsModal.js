@@ -11,7 +11,7 @@ import client from "../../feathers";
 
 import { makeCitations } from "../RelationsPane/AddRelationModal/SelectWork/utilities/citations";
 
-class SearchModal extends Component {
+class ContributionsModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,10 +59,10 @@ class SearchModal extends Component {
       setStagedRelation,
       stagedRelation,
       toggleEditRelationModal,
-      toggleSearchModal
+      toggleContributionsModal
     } = this.props;
 
-    toggleSearchModal();
+    toggleContributionsModal();
 
     setStagedRelation({
       ...stagedRelation,
@@ -77,13 +77,13 @@ class SearchModal extends Component {
   render() {
     const {
       getRelationColor,
-      show,
+      showContributionsModal,
       selectWork,
       setStagedRelation,
       showEditRelationModal,
       stagedRelation,
       toggleEditRelationModal,
-      toggleSearchModal
+      toggleContributionsModal
     } = this.props;
     const { userRelations } = this.state;
 
@@ -135,7 +135,11 @@ class SearchModal extends Component {
     }
 
     return (
-      <Modal show={show} onHide={toggleSearchModal} size="lg">
+      <Modal
+        show={showContributionsModal}
+        onHide={toggleContributionsModal}
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Contributions</Modal.Title>
         </Modal.Header>
@@ -157,7 +161,10 @@ class SearchModal extends Component {
           </Card>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-secondary" onClick={toggleSearchModal}>
+          <Button
+            variant="outline-secondary"
+            onClick={toggleContributionsModal}
+          >
             Close
           </Button>
         </Modal.Footer>
@@ -166,4 +173,4 @@ class SearchModal extends Component {
   }
 }
 
-export default SearchModal;
+export default ContributionsModal;

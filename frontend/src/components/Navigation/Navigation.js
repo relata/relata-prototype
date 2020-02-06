@@ -5,18 +5,18 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 import NavSearch from "./NavSearch";
-import SearchModal from "./SearchModal";
+import ContributionsModal from "./ContributionsModal";
 
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { searchModalIsOpen: false };
+    this.state = { showContributionsModal: false };
   }
 
-  toggleSearchModal = () => {
-    const { searchModalIsOpen } = this.state;
+  toggleContributionsModal = () => {
+    const { showContributionsModal } = this.state;
     this.setState({
-      searchModalIsOpen: !searchModalIsOpen
+      showContributionsModal: !showContributionsModal
     });
   };
 
@@ -29,7 +29,7 @@ class Navigation extends Component {
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
-    const { searchModalIsOpen } = this.state;
+    const { showContributionsModal } = this.state;
 
     return (
       <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
@@ -52,21 +52,21 @@ class Navigation extends Component {
             >
               About
             </Nav.Link>
-            <Nav.Link onClick={this.toggleSearchModal}>
+            <Nav.Link onClick={this.toggleContributionsModal}>
               My Contributions
             </Nav.Link>
             <Nav.Link target="_blank">Sign Up</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <NavSearch selectWork={selectWork} />
-        <SearchModal
-          show={searchModalIsOpen}
+        <ContributionsModal
+          showContributionsModal={showContributionsModal}
           getRelationColor={getRelationColor}
           selectWork={selectWork}
           setStagedRelation={setStagedRelation}
           showEditRelationModal={showEditRelationModal}
           stagedRelation={stagedRelation}
-          toggleSearchModal={this.toggleSearchModal}
+          toggleContributionsModal={this.toggleContributionsModal}
           toggleEditRelationModal={toggleEditRelationModal}
         />
       </Navbar>
