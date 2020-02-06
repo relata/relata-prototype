@@ -9,7 +9,7 @@ import EditRelationModal from "../EditRelationModal/EditRelationModal";
 
 import client from "../../feathers";
 
-import { makeCitations } from "../RelationsPane/AddRelationModal/SelectWork/utilities/citations";
+import { makeCitations } from "../EditRelationModal/StageWork/utilities/citations";
 
 class ContributionsModal extends Component {
   constructor(props) {
@@ -70,6 +70,7 @@ class ContributionsModal extends Component {
     setStagedRelation({
       ...stagedRelation,
       id: relation.id,
+      type: relation.type,
       workFrom: workFromWithCitations,
       workTo: workToWithCitations,
       annotation: relation.annotation
@@ -159,9 +160,10 @@ class ContributionsModal extends Component {
               {relationListItems}
             </ListGroup>
             <EditRelationModal
-              showEditRelationModal={showEditRelationModal}
               relataConfig={relataConfig}
+              selectWork={selectWork}
               setStagedRelation={setStagedRelation}
+              showEditRelationModal={showEditRelationModal}
               stagedRelation={stagedRelation}
               toggleEditRelationModal={toggleEditRelationModal}
             />

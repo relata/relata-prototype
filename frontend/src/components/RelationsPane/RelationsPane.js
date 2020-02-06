@@ -68,6 +68,7 @@ class RelationsPane extends Component {
           <EditRelationModal
             currentWork={currentWork}
             relataConfig={relataConfig}
+            selectWork={selectWork}
             setStagedRelation={setStagedRelation}
             showEditRelationModal={showEditRelationModal}
             stagedRelation={stagedRelation}
