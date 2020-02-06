@@ -17,16 +17,22 @@ class SelectRelationType extends Component {
   }
 
   handleClick = type => {
-    const { setStagedRelationType } = this.props;
+    const { setStagedRelation, stagedRelation } = this.props;
     this.setState({ buttonTitle: type });
-    setStagedRelationType(type);
+    setStagedRelation({ ...stagedRelation, type: type });
+  };
+
+  handleAnnotationChange = event => {
+    const { setStagedRelation, stagedRelation } = this.props;
+    const annotation = event.target.value.replace(/\s+/g, " ").trim();
+    setStagedRelation({ ...stagedRelation, annotation: annotation });
   };
 
   render() {
-    const { relataConfig, setStagedAnnotation } = this.props;
+    const { relataConfig } = this.props;
     const { buttonTitle } = this.state;
 
-    // Insert relation types as items in dropdown
+    // Insert relation types as items in dropdown, excluding the catch-all *
     let relationTypes;
     if (relataConfig.types) {
       relationTypes = Object.keys(relataConfig.types)
@@ -75,11 +81,7 @@ class SelectRelationType extends Component {
                   rows="1"
                   style={{ minHeight: "2.4rem" }}
                   maxLength={500}
-                  onChange={event =>
-                    setStagedAnnotation(
-                      event.target.value.replace(/\s+/g, " ").trim()
-                    )
-                  }
+                  onChange={this.handleAnnotationChange}
                 />
               </Form.Group>
             </Col>
