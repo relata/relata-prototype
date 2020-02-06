@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 
 import AddRelationModal from "./AddRelationModal/AddRelationModal";
+import EditRelationModal from "../EditRelationModal/EditRelationModal";
 import CurrentWorkCard from "./CurrentWorkCard";
 import RelationCard from "./RelationCard";
 
@@ -18,14 +19,24 @@ class RelationsPane extends Component {
   }
 
   toggleAddRelationModal = () => {
-    const { currentWork } = this.props;
-    const { addRelationModalIsOpen } = this.state;
-    if (!addRelationModalIsOpen) {
-      this.setStagedWork("workTo", currentWork);
+    const {
+      currentWork,
+      showEditRelationModal,
+      setStagedRelation,
+      stagedRelation,
+      toggleEditRelationModal
+    } = this.props;
+    if (!showEditRelationModal) {
+      setStagedRelation({ ...stagedRelation, workTo: currentWork });
+      toggleEditRelationModal();
     }
-    this.setState({
-      addRelationModalIsOpen: !addRelationModalIsOpen
-    });
+    // const { addRelationModalIsOpen } = this.state;
+    // if (!addRelationModalIsOpen) {
+    //   this.setStagedWork("workTo", currentWork);
+    // }
+    // this.setState({
+    //   addRelationModalIsOpen: !addRelationModalIsOpen
+    // });
   };
 
   setStagedWork = (workType, work) => {
@@ -45,7 +56,14 @@ class RelationsPane extends Component {
   };
 
   render() {
-    const { currentWork, relataConfig, selectWork } = this.props;
+    const {
+      currentWork,
+      relataConfig,
+      selectWork,
+      stagedRelation,
+      showEditRelationModal,
+      toggleEditRelationModal
+    } = this.props;
     const { addRelationModalIsOpen, stagedWorkFrom, stagedWorkTo } = this.state;
 
     const RelationCards = currentWork.relationsFrom.map((relation, index) => {
@@ -65,7 +83,14 @@ class RelationsPane extends Component {
           <Button variant="primary" onClick={this.toggleAddRelationModal}>
             Add Relation
           </Button>
-          <AddRelationModal
+          <EditRelationModal
+            currentWork={currentWork}
+            relataConfig={relataConfig}
+            showEditRelationModal={showEditRelationModal}
+            stagedRelation={stagedRelation}
+            toggleEditRelationModal={toggleEditRelationModal}
+          />
+          {/* <AddRelationModal
             currentWork={currentWork}
             show={addRelationModalIsOpen}
             relataConfig={relataConfig}
@@ -75,7 +100,7 @@ class RelationsPane extends Component {
             stagedWorkTo={stagedWorkTo}
             swapStagedWorks={this.swapStagedWorks}
             toggleAddRelationModal={this.toggleAddRelationModal}
-          />
+          /> */}
         </div>
         {RelationCards}
       </div>
