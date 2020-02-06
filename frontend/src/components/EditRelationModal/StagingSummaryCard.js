@@ -44,7 +44,6 @@ class StagingSummaryCard extends Component {
     return (
       <Card border="dark">
         <Card.Body>
-          {workFromSummary} represents {relationSummary} {workToSummary}.
           <Button
             className="float-right"
             variant="primary"
@@ -53,6 +52,7 @@ class StagingSummaryCard extends Component {
           >
             Reverse
           </Button>
+          {workFromSummary} represents {relationSummary} {workToSummary}.
         </Card.Body>
         {annotationFooter}
       </Card>
