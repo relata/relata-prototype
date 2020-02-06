@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 
 import SelectRelationType from "../RelationsPane/AddRelationModal/SelectRelationType";
 import SelectWork from "../RelationsPane/AddRelationModal/SelectWork/SelectWork";
-import StagingSummaryCard from "../RelationsPane/AddRelationModal/StagingSummaryCard";
+import StagingSummaryCard from "./StagingSummaryCard";
 
 import client from "../../feathers";
 
@@ -57,7 +57,13 @@ class EditRelationModal extends Component {
         <Modal.Header closeButton>
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Text goes here</Modal.Body>
+        <Modal.Body>
+          <StagingSummaryCard
+            relataConfig={relataConfig}
+            setStagedRelation={setStagedRelation}
+            stagedRelation={stagedRelation}
+          />
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-secondary" onClick={toggleEditRelationModal}>
             Cancel
