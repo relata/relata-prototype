@@ -11,11 +11,7 @@ class RelationsPane extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      addRelationModalIsOpen: false,
-      stagedWorkFrom: null,
-      stagedWorkTo: null
-    };
+    this.state = {};
   }
 
   toggleAddRelationModal = () => {
@@ -47,24 +43,16 @@ class RelationsPane extends Component {
     }
   };
 
-  swapStagedWorks = () => {
-    const { stagedWorkFrom, stagedWorkTo } = this.state;
-    this.setState({
-      stagedWorkFrom: stagedWorkTo,
-      stagedWorkTo: stagedWorkFrom
-    });
-  };
-
   render() {
     const {
       currentWork,
       relataConfig,
       selectWork,
+      setStagedRelation,
       stagedRelation,
       showEditRelationModal,
       toggleEditRelationModal
     } = this.props;
-    const { addRelationModalIsOpen, stagedWorkFrom, stagedWorkTo } = this.state;
 
     const RelationCards = currentWork.relationsFrom.map((relation, index) => {
       return (
@@ -86,6 +74,7 @@ class RelationsPane extends Component {
           <EditRelationModal
             currentWork={currentWork}
             relataConfig={relataConfig}
+            setStagedRelation={setStagedRelation}
             showEditRelationModal={showEditRelationModal}
             stagedRelation={stagedRelation}
             toggleEditRelationModal={toggleEditRelationModal}
