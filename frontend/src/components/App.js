@@ -20,23 +20,17 @@ class App extends Component {
 
     this.state = {
       currentWork: { relationsFrom: [] },
-      relataConfig: {}
+      relataConfig: {},
+      stagedRelation: {
+        id: null,
+        type: null,
+        workFrom: null,
+        workTo: null,
+        annotation: null
+      },
+      showEditRelationModal: false
     };
   }
-
-  componentDidMount() {
-    // Select a work and get Relata config to populate initial state
-    this.setInitialState();
-  }
-
-  getRelataConfig = () => {
-    client
-      .service("config")
-      .find()
-      .then(relataConfig => {
-        this.setState({ relataConfig: relataConfig });
-      });
-  };
 
   // Fetch initial work and Relata config. It's important to use this instead
   // of selectWork for the initial load; otherwise, the multiple initial API
@@ -49,9 +43,31 @@ class App extends Component {
       .get(initialWorkId)
       .then(graph => {
         this.setState({
-          currentWork: graph
+          currentWork: graph,
+          stagedRelation: {
+            id: null,
+            type: null,
+            workFrom: null,
+            workTo: null,
+            annotation: null
+          },
+          showEditRelationModal: false
         });
         this.getRelataConfig();
+      });
+  };
+
+  componentDidMount() {
+    // Select a work and get Relata config to populate initial state
+    this.setInitialState();
+  }
+
+  getRelataConfig = () => {
+    client
+      .service("config")
+      .find()
+      .then(relataConfig => {
+        this.setState({ relataConfig: relataConfig });
       });
   };
 
@@ -81,13 +97,46 @@ class App extends Component {
     }
   };
 
+  // Modify stagedRelation
+  setStagedRelation = relation => {
+    this.setState({ stagedRelation: relation });
+  };
+
+  // Open or close EditRelationModal
+  toggleEditRelationModal = () => {
+    const { showEditRelationModal } = this.state;
+    if (showEditRelationModal) {
+      this.setState({
+        stagedRelation: {
+          id: null,
+          type: null,
+          workFrom: null,
+          workTo: null,
+          annotation: null
+        }
+      });
+    }
+    this.setState({
+      showEditRelationModal: !showEditRelationModal
+    });
+  };
+
   render() {
-    const { currentWork, relataConfig } = this.state;
+    const {
+      currentWork,
+      relataConfig,
+      showEditRelationModal,
+      stagedRelation
+    } = this.state;
     return (
       <div className="App">
         <Navigation
           getRelationColor={this.getRelationColor}
           selectWork={this.selectWork}
+          setStagedRelation={this.setStagedRelation}
+          showEditRelationModal={showEditRelationModal}
+          stagedRelation={stagedRelation}
+          toggleEditRelationModal={this.toggleEditRelationModal}
         />
         {/* eslint-disable-next-line */}
         <a id="content" style={{ position: "absolute", top: 0 }}></a>
@@ -95,9 +144,13 @@ class App extends Component {
           <Row>
             <Col sm={12} md={4} className="mb-3">
               <RelationsPane
-                relataConfig={relataConfig}
                 currentWork={currentWork}
+                relataConfig={relataConfig}
                 selectWork={this.selectWork}
+                setStagedRelation={this.setStagedRelation}
+                showEditRelationModal={showEditRelationModal}
+                stagedRelation={stagedRelation}
+                toggleEditRelationModal={this.toggleEditRelationModal}
               />
             </Col>
             <Col sm={12} md={8}>

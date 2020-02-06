@@ -21,8 +21,15 @@ class Navigation extends Component {
   };
 
   render() {
+    const {
+      getRelationColor,
+      selectWork,
+      setStagedRelation,
+      showEditRelationModal,
+      stagedRelation,
+      toggleEditRelationModal
+    } = this.props;
     const { searchModalIsOpen } = this.state;
-    const { getRelationColor, selectWork } = this.props;
 
     return (
       <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
@@ -56,7 +63,11 @@ class Navigation extends Component {
           show={searchModalIsOpen}
           getRelationColor={getRelationColor}
           selectWork={selectWork}
+          setStagedRelation={setStagedRelation}
+          showEditRelationModal={showEditRelationModal}
+          stagedRelation={stagedRelation}
           toggleSearchModal={this.toggleSearchModal}
+          toggleEditRelationModal={toggleEditRelationModal}
         />
       </Navbar>
     );
