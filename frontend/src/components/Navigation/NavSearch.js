@@ -65,7 +65,7 @@ class NavSearch extends Component {
         id="nav-search"
         className="col-md-4 col-sm-12 p-0"
         isLoading={isLoading}
-        delay={670}
+        delay={1000}
         labelKey="citation"
         filterBy={this.filterBy}
         renderMenuItemChildren={this._renderMenuItemChildren}
@@ -73,8 +73,8 @@ class NavSearch extends Component {
         options={options}
         onChange={this.onChange}
         onSearch={this.onSearch}
-        maxHeight={"67vh"}
-        placeholder="Search for works in Relata…"
+        maxHeight="67vh"
+        placeholder="Type to search for works in Relata…"
         clearButton
       />
     );
