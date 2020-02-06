@@ -25,6 +25,10 @@ const fixCrossRefWork = work => {
     "proceedings-article": "paper-conference"
   };
   work.type = typeMappings[work.type] || work.type;
+
+  // If there happens to be an id field, remove it
+  delete work.id;
+
   return work;
 };
 
