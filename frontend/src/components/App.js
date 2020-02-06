@@ -132,6 +132,7 @@ class App extends Component {
       <div className="App">
         <Navigation
           getRelationColor={this.getRelationColor}
+          relataConfig={relataConfig}
           selectWork={this.selectWork}
           setStagedRelation={this.setStagedRelation}
           showEditRelationModal={showEditRelationModal}
