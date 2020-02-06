@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import Button from "react-bootstrap/Button";
 
-import AddRelationModal from "./AddRelationModal/AddRelationModal";
 import EditRelationModal from "../EditRelationModal/EditRelationModal";
 import CurrentWorkCard from "./CurrentWorkCard";
 import RelationCard from "./RelationCard";
@@ -14,6 +13,8 @@ class RelationsPane extends Component {
     this.state = {};
   }
 
+  // Shortcut method to toggleEditRelationModal with appropriate presets for
+  // adding a relation to the currentWork
   toggleAddRelationModal = () => {
     const {
       currentWork,
@@ -26,13 +27,6 @@ class RelationsPane extends Component {
       setStagedRelation({ ...stagedRelation, workTo: currentWork });
       toggleEditRelationModal();
     }
-    // const { addRelationModalIsOpen } = this.state;
-    // if (!addRelationModalIsOpen) {
-    //   this.setStagedWork("workTo", currentWork);
-    // }
-    // this.setState({
-    //   addRelationModalIsOpen: !addRelationModalIsOpen
-    // });
   };
 
   setStagedWork = (workType, work) => {
@@ -79,17 +73,6 @@ class RelationsPane extends Component {
             stagedRelation={stagedRelation}
             toggleEditRelationModal={toggleEditRelationModal}
           />
-          {/* <AddRelationModal
-            currentWork={currentWork}
-            show={addRelationModalIsOpen}
-            relataConfig={relataConfig}
-            selectWork={selectWork}
-            setStagedWork={this.setStagedWork}
-            stagedWorkFrom={stagedWorkFrom}
-            stagedWorkTo={stagedWorkTo}
-            swapStagedWorks={this.swapStagedWorks}
-            toggleAddRelationModal={this.toggleAddRelationModal}
-          /> */}
         </div>
         {RelationCards}
       </div>

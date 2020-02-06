@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-import SelectRelationType from "../RelationsPane/AddRelationModal/SelectRelationType";
-import SelectWork from "../RelationsPane/AddRelationModal/SelectWork/SelectWork";
+import SelectRelationType from "./SelectRelationType";
+// import SelectWork from "./SelectWork/SelectWork";
 import StagingSummaryCard from "./StagingSummaryCard";
 
 import client from "../../feathers";
@@ -59,6 +59,11 @@ class EditRelationModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <StagingSummaryCard
+            relataConfig={relataConfig}
+            setStagedRelation={setStagedRelation}
+            stagedRelation={stagedRelation}
+          />
+          <SelectRelationType
             relataConfig={relataConfig}
             setStagedRelation={setStagedRelation}
             stagedRelation={stagedRelation}
