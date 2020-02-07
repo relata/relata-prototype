@@ -48,11 +48,12 @@ class EditRelationModal extends Component {
       // If we already know the work is in the backend (it has an ID), skip the
       // API call and just re-use the ID; otherwise, create a new work and
       // obtain the result
-      workFromResult =
-        workFrom.id !== null ? workFrom : await worksService.create(workFrom);
-      workToResult =
-        workTo.id !== null ? workTo : await worksService.create(workTo);
+      workFromResult = workFrom.id
+        ? workFrom
+        : await worksService.create(workFrom);
+      workToResult = workTo.id ? workTo : await worksService.create(workTo);
     } catch (error) {
+      console.log("There was an error:", error);
       return;
     }
 
