@@ -13,8 +13,14 @@ class EditRelationModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      stagedAnnotation: null
+    };
   }
+
+  setStagedAnnotation = value => {
+    this.setState({ stagedAnnotation: value });
+  };
 
   // Enable submission only when staged relation type and works have been set
   isReadyToSubmit = () => {
@@ -35,7 +41,8 @@ class EditRelationModal extends Component {
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
-    const { annotation, type, workFrom, workTo } = stagedRelation;
+    const { stagedAnnotation } = this.state;
+    const { type, workFrom, workTo } = stagedRelation;
 
     // Initialize Feathers services
     const worksService = client.service("works");
@@ -62,7 +69,7 @@ class EditRelationModal extends Component {
       type: type,
       workFromId: workFromResult.id,
       workToId: workToResult.id,
-      annotation: annotation || null,
+      annotation: stagedAnnotation,
       annotationAuthor: null,
       userId: 1
     };
@@ -101,6 +108,7 @@ class EditRelationModal extends Component {
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
+    const { stagedAnnotation } = this.state;
 
     // Set modal title based on whether we are editing an existing relation or
     // adding a new one
@@ -121,7 +129,9 @@ class EditRelationModal extends Component {
         <Modal.Body>
           <StagingSummaryCard
             relataConfig={relataConfig}
+            setStagedAnnotation={this.setStagedAnnotation}
             setStagedRelation={setStagedRelation}
+            stagedAnnotation={stagedAnnotation}
             stagedRelation={stagedRelation}
           />
           <StageWork
@@ -131,7 +141,9 @@ class EditRelationModal extends Component {
           />
           <SelectRelationType
             relataConfig={relataConfig}
+            setStagedAnnotation={this.setStagedAnnotation}
             setStagedRelation={setStagedRelation}
+            stagedAnnotation={stagedAnnotation}
             stagedRelation={stagedRelation}
           />
           <StageWork

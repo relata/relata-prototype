@@ -17,8 +17,8 @@ class StagingSummaryCard extends Component {
   };
 
   render() {
-    const { relataConfig, stagedRelation } = this.props;
-    const { annotation, type, workFrom, workTo } = stagedRelation;
+    const { relataConfig, stagedAnnotation, stagedRelation } = this.props;
+    const { type, workFrom, workTo } = stagedRelation;
 
     // Insert citation if work has been staged, or a blank value if not
     const blankValue = "____________";
@@ -35,9 +35,9 @@ class StagingSummaryCard extends Component {
     const relationSummary = `${indefinite(typeValue)} ${relationPreposition}`;
 
     // If relation has an annotation, include it as a footer
-    const annotationFooter = annotation ? (
+    const annotationFooter = stagedAnnotation ? (
       <Card.Footer>
-        <Card.Text className="text-dark">{annotation}</Card.Text>
+        <Card.Text className="text-dark">{stagedAnnotation}</Card.Text>
       </Card.Footer>
     ) : null;
 

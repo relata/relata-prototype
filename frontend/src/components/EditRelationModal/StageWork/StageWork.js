@@ -41,7 +41,7 @@ class StageWork extends Component {
   };
 
   render() {
-    const { setStagedRelation, stagedRelation, stagedWorkType } = this.props;
+    const { stagedRelation, stagedWorkType } = this.props;
     const { targetWork } = this.state;
 
     const stagedWork = stagedRelation[stagedWorkType];
