@@ -4,8 +4,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import AddDOIPane from "./AddDOIPane";
 import AddSearchPane from "./AddSearchPane";
@@ -49,23 +51,26 @@ class StageWork extends Component {
       stagedWorkType === "workFrom" ? "Subject Work" : "Object Work";
 
     const stageWorkCard = stagedWork ? (
-      <Card
-        className="mt-3 select-work-card-staged"
-        onClick={this.unstageWork}
-        onKeyPress={event => {
-          if (event.key === "Enter") {
-            this.unstageWork();
-          }
-        }}
-        tabIndex={0}
+      <OverlayTrigger
+        key={stagedWorkType}
+        overlay={<Tooltip>Click to edit selected work</Tooltip>}
       >
-        <Card.Header>
-          {heading} <i>(click to edit)</i>
-        </Card.Header>
-        <Card.Body>
-          <Card.Text>{stagedWork.bibliography}</Card.Text>
-        </Card.Body>
-      </Card>
+        <Card
+          className="mt-3 select-work-card-staged"
+          onClick={this.unstageWork}
+          onKeyPress={event => {
+            if (event.key === "Enter") {
+              this.unstageWork();
+            }
+          }}
+          tabIndex={0}
+        >
+          <Card.Header>{heading}</Card.Header>
+          <Card.Body>
+            <Card.Text>{stagedWork.bibliography}</Card.Text>
+          </Card.Body>
+        </Card>
+      </OverlayTrigger>
     ) : (
       <Card className="mt-3">
         <Card.Header>{heading}</Card.Header>

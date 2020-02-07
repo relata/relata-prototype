@@ -12,6 +12,10 @@ a:hover {
   cursor: pointer;
 }
 
+.select-work-card-staged:hover {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
 .current-work-node:hover,
 .edge:hover {
   cursor: default;

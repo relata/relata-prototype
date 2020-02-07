@@ -11,7 +11,13 @@ class AddSearchPane extends Component {
     const { setTargetWork, targetWork } = this.props;
 
     const targetBibliography =
-      targetWork === null ? "No work selected." : targetWork.bibliography;
+      targetWork === null ? null : (
+        <Card>
+          <Card.Body>
+            <Card.Text>{targetWork.bibliography}</Card.Text>
+          </Card.Body>
+        </Card>
+      );
 
     return (
       <>
@@ -21,11 +27,7 @@ class AddSearchPane extends Component {
         <InputGroup className="mb-3">
           <MetadataSearch setTargetWork={setTargetWork} />
         </InputGroup>
-        <Card>
-          <Card.Body>
-            <Card.Text>{targetBibliography}</Card.Text>
-          </Card.Body>
-        </Card>
+        {targetBibliography}
       </>
     );
   }
