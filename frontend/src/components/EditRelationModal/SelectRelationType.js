@@ -8,17 +8,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 class SelectRelationType extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      buttonTitle: "Relation Type"
-    };
-  }
-
   handleClick = type => {
     const { setStagedRelation, stagedRelation } = this.props;
-    this.setState({ buttonTitle: type });
     setStagedRelation({ ...stagedRelation, type: type });
   };
 
@@ -29,8 +20,9 @@ class SelectRelationType extends Component {
   };
 
   render() {
-    const { relataConfig } = this.props;
-    const { buttonTitle } = this.state;
+    const { relataConfig, stagedRelation } = this.props;
+
+    const buttonTitle = stagedRelation.type || "Relation Type";
 
     // Insert relation types as items in dropdown, excluding the catch-all *
     let relationTypes;
