@@ -14,9 +14,9 @@ class SelectRelationType extends Component {
   };
 
   handleAnnotationChange = event => {
-    const { setStagedRelation, stagedRelation } = this.props;
+    const { setStagedAnnotation } = this.props;
     const annotation = event.target.value.replace(/\s+/g, " ").trim();
-    setStagedRelation({ ...stagedRelation, annotation: annotation });
+    setStagedAnnotation(annotation);
   };
 
   render() {
