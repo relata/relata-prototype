@@ -41,7 +41,13 @@ class AddDOIPane extends Component {
     const { targetDoi } = this.state;
 
     const targetBibliography =
-      targetWork === null ? "No work selected." : targetWork.bibliography;
+      targetWork === null ? null : (
+        <Card>
+          <Card.Body>
+            <Card.Text>{targetWork.bibliography}</Card.Text>
+          </Card.Body>
+        </Card>
+      );
 
     return (
       <>
@@ -71,11 +77,7 @@ class AddDOIPane extends Component {
             </Button>
           </InputGroup.Append>
         </InputGroup>
-        <Card>
-          <Card.Body>
-            <Card.Text>{targetBibliography}</Card.Text>
-          </Card.Body>
-        </Card>
+        {targetBibliography}
       </>
     );
   }
