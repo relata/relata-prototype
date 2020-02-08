@@ -4,7 +4,7 @@ import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { defaultFilterBy } from "react-bootstrap-typeahead/lib/utils";
 import { compareTwoStrings } from "string-similarity";
 
-import client from "../../../feathers";
+import { client } from "../../../feathers";
 import {
   filterCrossRefWorkByType,
   fixCrossRefWork,

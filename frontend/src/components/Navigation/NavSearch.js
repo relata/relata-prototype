@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { AsyncTypeahead, defaultFilterBy } from "react-bootstrap-typeahead";
 import { compareTwoStrings } from "string-similarity";
 
-import client from "../../feathers";
+import { client } from "../../feathers";
 
 class NavSearch extends Component {
   state = {

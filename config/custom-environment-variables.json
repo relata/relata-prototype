@@ -1,6 +1,10 @@
 {
   "authentication": {
     "oauth": {
+      "google": {
+        "key": "RELATA_OAUTH_GOOGLE_KEY",
+        "secret": "RELATA_OAUTH_GOOGLE_SECRET"
+      },
       "github": {
         "key": "RELATA_OAUTH_GITHUB_KEY",
         "secret": "RELATA_OAUTH_GITHUB_SECRET"

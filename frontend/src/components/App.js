@@ -12,7 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "./App.css";
 
-import client from "../feathers";
+import { client } from "../feathers";
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class App extends Component {
 
     this.state = {
       currentWork: { relationsFrom: [] },
+      currentUser: null,
       relataConfig: {},
       stagedRelation: {
         id: null,
@@ -54,6 +55,17 @@ class App extends Component {
           showEditRelationModal: false
         });
         this.getRelataConfig();
+
+        // Attempt to re-authenticate
+        client
+          .reAuthenticate()
+          .then(({ user }) => {
+            console.log("Re-authenticated:", user);
+            this.setState({ currentUser: user });
+          })
+          .catch(error => {
+            console.log("Failed to re-authenticate:", error);
+          });
       });
   };
 
@@ -61,6 +73,12 @@ class App extends Component {
     // Select a work and get Relata config to populate initial state
     this.setInitialState();
   }
+
+  logout = async () => {
+    console.log("Logging out…");
+    await client.logout();
+    this.setState({ currentUser: null });
+  };
 
   getRelataConfig = () => {
     client
@@ -123,6 +141,7 @@ class App extends Component {
 
   render() {
     const {
+      currentUser,
       currentWork,
       relataConfig,
       showEditRelationModal,
@@ -131,7 +150,9 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation
+          currentUser={currentUser}
           getRelationColor={this.getRelationColor}
+          logout={this.logout}
           relataConfig={relataConfig}
           selectWork={this.selectWork}
           setStagedRelation={this.setStagedRelation}
@@ -145,6 +166,7 @@ class App extends Component {
           <Row>
             <Col sm={12} md={4} className="mb-3">
               <RelationsPane
+                currentUser={currentUser}
                 currentWork={currentWork}
                 relataConfig={relataConfig}
                 selectWork={this.selectWork}
