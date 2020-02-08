@@ -22,7 +22,9 @@ class Navigation extends Component {
 
   render() {
     const {
+      currentUser,
       getRelationColor,
+      logout,
       relataConfig,
       selectWork,
       setStagedRelation,
@@ -31,6 +33,38 @@ class Navigation extends Component {
       toggleEditRelationModal
     } = this.props;
     const { showContributionsModal } = this.state;
+
+    // Include appropriate navbar links based on whether the user is logged in
+    // or not
+    const userLinks = currentUser ? (
+      <>
+        <Nav.Link onClick={this.toggleContributionsModal}>
+          My Contributions
+        </Nav.Link>
+        <Nav.Link onClick={logout}>Log Out</Nav.Link>
+      </>
+    ) : (
+      <>
+        <Nav.Link href="/oauth/github">Login via GitHub</Nav.Link>
+        <Nav.Link href="/oauth/google">Login via Google</Nav.Link>
+      </>
+    );
+
+    // Include ContributionsModal based on whether the user is logged in or not
+    const contributionsModal = currentUser ? (
+      <ContributionsModal
+        currentUser={currentUser}
+        getRelationColor={getRelationColor}
+        relataConfig={relataConfig}
+        selectWork={selectWork}
+        setStagedRelation={setStagedRelation}
+        showContributionsModal={showContributionsModal}
+        showEditRelationModal={showEditRelationModal}
+        stagedRelation={stagedRelation}
+        toggleContributionsModal={this.toggleContributionsModal}
+        toggleEditRelationModal={toggleEditRelationModal}
+      />
+    ) : null;
 
     return (
       <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
@@ -53,24 +87,11 @@ class Navigation extends Component {
             >
               About
             </Nav.Link>
-            <Nav.Link onClick={this.toggleContributionsModal}>
-              My Contributions
-            </Nav.Link>
-            <Nav.Link target="_blank">Sign Up</Nav.Link>
+            {userLinks}
           </Nav>
         </Navbar.Collapse>
         <NavSearch selectWork={selectWork} />
-        <ContributionsModal
-          showContributionsModal={showContributionsModal}
-          getRelationColor={getRelationColor}
-          relataConfig={relataConfig}
-          selectWork={selectWork}
-          setStagedRelation={setStagedRelation}
-          showEditRelationModal={showEditRelationModal}
-          stagedRelation={stagedRelation}
-          toggleContributionsModal={this.toggleContributionsModal}
-          toggleEditRelationModal={toggleEditRelationModal}
-        />
+        {contributionsModal}
       </Navbar>
     );
   }

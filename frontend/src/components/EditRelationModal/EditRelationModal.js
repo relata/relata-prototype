@@ -7,7 +7,7 @@ import SelectRelationType from "./SelectRelationType";
 import StageWork from "./StageWork/StageWork";
 import StagingSummaryCard from "./StagingSummaryCard";
 
-import client from "../../feathers";
+import { client } from "../../feathers";
 
 class EditRelationModal extends Component {
   constructor(props) {

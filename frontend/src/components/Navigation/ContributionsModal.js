@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 
 import EditRelationModal from "../EditRelationModal/EditRelationModal";
 
-import client from "../../feathers";
+import { client } from "../../feathers";
 
 import { makeCitations } from "../EditRelationModal/StageWork/utilities/citations";
 
@@ -20,7 +20,8 @@ class ContributionsModal extends Component {
   }
 
   componentDidMount() {
-    this.getUserRelations(1);
+    const { currentUser } = this.props;
+    this.getUserRelations(currentUser.id);
   }
 
   getUserRelations = userId => {

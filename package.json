@@ -31,7 +31,7 @@
     "frontend-start": "cd frontend/ && npm start",
     "serve-dev": "nodemon src/ --ignore ./frontend",
     "serve-prod": "node src/",
-    "dev": "run-p --print-name --race serve-dev frontend-start",
+    "dev": "NODE_ENV=development run-p --print-name --race serve-dev frontend-start",
     "start": "run-s --print-name build serve-prod"
   },
   "dependencies": {

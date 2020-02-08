@@ -39,6 +39,7 @@ class RelationsPane extends Component {
 
   render() {
     const {
+      currentUser,
       currentWork,
       relataConfig,
       selectWork,
@@ -58,13 +59,17 @@ class RelationsPane extends Component {
       );
     });
 
+    const addRelationButton = currentUser ? (
+      <Button variant="primary" onClick={this.toggleAddRelationModal}>
+        Add Relation
+      </Button>
+    ) : null;
+
     return (
       <div>
         <CurrentWorkCard currentWork={currentWork} />
         <div className="mt-3 text-right">
-          <Button variant="primary" onClick={this.toggleAddRelationModal}>
-            Add Relation
-          </Button>
+          {addRelationButton}
           <EditRelationModal
             currentWork={currentWork}
             relataConfig={relataConfig}
