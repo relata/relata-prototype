@@ -69,7 +69,7 @@ class NavSearch extends Component {
         ref={typeahead => (this.typeahead = typeahead)}
         className="col-md-4 col-sm-12 p-0"
         isLoading={isLoading}
-        delay={1000}
+        delay={670}
         labelKey="citation"
         filterBy={this.filterBy}
         renderMenuItemChildren={this._renderMenuItemChildren}
@@ -79,6 +79,7 @@ class NavSearch extends Component {
         onSearch={this.onSearch}
         maxHeight="67vh"
         placeholder="Type to search for works in Relata…"
+        selectHintOnEnter
         clearButton
       />
     );
