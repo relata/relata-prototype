@@ -33,9 +33,9 @@ class App extends Component {
     };
   }
 
-  // Fetch initial work and Relata config. It's important to use this instead
-  // of selectWork for the initial load; otherwise, the multiple initial API
-  // calls cause cryptic GraphViz errors for some reason. This seems to be the
+  // Fetch initial work, Relata config, and auth information. It's important
+  // to maintain this sequence; otherwise, the multiple initial API calls
+  // cause cryptic GraphViz errors for some reason. This seems to be the only
   // best workaround
   setInitialState = () => {
     const initialWorkId = 1;
@@ -54,18 +54,12 @@ class App extends Component {
           },
           showEditRelationModal: false
         });
+
+        // Get config, set relataConfig
         this.getRelataConfig();
 
-        // Attempt to re-authenticate
-        client
-          .reAuthenticate()
-          .then(({ user }) => {
-            console.log("Re-authenticated:", user);
-            this.setState({ currentUser: user });
-          })
-          .catch(error => {
-            console.log("Failed to re-authenticate:", error);
-          });
+        // Login, set currentUser
+        this.login();
       });
   };
 
@@ -73,6 +67,19 @@ class App extends Component {
     // Select a work and get Relata config to populate initial state
     this.setInitialState();
   }
+
+  login = () => {
+    // Attempt to re-authenticate
+    client
+      .reAuthenticate()
+      .then(({ user }) => {
+        console.log("Re-authenticated:", user);
+        this.setState({ currentUser: user });
+      })
+      .catch(error => {
+        console.log("Failed to re-authenticate:", error);
+      });
+  };
 
   logout = async () => {
     console.log("Logging out…");
