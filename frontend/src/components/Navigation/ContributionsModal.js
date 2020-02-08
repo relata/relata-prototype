@@ -83,6 +83,7 @@ class ContributionsModal extends Component {
 
   render() {
     const {
+      currentUser,
       getRelationColor,
       relataConfig,
       selectWork,
@@ -164,6 +165,7 @@ class ContributionsModal extends Component {
               {relationListItems}
             </ListGroup>
             <EditRelationModal
+              currentUser={currentUser}
               relataConfig={relataConfig}
               selectWork={selectWork}
               setStagedRelation={setStagedRelation}
