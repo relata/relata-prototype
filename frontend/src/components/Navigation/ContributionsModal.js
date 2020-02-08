@@ -95,7 +95,7 @@ class ContributionsModal extends Component {
     const { userRelations } = this.state;
 
     let relationListItems;
-    if (userRelations.length > 0) {
+    if (showContributionsModal && userRelations.length > 0) {
       relationListItems = userRelations.map(relation => {
         const workFrom = {
           ...relation.workFrom,
