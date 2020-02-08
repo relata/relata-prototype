@@ -12,7 +12,8 @@ a:hover {
   cursor: pointer;
 }
 
-.select-work-card-staged:hover {
+.select-work-card-staged:hover,
+.select-work-card-staged:focus {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
