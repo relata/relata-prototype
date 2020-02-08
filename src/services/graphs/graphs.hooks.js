@@ -73,7 +73,7 @@ const getRelations = async (app, work) => {
     const relationColor = typeConfig.color;
     return {
       id: relation.id,
-      user: relation.user.githubId,
+      user: { id: relation.user.id },
       type: relation.type,
       color: relationColor,
       annotation: relation.annotation,

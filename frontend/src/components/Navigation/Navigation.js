@@ -7,6 +7,8 @@ import Navbar from "react-bootstrap/Navbar";
 import NavSearch from "./NavSearch";
 import ContributionsModal from "./ContributionsModal";
 
+import { client } from "../../feathers";
+
 class Navigation extends Component {
   constructor(props) {
     super(props);

@@ -53,8 +53,14 @@ class RelationsPane extends Component {
       return (
         <RelationCard
           key={relation.id}
+          currentUser={currentUser}
+          currentWork={currentWork}
           relation={relation}
           selectWork={selectWork}
+          setStagedRelation={setStagedRelation}
+          showEditRelationModal={showEditRelationModal}
+          stagedRelation={stagedRelation}
+          toggleEditRelationModal={toggleEditRelationModal}
         />
       );
     });

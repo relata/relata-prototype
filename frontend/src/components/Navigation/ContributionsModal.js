@@ -131,7 +131,10 @@ class ContributionsModal extends Component {
             <Button
               variant="success"
               size="sm"
-              onClick={() => this.toggleEditExistingRelationModal(relation)}
+              onClick={event => {
+                event.stopPropagation();
+                this.toggleEditExistingRelationModal(relation);
+              }}
             >
               Edit
             </Button>
