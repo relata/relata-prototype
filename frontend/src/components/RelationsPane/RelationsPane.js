@@ -77,6 +77,7 @@ class RelationsPane extends Component {
         <div className="mt-3 text-right">
           {addRelationButton}
           <EditRelationModal
+            currentUser={currentUser}
             currentWork={currentWork}
             relataConfig={relataConfig}
             selectWork={selectWork}

@@ -36,6 +36,7 @@ class EditRelationModal extends Component {
   // Submit staged works and relation to backend via Feathers client
   submitRelation = async () => {
     const {
+      currentUser,
       currentWork,
       selectWork,
       stagedRelation,
@@ -71,7 +72,7 @@ class EditRelationModal extends Component {
       workToId: workToResult.id,
       annotation: stagedAnnotation,
       annotationAuthor: null,
-      userId: 1
+      userId: currentUser.id
     };
 
     // Determine whether we've modified an existing relation or not
