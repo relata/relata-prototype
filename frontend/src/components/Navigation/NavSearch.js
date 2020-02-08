@@ -54,6 +54,9 @@ class NavSearch extends Component {
     if (selectedItems.length > 0) {
       const selectedWork = selectedItems[0];
       selectWork(selectedWork.id);
+
+      // Clear input
+      this.typeahead.getInstance().clear();
     }
   };
 
@@ -63,6 +66,7 @@ class NavSearch extends Component {
     return (
       <AsyncTypeahead
         id="nav-search"
+        ref={typeahead => (this.typeahead = typeahead)}
         className="col-md-4 col-sm-12 p-0"
         isLoading={isLoading}
         delay={1000}
