@@ -12,8 +12,23 @@ module.exports = function(app) {
       googleId: { type: Sequelize.STRING },
       zoteroId: { type: Sequelize.STRING },
       username: { type: Sequelize.STRING },
-      email: { type: Sequelize.STRING },
-      displayName: { type: Sequelize.STRING }
+      email: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        validation: {
+          isEmail: true
+        }
+      },
+      displayName: { type: Sequelize.STRING },
+      // isAdmin may only be set manually by database administrator
+      isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+        validate: {
+          isIn: [[false]]
+        }
+      }
     },
     {
       hooks: {
