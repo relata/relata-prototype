@@ -35,8 +35,10 @@ class Navigation extends Component {
       logout,
       relataConfig,
       selectWork,
+      setStagedAnnotation,
       setStagedRelation,
       showEditRelationModal,
+      stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
@@ -68,9 +70,11 @@ class Navigation extends Component {
         getRelationColor={getRelationColor}
         relataConfig={relataConfig}
         selectWork={selectWork}
+        setStagedAnnotation={setStagedAnnotation}
         setStagedRelation={setStagedRelation}
         showContributionsModal={showContributionsModal}
         showEditRelationModal={showEditRelationModal}
+        stagedAnnotation={stagedAnnotation}
         stagedRelation={stagedRelation}
         toggleContributionsModal={this.toggleContributionsModal}
         toggleEditRelationModal={toggleEditRelationModal}

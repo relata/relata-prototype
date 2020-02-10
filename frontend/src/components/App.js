@@ -24,12 +24,12 @@ class App extends Component {
       currentWork: { relationsFrom: [] },
       currentUser: null,
       relataConfig: {},
+      stagedAnnotation: null,
       stagedRelation: {
         id: null,
         type: null,
         workFrom: null,
-        workTo: null,
-        annotation: null
+        workTo: null
       },
       showEditRelationModal: false
     };
@@ -124,6 +124,11 @@ class App extends Component {
     }
   };
 
+  // Modify stagedAnnotation
+  setStagedAnnotation = annotation => {
+    this.setState({ stagedAnnotation: annotation });
+  };
+
   // Modify stagedRelation
   setStagedRelation = relation => {
     this.setState({ stagedRelation: relation });
@@ -134,6 +139,7 @@ class App extends Component {
     const { showEditRelationModal } = this.state;
     if (showEditRelationModal) {
       this.setState({
+        stagedAnnotation: null,
         stagedRelation: {
           id: null,
           type: null,
@@ -154,6 +160,7 @@ class App extends Component {
       currentWork,
       relataConfig,
       showEditRelationModal,
+      stagedAnnotation,
       stagedRelation
     } = this.state;
     return (
@@ -164,8 +171,10 @@ class App extends Component {
           logout={this.logout}
           relataConfig={relataConfig}
           selectWork={this.selectWork}
+          setStagedAnnotation={this.setStagedAnnotation}
           setStagedRelation={this.setStagedRelation}
           showEditRelationModal={showEditRelationModal}
+          stagedAnnotation={stagedAnnotation}
           stagedRelation={stagedRelation}
           toggleEditRelationModal={this.toggleEditRelationModal}
         />
@@ -179,8 +188,10 @@ class App extends Component {
                 currentWork={currentWork}
                 relataConfig={relataConfig}
                 selectWork={this.selectWork}
+                setStagedAnnotation={this.setStagedAnnotation}
                 setStagedRelation={this.setStagedRelation}
                 showEditRelationModal={showEditRelationModal}
+                stagedAnnotation={stagedAnnotation}
                 stagedRelation={stagedRelation}
                 toggleEditRelationModal={this.toggleEditRelationModal}
               />
