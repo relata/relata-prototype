@@ -10,6 +10,8 @@ import RelationsPane from "./RelationsPane/RelationsPane";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "academicons/css/academicons.min.css";
 import "./App.css";
 
 import { client } from "../feathers";

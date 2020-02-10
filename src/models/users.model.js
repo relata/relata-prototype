@@ -8,9 +8,12 @@ module.exports = function(app) {
   const users = sequelizeClient.define(
     "users",
     {
+      githubId: { type: Sequelize.STRING },
       googleId: { type: Sequelize.STRING },
-
-      githubId: { type: Sequelize.STRING }
+      zoteroId: { type: Sequelize.STRING },
+      username: { type: Sequelize.STRING },
+      email: { type: Sequelize.STRING },
+      displayName: { type: Sequelize.STRING }
     },
     {
       hooks: {

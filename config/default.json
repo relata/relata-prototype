@@ -34,12 +34,26 @@
       "github": {
         "key": "<github oauth key>",
         "secret": "<github oauth secret>"
+      },
+      "zotero": {
+        "request_url": "https://www.zotero.org/oauth/request",
+        "authorize_url": "https://www.zotero.org/oauth/authorize",
+        "access_url": "https://www.zotero.org/oauth/access",
+        "oauth": 1,
+        "key": "<zotero oauth key>",
+        "secret": "<zotero oauth secret>",
+        "custom_params": { "identity": "1" }
       }
     }
   },
   "sqlite": "sqlite://data/sql_relata.sqlite",
   "relata": {
     "duplicateWorkThreshold": 0.67,
+    "oauthProviders": [
+      { "id": "zotero", "name": "Zotero", "iconClass": "ai ai-zotero" },
+      { "id": "github", "name": "GitHub" },
+      { "id": "google", "name": "Google" }
+    ],
     "types": {
       "critique": {
         "color": "#b10026",

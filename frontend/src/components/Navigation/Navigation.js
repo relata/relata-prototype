@@ -6,19 +6,25 @@ import Navbar from "react-bootstrap/Navbar";
 
 import NavSearch from "./NavSearch";
 import ContributionsModal from "./ContributionsModal";
-
-import { client } from "../../feathers";
+import LoginModal from "./LoginModal";
 
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { showContributionsModal: false };
+    this.state = { showContributionsModal: false, showLoginModal: false };
   }
 
   toggleContributionsModal = () => {
     const { showContributionsModal } = this.state;
     this.setState({
       showContributionsModal: !showContributionsModal
+    });
+  };
+
+  toggleLoginModal = () => {
+    const { showLoginModal } = this.state;
+    this.setState({
+      showLoginModal: !showLoginModal
     });
   };
 
@@ -34,7 +40,7 @@ class Navigation extends Component {
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
-    const { showContributionsModal } = this.state;
+    const { showContributionsModal, showLoginModal } = this.state;
 
     // Include appropriate navbar links based on whether the user is logged in
     // or not
@@ -47,12 +53,11 @@ class Navigation extends Component {
       </>
     ) : (
       <>
-        <Nav.Link href="/oauth/github">Login via GitHub</Nav.Link>
-        <Nav.Link href="/oauth/google">Login via Google</Nav.Link>
+        <Nav.Link onClick={this.toggleLoginModal}>Sign In</Nav.Link>
       </>
     );
 
-    // Include ContributionsModal based on whether the user is logged in or not
+    // Include ContributionsModal only if user is logged in
     const contributionsModal = currentUser ? (
       <ContributionsModal
         currentUser={currentUser}
@@ -67,6 +72,15 @@ class Navigation extends Component {
         toggleEditRelationModal={toggleEditRelationModal}
       />
     ) : null;
+
+    // Include LoginModal only if user is not logged in
+    const loginModal = currentUser ? null : (
+      <LoginModal
+        relataConfig={relataConfig}
+        showLoginModal={showLoginModal}
+        toggleLoginModal={this.toggleLoginModal}
+      />
+    );
 
     return (
       <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
@@ -94,6 +108,7 @@ class Navigation extends Component {
         </Navbar.Collapse>
         <NavSearch selectWork={selectWork} />
         {contributionsModal}
+        {loginModal}
       </Navbar>
     );
   }
