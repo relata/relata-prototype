@@ -42,6 +42,10 @@ class Navigation extends Component {
     } = this.props;
     const { showContributionsModal, showLoginModal } = this.state;
 
+    const aboutUrl = relataConfig
+      ? relataConfig.aboutUrl
+      : "https://culanth.org/engagements/relata";
+
     // Include appropriate navbar links based on whether the user is logged in
     // or not
     const userLinks = currentUser ? (
@@ -96,11 +100,7 @@ class Navigation extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse>
           <Nav>
-            <Nav.Link
-              href="https://culanth.org/engagements/relata"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Nav.Link href={aboutUrl} target="_blank" rel="noopener noreferrer">
               About
             </Nav.Link>
             {userLinks}

@@ -58,6 +58,7 @@
   },
   "sqlite": "sqlite://data/sql_relata.sqlite",
   "relata": {
+    "aboutUrl": "https://culanth.org/engagements/relata",
     "duplicateWorkThreshold": 0.67,
     "oauthProviders": [
       { "id": "zotero", "name": "Zotero", "iconClass": "ai ai-zotero" },
