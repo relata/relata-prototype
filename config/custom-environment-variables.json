@@ -8,6 +8,10 @@
       "github": {
         "key": "RELATA_OAUTH_GITHUB_KEY",
         "secret": "RELATA_OAUTH_GITHUB_SECRET"
+      },
+      "zotero": {
+        "key": "RELATA_OAUTH_ZOTERO_KEY",
+        "secret": "RELATA_OAUTH_ZOTERO_SECRET"
       }
     }
   }
