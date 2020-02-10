@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+import LinkifyBibliography from "./LinkifyBibliography";
+
 class RelationCard extends Component {
   toggleEditExistingRelationModal = relation => {
     const {
@@ -70,7 +72,9 @@ class RelationCard extends Component {
           <Card.Text>
             {editButton}
             <b className="relation-lead">{relation.type}</b>{" "}
-            {relation.workTo.bibliography}
+            <LinkifyBibliography>
+              {relation.workTo.bibliography}
+            </LinkifyBibliography>
           </Card.Text>
         </Card.Body>
         {annotationFooter}
