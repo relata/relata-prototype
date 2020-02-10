@@ -13,14 +13,14 @@ class SelectRelationType extends Component {
     setStagedRelation({ ...stagedRelation, type: type });
   };
 
-  handleAnnotationChange = event => {
+  handleAnnotationBlur = event => {
     const { setStagedAnnotation } = this.props;
     const annotation = event.target.value.replace(/\s+/g, " ").trim();
     setStagedAnnotation(annotation);
   };
 
   render() {
-    const { relataConfig, stagedRelation } = this.props;
+    const { relataConfig, stagedAnnotation, stagedRelation } = this.props;
 
     const buttonTitle = stagedRelation.type || "Relation Type";
 
@@ -70,10 +70,11 @@ class SelectRelationType extends Component {
                 </Form.Label>
                 <Form.Control
                   as="textarea"
+                  defaultValue={stagedAnnotation}
                   rows="1"
                   style={{ minHeight: "2.4rem" }}
                   maxLength={500}
-                  onChange={this.handleAnnotationChange}
+                  onBlur={this.handleAnnotationBlur}
                 />
               </Form.Group>
             </Col>

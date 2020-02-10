@@ -14,14 +14,8 @@ class EditRelationModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      stagedAnnotation: null
-    };
+    this.state = {};
   }
-
-  setStagedAnnotation = value => {
-    this.setState({ stagedAnnotation: value });
-  };
 
   // Enable submission only when staged relation type and works have been set
   isReadyToSubmit = () => {
@@ -68,10 +62,10 @@ class EditRelationModal extends Component {
       currentUser,
       currentWork,
       selectWork,
+      stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
-    const { stagedAnnotation } = this.state;
     const { type, workFrom, workTo } = stagedRelation;
 
     // Initialize Feathers services
@@ -134,12 +128,13 @@ class EditRelationModal extends Component {
     const {
       currentUser,
       relataConfig,
+      setStagedAnnotation,
       setStagedRelation,
       showEditRelationModal,
+      stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
-    const { stagedAnnotation } = this.state;
 
     // Set modal title based on whether we are editing an existing relation or
     // adding a new one
@@ -177,7 +172,7 @@ class EditRelationModal extends Component {
           <StagingSummaryCard
             currentUser={currentUser}
             relataConfig={relataConfig}
-            setStagedAnnotation={this.setStagedAnnotation}
+            setStagedAnnotation={setStagedAnnotation}
             setStagedRelation={setStagedRelation}
             stagedAnnotation={stagedAnnotation}
             stagedRelation={stagedRelation}
@@ -189,7 +184,7 @@ class EditRelationModal extends Component {
           />
           <SelectRelationType
             relataConfig={relataConfig}
-            setStagedAnnotation={this.setStagedAnnotation}
+            setStagedAnnotation={setStagedAnnotation}
             setStagedRelation={setStagedRelation}
             stagedAnnotation={stagedAnnotation}
             stagedRelation={stagedRelation}

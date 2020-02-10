@@ -46,6 +46,7 @@ class ContributionsModal extends Component {
 
   toggleEditExistingRelationModal = relation => {
     const {
+      setStagedAnnotation,
       setStagedRelation,
       stagedRelation,
       toggleEditRelationModal,
@@ -57,13 +58,15 @@ class ContributionsModal extends Component {
     const workFromWithCitations = { ...workFrom, ...makeCitations(workFrom) };
     const workToWithCitations = { ...workTo, ...makeCitations(workTo) };
 
+    // We have to handle annotation separately to provide performant live
+    // updating in SelectRelationType
+    setStagedAnnotation(relation.annotation);
     setStagedRelation({
       ...stagedRelation,
       id: relation.id,
       type: relation.type,
       workFrom: workFromWithCitations,
-      workTo: workToWithCitations,
-      annotation: relation.annotation
+      workTo: workToWithCitations
     });
 
     toggleContributionsModal();
@@ -76,9 +79,11 @@ class ContributionsModal extends Component {
       getRelationColor,
       relataConfig,
       selectWork,
+      setStagedAnnotation,
       setStagedRelation,
       showContributionsModal,
       showEditRelationModal,
+      stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal,
       toggleContributionsModal
@@ -149,8 +154,10 @@ class ContributionsModal extends Component {
               currentUser={currentUser}
               relataConfig={relataConfig}
               selectWork={selectWork}
+              setStagedAnnotation={setStagedAnnotation}
               setStagedRelation={setStagedRelation}
               showEditRelationModal={showEditRelationModal}
+              stagedAnnotation={stagedAnnotation}
               stagedRelation={stagedRelation}
               toggleEditRelationModal={toggleEditRelationModal}
             />

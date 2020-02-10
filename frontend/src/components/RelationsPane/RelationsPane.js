@@ -29,21 +29,15 @@ class RelationsPane extends Component {
     }
   };
 
-  setStagedWork = (workType, work) => {
-    if (workType === "workFrom") {
-      this.setState({ stagedWorkFrom: work });
-    } else {
-      this.setState({ stagedWorkTo: work });
-    }
-  };
-
   render() {
     const {
       currentUser,
       currentWork,
       relataConfig,
       selectWork,
+      setStagedAnnotation,
       setStagedRelation,
+      stagedAnnotation,
       stagedRelation,
       showEditRelationModal,
       toggleEditRelationModal
@@ -57,8 +51,10 @@ class RelationsPane extends Component {
           currentWork={currentWork}
           relation={relation}
           selectWork={selectWork}
+          setStagedAnnotation={setStagedAnnotation}
           setStagedRelation={setStagedRelation}
           showEditRelationModal={showEditRelationModal}
+          stagedAnnotation={stagedAnnotation}
           stagedRelation={stagedRelation}
           toggleEditRelationModal={toggleEditRelationModal}
         />
@@ -81,8 +77,10 @@ class RelationsPane extends Component {
             currentWork={currentWork}
             relataConfig={relataConfig}
             selectWork={selectWork}
+            setStagedAnnotation={setStagedAnnotation}
             setStagedRelation={setStagedRelation}
             showEditRelationModal={showEditRelationModal}
+            stagedAnnotation={stagedAnnotation}
             stagedRelation={stagedRelation}
             toggleEditRelationModal={toggleEditRelationModal}
           />

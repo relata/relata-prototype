@@ -9,18 +9,22 @@ class RelationCard extends Component {
   toggleEditExistingRelationModal = relation => {
     const {
       currentWork,
+      setStagedAnnotation,
       setStagedRelation,
+      stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
 
+    // We have to handle annotation separately to provide performant live
+    // updating in SelectRelationType
+    setStagedAnnotation(relation.annotation);
     setStagedRelation({
       ...stagedRelation,
       id: relation.id,
       type: relation.type,
       workFrom: currentWork,
-      workTo: relation.workTo,
-      annotation: relation.annotation
+      workTo: relation.workTo
     });
 
     toggleEditRelationModal();
