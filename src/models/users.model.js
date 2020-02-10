@@ -41,8 +41,7 @@ module.exports = function(app) {
 
   // eslint-disable-next-line no-unused-vars
   users.associate = function(models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    users.hasMany(models.relations, { onDelete: "CASCADE", hooks: true });
   };
 
   return users;
