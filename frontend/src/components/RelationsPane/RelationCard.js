@@ -30,12 +30,14 @@ class RelationCard extends Component {
     const { currentUser, relation, selectWork } = this.props;
 
     // Construct annotation footer if this relation has an annotation
+    const annotationAuthor =
+      relation.annotationAuthor ||
+      relation.user.displayName ||
+      "Anonymous User";
     const annotationFooter = relation.annotation ? (
       <Card.Footer>
         <Card.Text className="text-dark">
-          <b className="relation-lead">
-            {relation.annotationAuthor || relation.user.id}
-          </b>{" "}
+          <b className="relation-lead">{annotationAuthor}</b>{" "}
           {relation.annotation}
         </Card.Text>
       </Card.Footer>

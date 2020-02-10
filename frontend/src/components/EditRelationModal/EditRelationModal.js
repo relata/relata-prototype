@@ -103,6 +103,7 @@ class EditRelationModal extends Component {
 
   render() {
     const {
+      currentUser,
       relataConfig,
       setStagedRelation,
       showEditRelationModal,
@@ -129,6 +130,7 @@ class EditRelationModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <StagingSummaryCard
+            currentUser={currentUser}
             relataConfig={relataConfig}
             setStagedAnnotation={this.setStagedAnnotation}
             setStagedRelation={setStagedRelation}
