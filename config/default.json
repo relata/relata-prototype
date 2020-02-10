@@ -33,7 +33,17 @@
       },
       "github": {
         "key": "<github oauth key>",
-        "secret": "<github oauth secret>"
+        "secret": "<github oauth secret>",
+        "scope": ["read:user"]
+      },
+      "mendeley": {
+        "authorize_url": "https://api.mendeley.com/oauth/authorize",
+        "access_url": "https://api.mendeley.com/oauth/token",
+        "oauth": 2,
+        "key": "<mendeley oauth key>",
+        "secret": "<mendeley oauth secret>",
+        "scope": "all",
+        "profile_url": "https://api.mendeley.com/profiles/me"
       },
       "zotero": {
         "request_url": "https://www.zotero.org/oauth/request",
@@ -51,6 +61,7 @@
     "duplicateWorkThreshold": 0.67,
     "oauthProviders": [
       { "id": "zotero", "name": "Zotero", "iconClass": "ai ai-zotero" },
+      { "id": "mendeley", "name": "Mendeley" },
       { "id": "github", "name": "GitHub" },
       { "id": "google", "name": "Google" }
     ],
