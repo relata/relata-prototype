@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
@@ -31,6 +32,34 @@ class EditRelationModal extends Component {
       stagedRelation.workFrom !== null &&
       stagedRelation.workTo !== null
     );
+  };
+
+  // Permanently delete existing relation
+  deleteRelation = async () => {
+    const {
+      currentWork,
+      selectWork,
+      stagedRelation,
+      toggleEditRelationModal
+    } = this.props;
+
+    // If this is being called without an existing relation, for some reason,
+    // just return
+    if (!stagedRelation.id) {
+      return;
+    }
+
+    // Remove relation, close modal, and refresh graph by reselecting
+    // currentWork
+    const relationsService = client.service("relations");
+    try {
+      // eslint-disable-next-line
+      await relationsService.remove(stagedRelation.id);
+      toggleEditRelationModal();
+      selectWork(currentWork.id);
+    } catch (error) {
+      return;
+    }
   };
 
   // Submit staged works and relation to backend via Feathers client
@@ -116,6 +145,21 @@ class EditRelationModal extends Component {
     // adding a new one
     const modalTitle = stagedRelation.id ? "Edit Relation" : "Add Relation";
 
+    // Add alert when editing an existing relation
+    const editingExistingAlert = stagedRelation.id ? (
+      <Alert variant="warning" className="align-middle">
+        <Button
+          className="float-right align-middle ml-1 mb-1"
+          variant="outline-danger"
+          onClick={this.deleteRelation}
+        >
+          Delete
+        </Button>
+        <b>Please note:</b> You are editing an existing relation. To permanently
+        delete this relation from Relata, click the Delete button at right.
+      </Alert>
+    ) : null;
+
     // Disable submit button based on whether all required values are set
     const submitDisabled = !this.isReadyToSubmit();
 
@@ -129,6 +173,7 @@ class EditRelationModal extends Component {
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {editingExistingAlert}
           <StagingSummaryCard
             currentUser={currentUser}
             relataConfig={relataConfig}

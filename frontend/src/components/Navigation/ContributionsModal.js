@@ -44,17 +44,6 @@ class ContributionsModal extends Component {
       });
   };
 
-  deleteRelation = async relationId => {
-    const relationsService = client.service("relations");
-    try {
-      // eslint-disable-next-line
-      const result = relationsService.remove(relationId);
-      this.getUserRelations(1);
-    } catch (error) {
-      return;
-    }
-  };
-
   toggleEditExistingRelationModal = relation => {
     const {
       setStagedRelation,
@@ -112,24 +101,16 @@ class ContributionsModal extends Component {
           <ListGroup.Item
             key={relation.id}
             style={{ borderLeft: `0.25rem solid ${color}` }}
+            onClick={() => selectWork(relation.workFrom.id)}
             action
           >
-            <span
-              className="align-middle"
-              onClick={() => selectWork(relation.workFrom.id)}
-            >
+            <span className="align-middle">
               <span className="relation-lead">{relation.type}</span>{" "}
               {workFrom.citation} → {workTo.citation}
             </span>
 
             <Button
-              variant="danger"
-              size="sm"
-              onClick={() => this.deleteRelation(relation.id)}
-            >
-              Delete
-            </Button>
-            <Button
+              className="float-right"
               variant="success"
               size="sm"
               onClick={event => {
