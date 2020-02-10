@@ -7,12 +7,6 @@ module.exports = function(app) {
   const sequelizeClient = app.get("sequelizeClient");
   const relations = sequelizeClient.define(
     "relations",
-    // {
-    //   text: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false
-    //   }
-    // },
     {
       type: {
         type: DataTypes.TEXT,
