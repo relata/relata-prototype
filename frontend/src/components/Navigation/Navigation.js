@@ -8,14 +8,44 @@ import NavSearch from "./NavSearch";
 import ContributionsModal from "./ContributionsModal";
 import LoginModal from "./LoginModal";
 
+import { client } from "../../feathers";
+
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { showContributionsModal: false, showLoginModal: false };
+    this.state = {
+      userRelations: [],
+      showContributionsModal: false,
+      showLoginModal: false
+    };
   }
 
+  getUserRelations = userId => {
+    const relationsService = client.service("relations");
+
+    relationsService
+      .find({
+        query: {
+          $limit: 1000,
+          $sort: {
+            createdAt: -1
+          },
+          userId: userId,
+          expand: true
+        }
+      })
+      .then(results => {
+        const relations = results.data;
+        this.setState({ userRelations: relations });
+      });
+  };
+
   toggleContributionsModal = () => {
+    const { currentUser } = this.props;
     const { showContributionsModal } = this.state;
+    if (!showContributionsModal) {
+      this.getUserRelations(currentUser.id);
+    }
     this.setState({
       showContributionsModal: !showContributionsModal
     });
@@ -42,7 +72,11 @@ class Navigation extends Component {
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
-    const { showContributionsModal, showLoginModal } = this.state;
+    const {
+      showContributionsModal,
+      showLoginModal,
+      userRelations
+    } = this.state;
 
     const aboutUrl = relataConfig
       ? relataConfig.aboutUrl
@@ -78,6 +112,7 @@ class Navigation extends Component {
         stagedRelation={stagedRelation}
         toggleContributionsModal={this.toggleContributionsModal}
         toggleEditRelationModal={toggleEditRelationModal}
+        userRelations={userRelations}
       />
     ) : null;
 
