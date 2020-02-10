@@ -12,7 +12,7 @@ class GitHubStrategy extends OAuthStrategy {
   async getEntityData(profile) {
     const baseData = await super.getEntityData(profile);
     const { login, name, email } = profile;
-    const displayName = name || `github.com/${login}`;
+    const displayName = name || login;
 
     return {
       ...baseData,
@@ -26,12 +26,27 @@ class GitHubStrategy extends OAuthStrategy {
 class GoogleStrategy extends OAuthStrategy {
   async getEntityData(profile) {
     const baseData = await super.getEntityData(profile);
-    const { name, email } = profile;
+
+    return {
+      ...baseData,
+      email: profile.email,
+      username: profile.email,
+      displayName: profile.name
+    };
+  }
+}
+
+class MendeleyStrategy extends OAuthStrategy {
+  async getEntityData(profile) {
+    const baseData = await super.getEntityData(profile);
+    const { display_name, email, folder } = profile;
+    const displayName = display_name || folder;
 
     return {
       ...baseData,
       email: email,
-      displayName: name
+      username: folder,
+      displayName: displayName
     };
   }
 }
@@ -46,12 +61,11 @@ class ZoteroStrategy extends OAuthStrategy {
 
   async getEntityData(profile) {
     const baseData = await super.getEntityData(profile);
-    const displayName = `zotero.org/${profile.username}`;
 
     return {
       ...baseData,
       username: profile.username,
-      displayName: displayName
+      displayName: profile.username
     };
   }
 }
@@ -62,6 +76,7 @@ module.exports = app => {
   authentication.register("jwt", new JWTStrategy());
   authentication.register("github", new GitHubStrategy());
   authentication.register("google", new GoogleStrategy());
+  authentication.register("mendeley", new MendeleyStrategy());
   authentication.register("zotero", new ZoteroStrategy());
 
   app.use("/authentication", authentication);

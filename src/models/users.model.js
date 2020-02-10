@@ -10,6 +10,7 @@ module.exports = function(app) {
     {
       githubId: { type: Sequelize.STRING },
       googleId: { type: Sequelize.STRING },
+      mendeleyId: { type: Sequelize.STRING },
       zoteroId: { type: Sequelize.STRING },
       username: { type: Sequelize.STRING },
       email: {
