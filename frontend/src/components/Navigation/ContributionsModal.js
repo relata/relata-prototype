@@ -7,42 +7,13 @@ import Modal from "react-bootstrap/Modal";
 
 import EditRelationModal from "../EditRelationModal/EditRelationModal";
 
-import { client } from "../../feathers";
-
 import { makeCitations } from "../EditRelationModal/StageWork/utilities/citations";
 
 class ContributionsModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userRelations: []
-    };
+    this.state = {};
   }
-
-  componentDidMount() {
-    const { currentUser } = this.props;
-    this.getUserRelations(currentUser.id);
-  }
-
-  getUserRelations = userId => {
-    const relationsService = client.service("relations");
-
-    relationsService
-      .find({
-        query: {
-          $limit: 1000,
-          $sort: {
-            createdAt: -1
-          },
-          userId: userId,
-          expand: true
-        }
-      })
-      .then(results => {
-        const relations = results.data;
-        this.setState({ userRelations: relations });
-      });
-  };
 
   toggleEditExistingRelationModal = relation => {
     const {
@@ -86,9 +57,9 @@ class ContributionsModal extends Component {
       stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal,
-      toggleContributionsModal
+      toggleContributionsModal,
+      userRelations
     } = this.props;
-    const { userRelations } = this.state;
 
     let relationListItems;
     if (showContributionsModal && userRelations.length > 0) {
