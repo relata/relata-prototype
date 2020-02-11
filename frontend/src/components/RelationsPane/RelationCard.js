@@ -11,7 +11,6 @@ class RelationCard extends Component {
       currentWork,
       setStagedAnnotation,
       setStagedRelation,
-      stagedAnnotation,
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
