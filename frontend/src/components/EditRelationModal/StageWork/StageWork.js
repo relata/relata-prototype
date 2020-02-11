@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import LinkifyBibliography from "../../RelationsPane/LinkifyBibliography";
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -67,7 +69,11 @@ class StageWork extends Component {
         >
           <Card.Header>{heading}</Card.Header>
           <Card.Body>
-            <Card.Text>{stagedWork.bibliography}</Card.Text>
+            <Card.Text>
+              <LinkifyBibliography>
+                {stagedWork.bibliography}
+              </LinkifyBibliography>
+            </Card.Text>
           </Card.Body>
         </Card>
       </OverlayTrigger>
