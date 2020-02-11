@@ -50,7 +50,7 @@ app.use(
     }),
     resave: false,
     saveUninitialized: false,
-    secret: app.get("authentication").secret
+    secret: app.get("authentication").sessionSecret
   })
 );
 
