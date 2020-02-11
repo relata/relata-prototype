@@ -9,7 +9,8 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "5J67mxVEQtxq+AODKNgX85X29bc=",
+    "secret": "<relata secret>",
+    "sessionSecret": "<relata session secret>",
     "authStrategies": ["jwt", "local"],
     "jwtOptions": {
       "header": {
