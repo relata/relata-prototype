@@ -26,9 +26,9 @@ class Navigation extends Component {
     relationsService
       .find({
         query: {
-          $limit: 1000,
+          $limit: 10000,
           $sort: {
-            createdAt: -1
+            type: 1
           },
           userId: userId,
           expand: true
