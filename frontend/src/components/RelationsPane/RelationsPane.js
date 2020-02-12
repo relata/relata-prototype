@@ -43,7 +43,8 @@ class RelationsPane extends Component {
       toggleEditRelationModal
     } = this.props;
 
-    const RelationCards = currentWork.relationsFrom.map((relation, index) => {
+    console.log(currentWork);
+    const RelationCards = currentWork.relationsTo.map((relation, index) => {
       return (
         <RelationCard
           key={relation.id}

@@ -22,8 +22,8 @@ class RelationCard extends Component {
       ...stagedRelation,
       id: relation.id,
       type: relation.type,
-      workFrom: currentWork,
-      workTo: relation.workTo
+      workFrom: relation.workFrom,
+      workTo: currentWork
     });
 
     toggleEditRelationModal();
@@ -64,10 +64,10 @@ class RelationCard extends Component {
     return (
       <Card
         className="relation-card mt-3"
-        onClick={() => selectWork(relation.workTo.id)}
+        onClick={() => selectWork(relation.workFrom.id)}
         onKeyPress={event => {
           if (event.key === "Enter") {
-            selectWork(relation.workTo.id);
+            selectWork(relation.workFrom.id);
           }
         }}
         style={{ borderLeftColor: relation.color }}
@@ -78,7 +78,7 @@ class RelationCard extends Component {
             {editButton}
             <b className="relation-lead">{relation.type}</b>{" "}
             <LinkifyBibliography>
-              {relation.workTo.bibliography}
+              {relation.workFrom.bibliography}
             </LinkifyBibliography>
           </Card.Text>
         </Card.Body>

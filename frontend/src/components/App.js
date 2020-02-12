@@ -21,7 +21,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentWork: { relationsFrom: [] },
+      currentWork: { relationsFrom: [], relationsTo: [] },
       currentUser: null,
       relataConfig: {},
       stagedAnnotation: null,
