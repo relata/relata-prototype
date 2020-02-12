@@ -27,6 +27,7 @@ class GraphPane extends Component {
               selectWork(node.key);
             }
           });
+        d3.selectAll(".current-work-node").on("click", null);
       });
   };
 
