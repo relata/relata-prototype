@@ -87,6 +87,18 @@
         "color": "#ffd121",
         "preposition": "in"
       },
+      "refinement": {
+        "color": "#785b90",
+        "preposition": "of"
+      },
+      "reanalysis": {
+        "color": "#345c25",
+        "preposition": "of"
+      },
+      "incorporation": {
+        "color": "#1860ff",
+        "preposition": "of"
+      },
       "*": {
         "color": "#999899"
       }
