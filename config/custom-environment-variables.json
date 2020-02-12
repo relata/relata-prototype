@@ -1,7 +1,6 @@
 {
   "authentication": {
     "secret": "RELATA_SECRET",
-    "sessionSecret": "RELATA_SESSION_SECRET",
     "oauth": {
       "google": {
         "key": "RELATA_OAUTH_GOOGLE_KEY",
