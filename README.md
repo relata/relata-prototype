@@ -21,7 +21,7 @@ Here's how to get the app up and running in development mode:
 3. Go to the project root folder (`cd path/to/relata-prototype`) and install dependencies by executing `npm install`.
 4. Go to the `frontend` folder contained in the project root folder (`cd frontend`) and again execute `npm install`. (This is necessary because the frontend UI is a separate sub-package with its own dependencies.)
 5. Return to the project root folder (`cd ..`).
-6. To use an example database, copy the example `sql_relata.sqlite` file from the `examples` folder to the `data` folder: `cp examples/sql_relata.sqlite data/sql_relata.sqlite`.
+6. To use the example database, create a `data` folder at the project root and copy the file `examples/sql_relata.sqlite` into it: `mkdir data && cp examples/sql_relata.sqlite data/sql_relata.sqlite`.
 7. Execute `npm run dev` to start the app in development mode. This will start two processes: the backend application (on port 3030) and the frontend UI (on port 3000).
 8. Go to <http://localhost:3000> in your browser to view the app.
 
