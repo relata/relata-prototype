@@ -16,16 +16,10 @@ module.exports = function(app) {
         }
       },
       annotation: {
-        type: DataTypes.TEXT,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.TEXT
       },
       annotationAuthor: {
-        type: DataTypes.TEXT,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.TEXT
       }
     },
     {
