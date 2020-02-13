@@ -1,5 +1,7 @@
 const { authenticate } = require("@feathersjs/authentication").hooks;
 
+const { limitToAdminOrOwningUser } = require("../hooks");
+
 const expandAssociations = context => {
   const { expand, ...query } = context.params.query;
 
@@ -41,9 +43,9 @@ module.exports = {
     find: [expandAssociations],
     get: [expandAssociations],
     create: [authenticate("jwt")],
-    update: [authenticate("jwt")],
-    patch: [authenticate("jwt")],
-    remove: [authenticate("jwt")]
+    update: [authenticate("jwt"), limitToAdminOrOwningUser],
+    patch: [authenticate("jwt"), limitToAdminOrOwningUser],
+    remove: [authenticate("jwt"), limitToAdminOrOwningUser]
   },
 
   after: {

@@ -3,6 +3,7 @@ const { authenticate } = require("@feathersjs/authentication").hooks;
 const { compareTwoStrings } = require("string-similarity");
 
 const { makeCitations } = require("../graphs/utilities/citations");
+const { limitToAdminOrOwningUser } = require("../hooks");
 
 const convert = {
   data: "json"
@@ -72,10 +73,26 @@ module.exports = {
     all: [],
     find: [sequelizeConvert(convert)],
     get: [sequelizeConvert(convert)],
-    create: [authenticate("jwt"), rejectDuplicateWork],
-    update: [authenticate("jwt"), sequelizeConvert(convert)],
-    patch: [authenticate("jwt"), sequelizeConvert(convert)],
-    remove: [authenticate("jwt"), sequelizeConvert(convert)]
+    create: [
+      authenticate("jwt"),
+      limitToAdminOrOwningUser,
+      rejectDuplicateWork
+    ],
+    update: [
+      authenticate("jwt"),
+      limitToAdminOrOwningUser,
+      sequelizeConvert(convert)
+    ],
+    patch: [
+      authenticate("jwt"),
+      limitToAdminOrOwningUser,
+      sequelizeConvert(convert)
+    ],
+    remove: [
+      authenticate("jwt"),
+      limitToAdminOrOwningUser,
+      sequelizeConvert(convert)
+    ]
   },
 
   after: {
