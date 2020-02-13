@@ -1,4 +1,4 @@
-// const { authenticate } = require('@feathersjs/authentication').hooks;
+const { authenticate } = require("@feathersjs/authentication").hooks;
 
 const expandAssociations = context => {
   const { expand, ...query } = context.params.query;
@@ -27,14 +27,13 @@ const expandAssociations = context => {
 
 module.exports = {
   before: {
-    // all: [ authenticate('jwt') ],
     all: [],
     find: [expandAssociations],
     get: [expandAssociations],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    create: [authenticate("jwt")],
+    update: [authenticate("jwt")],
+    patch: [authenticate("jwt")],
+    remove: [authenticate("jwt")]
   },
 
   after: {

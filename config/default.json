@@ -10,7 +10,7 @@
     "entity": "user",
     "service": "users",
     "secret": "<relata secret>",
-    "authStrategies": ["jwt", "local"],
+    "authStrategies": ["jwt"],
     "jwtOptions": {
       "header": {
         "typ": "access"
@@ -19,10 +19,6 @@
       "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"
-    },
-    "local": {
-      "usernameField": "email",
-      "passwordField": "password"
     },
     "oauth": {
       "redirect": "/",

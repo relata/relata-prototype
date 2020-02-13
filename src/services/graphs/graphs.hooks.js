@@ -61,13 +61,15 @@ const getRelations = async (app, work) => {
   sequelize.raw = true;
 
   // Get all relations to and from this work
-  const relations = (await app.service("relations").find({
-    query: {
-      $or: [{ workFromId: work.id }, { workToId: work.id }],
-      expand: true
-    },
-    paginate: false
-  })).map(relation => {
+  const relations = (
+    await app.service("relations").find({
+      query: {
+        $or: [{ workFromId: work.id }, { workToId: work.id }],
+        expand: true
+      },
+      paginate: false
+    })
+  ).map(relation => {
     const typeConfig =
       relataConfig.types[relation.type] || relataConfig.types["*"];
     const relationColor = typeConfig.color;

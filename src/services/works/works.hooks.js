@@ -1,4 +1,5 @@
 const { sequelizeConvert } = require("feathers-hooks-common");
+const { authenticate } = require("@feathersjs/authentication").hooks;
 const { compareTwoStrings } = require("string-similarity");
 
 const { makeCitations } = require("../graphs/utilities/citations");
@@ -71,10 +72,10 @@ module.exports = {
     all: [],
     find: [sequelizeConvert(convert)],
     get: [sequelizeConvert(convert)],
-    create: [rejectDuplicateWork],
-    update: [sequelizeConvert(convert)],
-    patch: [sequelizeConvert(convert)],
-    remove: [sequelizeConvert(convert)]
+    create: [authenticate("jwt"), rejectDuplicateWork],
+    update: [authenticate("jwt"), sequelizeConvert(convert)],
+    patch: [authenticate("jwt"), sequelizeConvert(convert)],
+    remove: [authenticate("jwt"), sequelizeConvert(convert)]
   },
 
   after: {
