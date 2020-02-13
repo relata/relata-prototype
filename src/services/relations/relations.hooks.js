@@ -8,10 +8,20 @@ const expandAssociations = context => {
     const UserModel = sequelize.models.users;
     const WorkModel = sequelize.models.works;
 
+    const publicUserAttributes = ["id", "displayName"];
+    const excludedUserAttributes = Object.keys(UserModel.rawAttributes).filter(
+      attribute => !publicUserAttributes.includes(attribute)
+    );
+
     context.params.sequelize = {
       attributes: { exclude: ["userId", "workFromId", "workToId"] },
       include: [
-        { model: UserModel },
+        {
+          model: UserModel,
+          attributes: {
+            exclude: excludedUserAttributes
+          }
+        },
         { model: WorkModel, as: "workFrom" },
         { model: WorkModel, as: "workTo" }
       ],
