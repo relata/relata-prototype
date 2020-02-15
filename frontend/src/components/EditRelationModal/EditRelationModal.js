@@ -14,7 +14,13 @@ class EditRelationModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      isSubmitting: false
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ isSubmitting: false });
   }
 
   // Enable submission only when staged relation type and works have been set
@@ -68,6 +74,10 @@ class EditRelationModal extends Component {
     } = this.props;
     const { type, workFrom, workTo } = stagedRelation;
 
+    // Set isSubmitting to disable Submit button (prevents accidental multiple
+    // submissions)
+    this.setState({ isSubmitting: true });
+
     // Initialize Feathers services
     const worksService = client.service("works");
     const relationsService = client.service("relations");
@@ -85,6 +95,7 @@ class EditRelationModal extends Component {
       workToResult = workTo.id ? workTo : await worksService.create(workTo);
     } catch (error) {
       console.log("There was an error:", error);
+      this.setState({ isSubmitting: false });
       return;
     }
 
@@ -108,6 +119,8 @@ class EditRelationModal extends Component {
         await relationsService.create(relationToSubmit);
       }
     } catch (error) {
+      console.log("There was an error:", error);
+      this.setState({ isSubmitting: false });
       return;
     }
 
@@ -122,6 +135,7 @@ class EditRelationModal extends Component {
       selectWork(workFromResult.id);
     }
     toggleEditRelationModal();
+    this.setState({ isSubmitting: false });
   };
 
   render() {
@@ -135,6 +149,7 @@ class EditRelationModal extends Component {
       stagedRelation,
       toggleEditRelationModal
     } = this.props;
+    const { isSubmitting } = this.state;
 
     // Set modal title based on whether we are editing an existing relation or
     // adding a new one
@@ -200,12 +215,14 @@ class EditRelationModal extends Component {
             Cancel
           </Button>
           <Button
-            disabled={submitDisabled}
-            style={submitDisabled ? { cursor: "not-allowed" } : {}}
+            disabled={submitDisabled || isSubmitting}
+            style={
+              submitDisabled || isSubmitting ? { cursor: "not-allowed" } : {}
+            }
             variant="primary"
             onClick={this.submitRelation}
           >
-            Submit
+            {isSubmitting ? "Submitting…" : "Submit"}
           </Button>
         </Modal.Footer>
       </Modal>
