@@ -35,10 +35,8 @@ const removeWorkFromIndex = async context => {
 // Very rough duplicate-detection function that performs fuzzy comparison of
 // one bibliographic citation to another. Not very sophisticated; just a guard
 // against simple cases
-const detectDuplicates = (workA, workB, threshold) => {
-  const workACitation = makeCitations({ data: workA }).bibliography;
-  const workBCitation = makeCitations({ data: workB }).bibliography;
-  const score = compareTwoStrings(workACitation, workBCitation);
+const detectDuplicates = (workABibliography, workBBibliography, threshold) => {
+  const score = compareTwoStrings(workABibliography, workBBibliography);
   return score >= threshold;
 };
 
@@ -47,19 +45,27 @@ const detectDuplicates = (workA, workB, threshold) => {
 // call to the database and simply send back the existing work as it is
 const rejectDuplicateWork = async context => {
   const { app, data } = context;
+  const graphsService = app.service("graphs");
   const worksService = app.service("works");
-  const results = await worksService.find({
-    $limit: 30000,
-    paginate: {
-      // Set an extreme upper limit to avoid killing the app
-      max: 30000
-    }
+  const proposedWorkBibliography = makeCitations(data).bibliography;
+
+  // Use FlexSearch index to detect duplicates instead of querying the database
+  // for all works (the latter gets quite slow after many works are added)
+  const results = await graphsService.find({
+    query: { searchQuery: proposedWorkBibliography }
   });
   const relataConfig = app.get("relata");
   const threshold = relataConfig.duplicateWorkThreshold || 0.67;
   for (existingWork of results) {
-    if (detectDuplicates(data.data, existingWork.data, threshold)) {
-      context.result = existingWork;
+    if (
+      detectDuplicates(
+        proposedWorkBibliography,
+        existingWork.bibliography,
+        threshold
+      )
+    ) {
+      const canonicalWork = await worksService.get(existingWork.id);
+      context.result = canonicalWork;
       break;
     }
   }
