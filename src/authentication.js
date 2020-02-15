@@ -1,3 +1,5 @@
+const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 const {
   AuthenticationService,
   JWTStrategy
@@ -80,5 +82,22 @@ module.exports = app => {
   authentication.register("zotero", new ZoteroStrategy());
 
   app.use("/authentication", authentication);
-  app.configure(expressOauth());
+  app.configure(
+    expressOauth({
+      // Add production memory store for sessions (86400000 ms = 24 hours)
+      expressSession: session({
+        cookie: { maxAge: 86400000 },
+        name: "relata-oauth",
+        store: new MemoryStore({
+          // Prune expired entries every 24 hours
+          checkPeriod: 86400000,
+          // Maximum number of entries in store
+          max: 2000
+        }),
+        resave: false,
+        saveUninitialized: false,
+        secret: app.get("authentication").secret
+      })
+    })
+  );
 };
