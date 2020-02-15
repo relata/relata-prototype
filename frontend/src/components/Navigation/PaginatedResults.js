@@ -32,7 +32,7 @@ const PaginatedResults = props => {
 
   // Get skip index for previous, last, and next pages
   const prevPageIndex = skip - limit < 1 ? 0 : skip - limit;
-  const lastPageIndex = total - limit;
+  const lastPageIndex = Math.floor(total / limit) * limit;
   const nextPageIndex = skip + limit > total ? lastPageIndex : skip + limit;
 
   // Get item numbers for display
