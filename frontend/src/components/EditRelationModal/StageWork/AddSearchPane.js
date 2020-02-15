@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
+import LinkifyBibliography from "../../RelationsPane/LinkifyBibliography";
 import MetadataSearch from "./MetadataSearch";
 
 class AddSearchPane extends Component {
@@ -14,7 +15,11 @@ class AddSearchPane extends Component {
       targetWork === null ? null : (
         <Card>
           <Card.Body>
-            <Card.Text>{targetWork.bibliography}</Card.Text>
+            <Card.Text>
+              <LinkifyBibliography>
+                {targetWork.bibliography}
+              </LinkifyBibliography>
+            </Card.Text>
           </Card.Body>
         </Card>
       );

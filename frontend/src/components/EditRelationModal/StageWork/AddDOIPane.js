@@ -10,6 +10,8 @@ import Cite from "citation-js";
 
 import { makeCitations } from "./utilities/citations";
 
+import LinkifyBibliography from "../../RelationsPane/LinkifyBibliography";
+
 class AddDOIPane extends Component {
   state = {
     targetDoi: ""
@@ -44,7 +46,11 @@ class AddDOIPane extends Component {
       targetWork === null ? null : (
         <Card>
           <Card.Body>
-            <Card.Text>{targetWork.bibliography}</Card.Text>
+            <Card.Text>
+              <LinkifyBibliography>
+                {targetWork.bibliography}
+              </LinkifyBibliography>
+            </Card.Text>
           </Card.Body>
         </Card>
       );
