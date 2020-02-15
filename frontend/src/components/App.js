@@ -70,16 +70,17 @@ class App extends Component {
     this.setInitialState();
   }
 
-  login = () => {
+  login = (refresh = false) => {
+    console.log("Logging in or re-authenticating…");
     // Attempt to re-authenticate
     client
-      .reAuthenticate()
+      .reAuthenticate(refresh)
       .then(({ user }) => {
-        console.log("Re-authenticated:", user);
+        console.log("Authenticated");
         this.setState({ currentUser: user });
       })
       .catch(error => {
-        console.log("Failed to re-authenticate:", error);
+        console.log("Failed to authenticate:", error);
       });
   };
 
@@ -87,6 +88,7 @@ class App extends Component {
     console.log("Logging out…");
     await client.logout();
     this.setState({ currentUser: null });
+    console.log("Logged out!");
   };
 
   getRelataConfig = () => {
@@ -98,8 +100,9 @@ class App extends Component {
       });
   };
 
-  // Fetch a new work graph from the Feathers backend
-  selectWork = workId => {
+  // Fetch a work graph from the Feathers backend and refresh the frontend (if
+  // called without arguments, will simply refresh the frontend for currentWork
+  selectWork = (workId = this.state.currentWork.id) => {
     client
       .service("graphs")
       .get(workId)
@@ -168,6 +171,7 @@ class App extends Component {
         <Navigation
           currentUser={currentUser}
           getRelationColor={this.getRelationColor}
+          login={this.login}
           logout={this.logout}
           relataConfig={relataConfig}
           selectWork={this.selectWork}

@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
+import AccountModal from "./AccountModal";
 import ContributionsModal from "./ContributionsModal";
 import GlossaryModal from "./GlossaryModal";
 import LoginModal from "./LoginModal";
@@ -18,8 +19,11 @@ class Navigation extends Component {
     this.state = {
       showContributionsModal: false,
       showGlossaryModal: false,
+      showAccountModal: false,
       showLoginModal: false,
       showUsersModal: false,
+      stagedUserId: null,
+      stagedUserPatch: {},
       userRelations: {},
       users: {}
     };
@@ -32,7 +36,7 @@ class Navigation extends Component {
     relationsService
       .find({
         query: {
-          $limit: 50,
+          $limit: 20,
           $skip: index,
           $sort: {
             updatedAt: -1
@@ -59,7 +63,7 @@ class Navigation extends Component {
     usersService
       .find({
         query: {
-          $limit: 50,
+          $limit: 20,
           $skip: index,
           $sort: {
             id: 1
@@ -69,6 +73,31 @@ class Navigation extends Component {
       .then(results => {
         this.setState({ users: results });
       });
+  };
+
+  setStagedUserId = userId => {
+    console.log("Setting staged userId", userId);
+    this.setState({ stagedUserId: userId });
+    console.log("StagedUserId", this.state.stagedUserId);
+  };
+
+  setStagedUserPatch = patch => {
+    this.setState({ stagedUserPatch: patch });
+  };
+
+  toggleAccountModal = () => {
+    const { currentUser } = this.props;
+    const { showAccountModal } = this.state;
+
+    if (!showAccountModal) {
+      this.setStagedUserPatch({
+        displayName: currentUser.displayName,
+        email: currentUser.email
+      });
+    }
+    this.setState({
+      showAccountModal: !showAccountModal
+    });
   };
 
   toggleContributionsModal = () => {
@@ -109,6 +138,7 @@ class Navigation extends Component {
     const {
       currentUser,
       getRelationColor,
+      login,
       logout,
       relataConfig,
       selectWork,
@@ -122,8 +152,10 @@ class Navigation extends Component {
     const {
       showContributionsModal,
       showGlossaryModal,
+      showAccountModal,
       showLoginModal,
       showUsersModal,
+      stagedUserPatch,
       userRelations,
       users
     } = this.state;
@@ -136,13 +168,25 @@ class Navigation extends Component {
     // or not
     const userLinks = currentUser ? (
       <>
+        <Nav.Link
+          onClick={() => {
+            this.setStagedUserId(currentUser.id);
+            this.setStagedUserPatch({
+              displayName: currentUser.displayName,
+              email: currentUser.email
+            });
+            this.toggleAccountModal();
+          }}
+        >
+          Account
+        </Nav.Link>
         <Nav.Link onClick={this.toggleContributionsModal}>
-          My Contributions
+          Contributions
         </Nav.Link>
         {currentUser.isAdmin === 1 ? (
-          <Nav.Link onClick={this.toggleUsersModal}>Manage Users</Nav.Link>
+          <Nav.Link onClick={this.toggleUsersModal}>Users</Nav.Link>
         ) : null}
-        <Nav.Link onClick={logout}>Log Out</Nav.Link>
+        <Nav.Link onClick={logout}>Sign Out</Nav.Link>
       </>
     ) : (
       <>
@@ -158,6 +202,21 @@ class Navigation extends Component {
         toggleGlossaryModal={this.toggleGlossaryModal}
       />
     );
+
+    // Include AccountModal only if user is logged in
+    const accountModal = currentUser ? (
+      <AccountModal
+        currentUser={currentUser}
+        login={login}
+        relataConfig={relataConfig}
+        selectWork={selectWork}
+        setStagedUserPatch={this.setStagedUserPatch}
+        showAccountModal={showAccountModal}
+        stagedUserPatch={stagedUserPatch}
+        targetUser={currentUser}
+        toggleAccountModal={this.toggleAccountModal}
+      />
+    ) : null;
 
     // Include ContributionsModal only if user is logged in
     const contributionsModal = currentUser ? (
@@ -194,7 +253,10 @@ class Navigation extends Component {
         <UsersModal
           currentUser={currentUser}
           getUsers={this.getUsers}
+          setStagedUserId={this.setStagedUserId}
+          setStagedUserPatch={this.setStagedUserPatch}
           showUsersModal={showUsersModal}
+          toggleAccountModal={this.toggleAccountModal}
           toggleUsersModal={this.toggleUsersModal}
           users={users}
         />
@@ -229,6 +291,8 @@ class Navigation extends Component {
         </Navbar.Collapse>
         <NavSearch selectWork={selectWork} />
         {glossaryModal}
+        {accountModal}
+        {contributionsModal}
         {loginModal}
         {contributionsModal}
         {usersModal}

@@ -124,7 +124,7 @@ class ContributionsModal extends Component {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>My Contributions</Modal.Title>
+          <Modal.Title>Contributions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <PaginatedResults

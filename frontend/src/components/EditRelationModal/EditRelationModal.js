@@ -36,12 +36,7 @@ class EditRelationModal extends Component {
 
   // Permanently delete existing relation
   deleteRelation = async () => {
-    const {
-      currentWork,
-      selectWork,
-      stagedRelation,
-      toggleEditRelationModal
-    } = this.props;
+    const { selectWork, stagedRelation, toggleEditRelationModal } = this.props;
 
     // If this is being called without an existing relation, for some reason,
     // just return
@@ -56,7 +51,7 @@ class EditRelationModal extends Component {
       // eslint-disable-next-line
       await relationsService.remove(stagedRelation.id);
       toggleEditRelationModal();
-      selectWork(currentWork.id);
+      selectWork();
     } catch (error) {
       return;
     }
@@ -130,7 +125,7 @@ class EditRelationModal extends Component {
       currentWork.id === workFromResult.id ||
       currentWork.id === workToResult.id
     ) {
-      selectWork(currentWork.id);
+      selectWork();
     } else {
       selectWork(workFromResult.id);
     }

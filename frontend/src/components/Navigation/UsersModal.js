@@ -23,27 +23,42 @@ class UsersModal extends Component {
   };
 
   makeUserRow = user => {
-    const { currentUser } = this.props;
-    const userSummary = [user.displayName, user.email]
+    const {
+      currentUser,
+      setStagedUserId,
+      setStagedUserPatch,
+      toggleUsersModal,
+      toggleAccountModal
+    } = this.props;
+    const adminSummary = user.isAdmin === 1 ? "administrator" : null;
+    const userSummary = [user.displayName, user.email, adminSummary]
       .filter(value => value)
       .join(" | ");
-    return (
-      <ListGroup.Item key={user.id}>
-        <span className="align-middle">
-          <span className="relation-lead">User {user.id}</span> {userSummary}
-        </span>
+    const currentUserNote =
+      user.id === currentUser.id ? (
+        <>
+          {" "}
+          <i>(current user)</i>
+        </>
+      ) : null;
+    const deleteButton =
+      user.id === currentUser.id ? null : (
         <Button
           className="float-right"
           variant="outline-danger"
           size="sm"
-          onClick={() => {
-            this.deleteUser(user.id);
-          }}
-          disabled={user.id === currentUser.id}
-          style={user.id === currentUser.id ? { cursor: "not-allowed" } : null}
+          onClick={() => this.deleteUser(user.id)}
         >
           Delete
         </Button>
+      );
+    return (
+      <ListGroup.Item key={user.id}>
+        <span className="align-middle">
+          <span className="relation-lead">User {user.id}</span> {userSummary}
+          {currentUserNote}
+          {deleteButton}
+        </span>
       </ListGroup.Item>
     );
   };
@@ -54,16 +69,15 @@ class UsersModal extends Component {
     return (
       <Modal show={showUsersModal} onHide={toggleUsersModal} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Manage Users</Modal.Title>
+          <Modal.Title>Users</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Alert variant="warning">
-            <b>Warning:</b> Deleting a user will result in the removal not only
-            of the user's account but all their relations as well. Be careful
-            when deleting!
+            <b>Please note:</b> Deleting a user will also permanently delete all
+            relations created by that user. Be careful when deleting users!
           </Alert>
           <PaginatedResults
-            message="As an administrator, you can use this interface to review and delete Relata users. The database contains the following users:"
+            message="As an administrator, you can use this interface to review and permanently delete Relata users. The database contains the following users:"
             noResultsMessage="Could not find any users in the Relata database."
             fetchResults={getUsers}
             transformResult={this.makeUserRow}
