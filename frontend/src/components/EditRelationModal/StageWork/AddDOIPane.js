@@ -39,7 +39,7 @@ class AddDOIPane extends Component {
   };
 
   render() {
-    const { setTargetWork, targetWork } = this.props;
+    const { setTargetWork, stagedWorkType, targetWork } = this.props;
     const { targetDoi } = this.state;
 
     const targetBibliography =
@@ -57,12 +57,12 @@ class AddDOIPane extends Component {
 
     return (
       <>
-        <Form.Label htmlFor="doi-search-input">
+        <Form.Label htmlFor={`doi-search-input-${stagedWorkType}`}>
           Digital Object Identifier (DOI)
         </Form.Label>
         <InputGroup className="mb-3">
           <FormControl
-            id="doi-search-input"
+            id={`doi-search-input-${stagedWorkType}`}
             placeholder="Enter a DOI, such as 10.1093/ahr/rhz239"
             defaultValue={targetDoi}
             aria-label="Digital Object Identifier (DOI)"

@@ -9,7 +9,7 @@ import MetadataSearch from "./MetadataSearch";
 
 class AddSearchPane extends Component {
   render() {
-    const { setTargetWork, targetWork } = this.props;
+    const { setTargetWork, stagedWorkType, targetWork } = this.props;
 
     const targetBibliography =
       targetWork === null ? null : (
@@ -26,11 +26,14 @@ class AddSearchPane extends Component {
 
     return (
       <>
-        <Form.Label htmlFor="metadata-search">
+        <Form.Label htmlFor={`metadata-search-${stagedWorkType}`}>
           Bibliographic search terms (title, author, year)
         </Form.Label>
         <InputGroup className="mb-3">
-          <MetadataSearch setTargetWork={setTargetWork} />
+          <MetadataSearch
+            identifier={`metadata-search-${stagedWorkType}`}
+            setTargetWork={setTargetWork}
+          />
         </InputGroup>
         {targetBibliography}
       </>

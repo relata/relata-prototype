@@ -97,7 +97,6 @@ class MetadataSearch extends Component {
 
     return (
       <AsyncTypeahead
-        id="metadata-search"
         isLoading={isLoading}
         delay={670}
         labelKey="citation"

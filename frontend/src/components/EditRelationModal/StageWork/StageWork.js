@@ -100,12 +100,14 @@ class StageWork extends Component {
                   <Tab.Pane eventKey="add-doi-pane">
                     <AddDOIPane
                       setTargetWork={this.setTargetWork}
+                      stagedWorkType={stagedWorkType}
                       targetWork={targetWork}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="add-search-pane">
                     <AddSearchPane
                       setTargetWork={this.setTargetWork}
+                      stagedWorkType={stagedWorkType}
                       targetWork={targetWork}
                     />
                   </Tab.Pane>
