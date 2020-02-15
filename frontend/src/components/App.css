@@ -43,6 +43,10 @@ a:hover {
   font-size: 0.8rem;
 }
 
+.paginated-results-item {
+  cursor: pointer;
+}
+
 #graph {
   position: -webkit-sticky;
   position: sticky;

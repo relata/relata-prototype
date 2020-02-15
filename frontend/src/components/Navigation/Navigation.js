@@ -14,37 +14,38 @@ class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userRelations: [],
+      userRelations: {},
       showContributionsModal: false,
       showLoginModal: false
     };
   }
 
-  getUserRelations = userId => {
-    const relationsService = client.service("relations");
+  getUserRelations = index => {
+    console.log("Calling getUserRelations…");
+    const { currentUser } = this.props;
 
+    const relationsService = client.service("relations");
     relationsService
       .find({
         query: {
-          $limit: 10000,
+          $limit: 50,
+          $skip: index,
           $sort: {
-            type: 1
+            updatedAt: -1
           },
-          userId: userId,
+          userId: currentUser.id,
           expand: true
         }
       })
       .then(results => {
-        const relations = results.data;
-        this.setState({ userRelations: relations });
+        this.setState({ userRelations: results });
       });
   };
 
   toggleContributionsModal = () => {
-    const { currentUser } = this.props;
     const { showContributionsModal } = this.state;
     if (!showContributionsModal) {
-      this.getUserRelations(currentUser.id);
+      this.getUserRelations(0);
     }
     this.setState({
       showContributionsModal: !showContributionsModal
@@ -102,6 +103,7 @@ class Navigation extends Component {
       <ContributionsModal
         currentUser={currentUser}
         getRelationColor={getRelationColor}
+        getUserRelations={this.getUserRelations}
         relataConfig={relataConfig}
         selectWork={selectWork}
         setStagedAnnotation={setStagedAnnotation}

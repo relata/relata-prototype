@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 
+import format from "date-fns/format";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import parseISO from "date-fns/parseISO";
+
 import EditRelationModal from "../EditRelationModal/EditRelationModal";
+import PaginatedResults from "./PaginatedResults";
 
 import { makeCitations } from "../EditRelationModal/StageWork/utilities/citations";
 
@@ -44,10 +48,60 @@ class ContributionsModal extends Component {
     toggleEditRelationModal();
   };
 
+  makeContributionRow = relation => {
+    const { getRelationColor, selectWork } = this.props;
+
+    const workFrom = {
+      ...relation.workFrom,
+      ...makeCitations(relation.workFrom)
+    };
+    const workTo = {
+      ...relation.workTo,
+      ...makeCitations(relation.workTo)
+    };
+    const color = getRelationColor(relation.type);
+    const updatedDate = parseISO(relation.updatedAt);
+    const updatedSummary =
+      "Updated " + formatDistanceToNow(updatedDate, { addSuffix: true });
+    const updatedTitle = format(updatedDate, "PPPPp");
+    return (
+      <ListGroup.Item
+        key={relation.id}
+        className="paginated-results-item"
+        style={{
+          borderLeft: `0.25rem solid ${color}`
+        }}
+        onClick={() => selectWork(relation.workFrom.id)}
+        action
+      >
+        <span className="align-middle">
+          <span className="mr-2">
+            <span className="relation-lead">{relation.type}</span>{" "}
+            {workFrom.citation} → {workTo.citation}
+          </span>{" "}
+          <span className="text-muted" title={updatedTitle}>
+            {updatedSummary}
+          </span>
+        </span>
+        <Button
+          className="float-right"
+          variant="success"
+          size="sm"
+          onClick={event => {
+            event.stopPropagation();
+            this.toggleEditExistingRelationModal(relation);
+          }}
+        >
+          Edit
+        </Button>
+      </ListGroup.Item>
+    );
+  };
+
   render() {
     const {
       currentUser,
-      getRelationColor,
+      getUserRelations,
       relataConfig,
       selectWork,
       setStagedAnnotation,
@@ -61,48 +115,6 @@ class ContributionsModal extends Component {
       userRelations
     } = this.props;
 
-    let relationListItems;
-    if (showContributionsModal && userRelations.length > 0) {
-      relationListItems = userRelations.map(relation => {
-        const workFrom = {
-          ...relation.workFrom,
-          ...makeCitations(relation.workFrom)
-        };
-        const workTo = {
-          ...relation.workTo,
-          ...makeCitations(relation.workTo)
-        };
-        const color = getRelationColor(relation.type);
-        return (
-          <ListGroup.Item
-            key={relation.id}
-            style={{ borderLeft: `0.25rem solid ${color}` }}
-            onClick={() => selectWork(relation.workFrom.id)}
-            action
-          >
-            <span className="align-middle">
-              <span className="relation-lead">{relation.type}</span>{" "}
-              {workFrom.citation} → {workTo.citation}
-            </span>
-
-            <Button
-              className="float-right"
-              variant="success"
-              size="sm"
-              onClick={event => {
-                event.stopPropagation();
-                this.toggleEditExistingRelationModal(relation);
-              }}
-            >
-              Edit
-            </Button>
-          </ListGroup.Item>
-        );
-      });
-    } else {
-      relationListItems = "";
-    }
-
     return (
       <Modal
         show={showContributionsModal}
@@ -110,29 +122,27 @@ class ContributionsModal extends Component {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Contributions</Modal.Title>
+          <Modal.Title>My Contributions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>You have contributed the following relations. Click to view:</p>
-          <Card>
-            <ListGroup
-              variant="flush"
-              style={{ overflow: "scroll", maxHeight: "24rem" }}
-            >
-              {relationListItems}
-            </ListGroup>
-            <EditRelationModal
-              currentUser={currentUser}
-              relataConfig={relataConfig}
-              selectWork={selectWork}
-              setStagedAnnotation={setStagedAnnotation}
-              setStagedRelation={setStagedRelation}
-              showEditRelationModal={showEditRelationModal}
-              stagedAnnotation={stagedAnnotation}
-              stagedRelation={stagedRelation}
-              toggleEditRelationModal={toggleEditRelationModal}
-            />
-          </Card>
+          <PaginatedResults
+            message="You have contributed the following relations to Relata. Click on a relation to view it:"
+            noResultsMessage="You have not yet contributed any relations to Relata."
+            fetchResults={getUserRelations}
+            transformResult={this.makeContributionRow}
+            results={userRelations}
+          />
+          <EditRelationModal
+            currentUser={currentUser}
+            relataConfig={relataConfig}
+            selectWork={selectWork}
+            setStagedAnnotation={setStagedAnnotation}
+            setStagedRelation={setStagedRelation}
+            showEditRelationModal={showEditRelationModal}
+            stagedAnnotation={stagedAnnotation}
+            stagedRelation={stagedRelation}
+            toggleEditRelationModal={toggleEditRelationModal}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button
