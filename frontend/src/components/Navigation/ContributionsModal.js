@@ -61,8 +61,10 @@ class ContributionsModal extends Component {
     };
     const color = getRelationColor(relation.type);
     const updatedDate = parseISO(relation.updatedAt);
+    const updatedVerb =
+      relation.updatedAt === relation.createdAt ? "Created " : "Updated ";
     const updatedSummary =
-      "Updated " + formatDistanceToNow(updatedDate, { addSuffix: true });
+      updatedVerb + formatDistanceToNow(updatedDate, { addSuffix: true });
     const updatedTitle = format(updatedDate, "PPPPp");
     return (
       <ListGroup.Item
