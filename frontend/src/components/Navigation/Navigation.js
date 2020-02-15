@@ -4,9 +4,10 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-import NavSearch from "./NavSearch";
 import ContributionsModal from "./ContributionsModal";
 import LoginModal from "./LoginModal";
+import NavSearch from "./NavSearch";
+import UsersModal from "./UsersModal";
 
 import { client } from "../../feathers";
 
@@ -14,14 +15,15 @@ class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userRelations: {},
       showContributionsModal: false,
-      showLoginModal: false
+      showLoginModal: false,
+      showUsersModal: false,
+      userRelations: {},
+      users: {}
     };
   }
 
   getUserRelations = index => {
-    console.log("Calling getUserRelations…");
     const { currentUser } = this.props;
 
     const relationsService = client.service("relations");
@@ -42,6 +44,31 @@ class Navigation extends Component {
       });
   };
 
+  getUsers = index => {
+    const { currentUser } = this.props;
+
+    // Check that currentUser is an admin
+    if (!(currentUser.isAdmin === 1)) {
+      return;
+    }
+
+    // Get users
+    const usersService = client.service("users");
+    usersService
+      .find({
+        query: {
+          $limit: 50,
+          $skip: index,
+          $sort: {
+            id: 1
+          }
+        }
+      })
+      .then(results => {
+        this.setState({ users: results });
+      });
+  };
+
   toggleContributionsModal = () => {
     const { showContributionsModal } = this.state;
     if (!showContributionsModal) {
@@ -56,6 +83,16 @@ class Navigation extends Component {
     const { showLoginModal } = this.state;
     this.setState({
       showLoginModal: !showLoginModal
+    });
+  };
+
+  toggleUsersModal = () => {
+    const { showUsersModal } = this.state;
+    if (!showUsersModal) {
+      this.getUsers(0);
+    }
+    this.setState({
+      showUsersModal: !showUsersModal
     });
   };
 
@@ -76,7 +113,9 @@ class Navigation extends Component {
     const {
       showContributionsModal,
       showLoginModal,
-      userRelations
+      showUsersModal,
+      userRelations,
+      users
     } = this.state;
 
     const aboutUrl = relataConfig
@@ -90,6 +129,9 @@ class Navigation extends Component {
         <Nav.Link onClick={this.toggleContributionsModal}>
           My Contributions
         </Nav.Link>
+        {currentUser.isAdmin === 1 ? (
+          <Nav.Link onClick={this.toggleUsersModal}>Manage Users</Nav.Link>
+        ) : null}
         <Nav.Link onClick={logout}>Log Out</Nav.Link>
       </>
     ) : (
@@ -127,6 +169,18 @@ class Navigation extends Component {
       />
     );
 
+    // Include UsersModal only if user is an administrator
+    const usersModal =
+      currentUser && currentUser.isAdmin === 1 ? (
+        <UsersModal
+          currentUser={currentUser}
+          getUsers={this.getUsers}
+          showUsersModal={showUsersModal}
+          toggleUsersModal={this.toggleUsersModal}
+          users={users}
+        />
+      ) : null;
+
     return (
       <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
         <Button
@@ -150,6 +204,7 @@ class Navigation extends Component {
         <NavSearch selectWork={selectWork} />
         {contributionsModal}
         {loginModal}
+        {usersModal}
       </Navbar>
     );
   }
