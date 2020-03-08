@@ -65,35 +65,33 @@
     "types": {
       "critique": {
         "color": "#b10026",
-        "preposition": "of"
+        "preposition": "of",
+        "definition": "offering a critical take on a theoretical, methodological, or other approach from a particular perspective"
       },
       "extension": {
         "color": "#51bb82",
-        "preposition": "of"
-      },
-      "rejoinder": {
-        "color": "#ff5235",
-        "preposition": "to"
+        "preposition": "of",
+        "definition": "applying existing theoretical or conceptual formulations to novel contexts or cases"
       },
       "absence": {
         "color": "#0f3363",
-        "preposition": "in"
-      },
-      "omission": {
-        "color": "#ffd121",
-        "preposition": "in"
+        "preposition": "in",
+        "definition": "identifying gaps in the scholarship that a work engages, particularly in order to center counterhegemonic intellectual traditions"
       },
       "refinement": {
         "color": "#785b90",
-        "preposition": "of"
+        "preposition": "of",
+        "definition": "modifying, clarifying or delimiting the scope of existing formulations in light of novel contexts or cases"
       },
       "reanalysis": {
         "color": "#345c25",
-        "preposition": "of"
+        "preposition": "of",
+        "definition": "analyzing empirical material initially gathered and presented by others from a novel perspective"
       },
       "incorporation": {
         "color": "#1860ff",
-        "preposition": "of"
+        "preposition": "of",
+        "definition": "addressing critiques of previously published work and/or integrating them into a new position"
       },
       "*": {
         "color": "#999899"
