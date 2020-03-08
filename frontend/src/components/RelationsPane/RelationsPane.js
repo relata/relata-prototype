@@ -49,6 +49,7 @@ class RelationsPane extends Component {
           key={relation.id}
           currentUser={currentUser}
           currentWork={currentWork}
+          relataConfig={relataConfig}
           relation={relation}
           selectWork={selectWork}
           setStagedAnnotation={setStagedAnnotation}

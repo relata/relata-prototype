@@ -43,8 +43,8 @@ const makeRelationEdge = (currentWork, relation, key) => {
 
   const edge = `"${workFrom.id}" -> "${workTo.id}" [
     label = "${relation.type}",
-    tooltip = "${workFromCitation} -> ${workToCitation}",
-    labeltooltip = "${workFromCitation} -> ${workToCitation}",
+    tooltip = "${workFromCitation} → ${workToCitation}",
+    labeltooltip = "${workFromCitation} → ${workToCitation}",
     color = "${relation.color}"
   ];`;
   return edge;

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import LinkifyBibliography from "./LinkifyBibliography";
 
@@ -30,7 +32,27 @@ class RelationCard extends Component {
   };
 
   render() {
-    const { currentUser, relation, selectWork } = this.props;
+    const { currentUser, relataConfig, relation, selectWork } = this.props;
+
+    // Construct relation lead with tooltip
+    let relationLead;
+    if (
+      relataConfig &&
+      relataConfig.types &&
+      relataConfig.types[relation.type] &&
+      relataConfig.types[relation.type].definition
+    ) {
+      const definitionTooltip = (
+        <Tooltip>{relataConfig.types[relation.type].definition}</Tooltip>
+      );
+      relationLead = (
+        <OverlayTrigger placement="top" overlay={definitionTooltip}>
+          <b className="relation-lead">{relation.type}</b>
+        </OverlayTrigger>
+      );
+    } else {
+      relationLead = <b className="relation-lead">{relation.type}</b>;
+    }
 
     // Construct annotation footer if this relation has an annotation
     const annotationAuthor =
@@ -76,7 +98,7 @@ class RelationCard extends Component {
         <Card.Body>
           <Card.Text>
             {editButton}
-            <b className="relation-lead">{relation.type}</b>{" "}
+            {relationLead}{" "}
             <LinkifyBibliography>
               {relation.workFrom.bibliography}
             </LinkifyBibliography>
