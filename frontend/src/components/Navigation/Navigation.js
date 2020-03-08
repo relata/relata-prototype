@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 import ContributionsModal from "./ContributionsModal";
+import GlossaryModal from "./GlossaryModal";
 import LoginModal from "./LoginModal";
 import NavSearch from "./NavSearch";
 import UsersModal from "./UsersModal";
@@ -16,6 +17,7 @@ class Navigation extends Component {
     super(props);
     this.state = {
       showContributionsModal: false,
+      showGlossaryModal: false,
       showLoginModal: false,
       showUsersModal: false,
       userRelations: {},
@@ -79,6 +81,13 @@ class Navigation extends Component {
     });
   };
 
+  toggleGlossaryModal = () => {
+    const { showGlossaryModal } = this.state;
+    this.setState({
+      showGlossaryModal: !showGlossaryModal
+    });
+  };
+
   toggleLoginModal = () => {
     const { showLoginModal } = this.state;
     this.setState({
@@ -112,6 +121,7 @@ class Navigation extends Component {
     } = this.props;
     const {
       showContributionsModal,
+      showGlossaryModal,
       showLoginModal,
       showUsersModal,
       userRelations,
@@ -138,6 +148,15 @@ class Navigation extends Component {
       <>
         <Nav.Link onClick={this.toggleLoginModal}>Sign In</Nav.Link>
       </>
+    );
+
+    const glossaryModal = (
+      <GlossaryModal
+        getRelationColor={getRelationColor}
+        relataConfig={relataConfig}
+        showGlossaryModal={showGlossaryModal}
+        toggleGlossaryModal={this.toggleGlossaryModal}
+      />
     );
 
     // Include ContributionsModal only if user is logged in
@@ -198,12 +217,20 @@ class Navigation extends Component {
             <Nav.Link href={aboutUrl} target="_blank" rel="noopener noreferrer">
               About
             </Nav.Link>
+            <Nav.Link
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={this.toggleGlossaryModal}
+            >
+              Glossary
+            </Nav.Link>
             {userLinks}
           </Nav>
         </Navbar.Collapse>
         <NavSearch selectWork={selectWork} />
-        {contributionsModal}
+        {glossaryModal}
         {loginModal}
+        {contributionsModal}
         {usersModal}
       </Navbar>
     );
