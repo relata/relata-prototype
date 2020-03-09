@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";

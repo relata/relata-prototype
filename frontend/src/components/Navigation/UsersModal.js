@@ -23,13 +23,7 @@ class UsersModal extends Component {
   };
 
   makeUserRow = user => {
-    const {
-      currentUser,
-      setStagedUserId,
-      setStagedUserPatch,
-      toggleUsersModal,
-      toggleAccountModal
-    } = this.props;
+    const { currentUser } = this.props;
     const adminSummary = user.isAdmin === 1 ? "administrator" : null;
     const userSummary = [user.displayName, user.email, adminSummary]
       .filter(value => value)

@@ -253,10 +253,7 @@ class Navigation extends Component {
         <UsersModal
           currentUser={currentUser}
           getUsers={this.getUsers}
-          setStagedUserId={this.setStagedUserId}
-          setStagedUserPatch={this.setStagedUserPatch}
           showUsersModal={showUsersModal}
-          toggleAccountModal={this.toggleAccountModal}
           toggleUsersModal={this.toggleUsersModal}
           users={users}
         />
