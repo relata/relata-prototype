@@ -1,6 +1,6 @@
 {
   "name": "relata-prototype",
-  "description": "Relata prototype web app",
+  "description": "Prototype web app for the Relata Project",
   "private": true,
   "version": "0.1.0",
   "homepage": "https://github.com/relata/relata-prototype",
@@ -8,12 +8,6 @@
   "keywords": [
     "feathers"
   ],
-  "author": {
-    "name": "Christopher Setzer",
-    "email": "37311998+cmsetzer@users.noreply.github.com"
-  },
-  "contributors": [],
-  "bugs": {},
   "directories": {
     "lib": "src",
     "test": "test/",

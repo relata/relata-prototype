@@ -37,7 +37,7 @@ class App extends Component {
 
   // Fetch initial work, Relata config, and auth information. It's important
   // to maintain this sequence; otherwise, the multiple initial API calls
-  // cause cryptic GraphViz errors for some reason. This seems to be the only
+  // cause cryptic GraphViz errors for some reason. This seems to be the
   // best workaround
   setInitialState = () => {
     const initialWorkId = 1;
@@ -70,6 +70,7 @@ class App extends Component {
     this.setInitialState();
   }
 
+  // Log in via OAuth
   login = (refresh = false) => {
     console.log("Logging in or re-authenticating…");
     // Attempt to re-authenticate
@@ -84,6 +85,7 @@ class App extends Component {
       });
   };
 
+  // Log out from OAuth session
   logout = async () => {
     console.log("Logging out…");
     await client.logout();
@@ -91,6 +93,7 @@ class App extends Component {
     console.log("Logged out!");
   };
 
+  // Fetch Relata configuration object from configuration JSON file
   getRelataConfig = () => {
     client
       .service("config")
