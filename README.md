@@ -45,6 +45,10 @@ By default, relata-prototype is set up to support user login via the following O
 
 Visit the above links to set up OAuth applications and obtain keys. (GitHub is an easy example to get started with.)
 
+In __development__ (i.e., running the app locally on your machine), use `http://localhost:3000` as your application URL and `http://localhost:3030/oauth/{provider}/callback` as the callback URL for a given provider. For example, your GitHub OAuth callback URL would be `http://localhost:3030/oauth/github/callback`.
+
+In __production__, use the URL pattern `https://{your_domain}/oauth/{provider}/callback` for OAuth callback URLs: e.g., if your domain is `library.somewhere.edu` and the provider is GitHub, your OAuth callback URL would be `https://library.somewhere.edu/oauth/github/callback`. (Here's a [relevant section from the Feathers tutorial](https://docs.feathersjs.com/guides/basics/authentication.html#github-login-oauth).)
+
 Once you've obtained one or more pairs of OAuth keys, you must set them as environment variables for the app to access them. For example, in a Mac or Linux environment, you can add these lines to your `.bash_profile` and then `source ~/.bash_profile` to load them into your terminal session:
 
 ```bash
@@ -132,7 +136,7 @@ The SQLite database, whose location is indicated in the `sqlite` property of `de
 
 To query or edit the database directly, you can use either the `sqlite3` command line client or a tool such as [DB Browser for SQLite](https://sqlitebrowser.org/). While some degree of administration is available through the relata-prototype user interface, more complex changes (i.e. making a user an administrator, editing a work's CSL JSON) needs to be done by editing the database directly.
 
-relata-prototype comes with an example database in the file `examples/sql_relata.sqlite`. As mentioned in the [Quickstart](#quickstart), you should use this example database as a basis for getting started with the app.
+relata-prototype comes with an example database in the file `examples/sql_relata.sqlite`. Note that the frontend __requires__ that a work with `id = 1` exist in the database — this is the work that will first appear in the frontend by default. Hence, as mentioned in the [Quickstart](#quickstart), the example database `examples/sql_relata.sqlite` is a great way to get started.
 
 ### Frontend architecture
 
@@ -198,7 +202,8 @@ As a prototype, the app leaves future developers many opportunities for improvem
 * SQLite is a handy database solution for a prototype, but is less optimal for a production-grade application with lots of users writing to the database concurrently. A more robust solution like [PostgreSQL](https://www.postgresql.org/) could be adopted without much change to the app's data models.
 * Likewise, the FlexSearch in-memory search index is a nice lightweight solution for a prototype. Production-grade search tools like [Elasticsearch](https://www.elastic.co/elasticsearch/) are more powerful but also more complex to set up and administer.
 * The React frontend is fairly complex/verbose, and an able frontend developer could streamline it significantly by incorporating a state management tool like [MobX](https://mobx.js.org/README.html) or [Redux](https://redux.js.org/).
-* The app should provide more informative handling of errors such as failing to create a work or relation, perhaps displaying an error banner or some obvious feedback to the user.
+* The frontend could provide a mechanism for looking up a work via URL param, so that hitting the route `/12` will take you to work whose `id = 12`. [React Router](https://reacttraining.com/react-router/) would be a good solution.
+* The frontend could provide more informative handling of errors such as failing to create a work or relation, perhaps displaying an error banner or some obvious feedback to the user.
 * Currently, the app does not include many safeguards for outlier conditions: for example, what should it do when a work has hundreds of relations and they can't all be coherently displayed in one graph? A developer might add sanity checks throughout the codebase to handle such circumstances more gracefully.
 * The function `rejectDuplicateWork` (discussed above in [Configuration](#configuration)) identifies duplicate works based on a simple fuzzy comparison between Chicago-style citations. A more refined duplicate resolution algorithm might, e.g., perform a smart comparison between two CSL JSON objects, boosting the value of such fields as title, author, and publication date.
 * While CrossRef's Search API is limited in the precision and recall of its results, it also provides (mostly) clean metadata in CSL JSON format, which is a huge benefit. A future version of the app might benefit from a library partnership that permitted access to a more flexible search API (e.g., Boolean search) but provided similarly high-quality metadata.
