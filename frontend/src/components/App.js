@@ -133,7 +133,7 @@ class App extends Component {
     } catch (error) {
       // Return default color if there was an error looking up the color, e.g.,
       // if relataConfig is not yet loaded from the backend
-      return "#666666";
+      return "#808080";
     }
   };
 

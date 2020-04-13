@@ -79,7 +79,7 @@ const makeDigraph = async graph => {
       class = "current-work-node",
       label = "${graph.citation}",
       tooltip = "${relationsCountDescription}",
-      style = "square",
+      style = "rounded",
       fontname = "helvetica-bold",
       fillcolor="#ffffff",
       color="#000000",

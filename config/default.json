@@ -63,38 +63,38 @@
       { "id": "google", "name": "Google" }
     ],
     "types": {
+      "absence": {
+        "color": "#cc33cc",
+        "preposition": "in",
+        "definition": "identifying gaps in the scholarship that a work engages, particularly in order to center counterhegemonic intellectual traditions"
+      },
       "critique": {
-        "color": "#ea2d3d",
+        "color": "#cc3333",
         "preposition": "of",
         "definition": "offering a critical take on a theoretical, methodological, or other approach from a particular perspective"
       },
       "extension": {
-        "color": "#004aaa",
+        "color": "#cccc33",
         "preposition": "of",
         "definition": "applying existing theoretical or conceptual formulations to novel contexts or cases"
       },
-      "absence": {
-        "color": "#e9d55a",
-        "preposition": "in",
-        "definition": "identifying gaps in the scholarship that a work engages, particularly in order to center counterhegemonic intellectual traditions"
-      },
-      "refinement": {
-        "color": "#ff9e16",
-        "preposition": "of",
-        "definition": "modifying, clarifying or delimiting the scope of existing formulations in light of novel contexts or cases"
-      },
-      "reanalysis": {
-        "color": "#468900",
-        "preposition": "of",
-        "definition": "analyzing empirical material initially gathered and presented by others from a novel perspective"
-      },
       "incorporation": {
-        "color": "#a361c7",
+        "color": "#33cc33",
         "preposition": "of",
         "definition": "addressing critiques of previously published work and/or integrating them into a new position"
       },
+      "reanalysis": {
+        "color": "#33cccc",
+        "preposition": "of",
+        "definition": "analyzing empirical material initially gathered and presented by others from a novel perspective"
+      },
+      "refinement": {
+        "color": "#3333cc",
+        "preposition": "of",
+        "definition": "modifying, clarifying or delimiting the scope of existing formulations in light of novel contexts or cases"
+      },
       "*": {
-        "color": "#999899"
+        "color": "#808080"
       }
     }
   }
