@@ -40,7 +40,14 @@ class App extends Component {
   // cause cryptic GraphViz errors for some reason. This seems to be the
   // best workaround
   setInitialState = () => {
-    const initialWorkId = 1;
+    // Fetch initial work ID, which is an ordinary React environment variable
+    // due to the issue described above
+    let initialWorkId = 1;
+    if (process.env.REACT_APP_RELATA_INITIAL_WORK_ID) {
+      // Pick ID at random from comma-separated candidates
+      let candidates = process.env.REACT_APP_RELATA_INITIAL_WORK_ID.split(",");
+      initialWorkId = candidates[Math.floor(Math.random() * candidates.length)];
+    }
     client
       .service("graphs")
       .get(initialWorkId)

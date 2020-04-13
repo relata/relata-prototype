@@ -74,6 +74,15 @@ export RELATA_SECRET='XXXXXXXXXXXXXXXX'
 
 Environment variables are used here for the security of the application. Your OAuth keys and Relata secret should remain private — do not include them in this repository or share them publicly!
 
+### Changing initial work in frontend
+
+By default, the work that first appears in the frontend is the one with `id = 1`. To change this, you must use the environment variable `REACT_APP_RELATA_INITIAL_WORK_ID`. If you add multiple IDs separated by commas, the frontend picks one at random:
+
+```bash
+# Comma-separated initial work IDs
+export REACT_APP_RELATA_INITIAL_WORK_ID='47,59,71'
+```
+
 ## Configuration
 
 The configuration files in the `config` folder should be used for non-sensitive configuration settings such as production URL and port, database filepath, etc. The different config files correspond to different environments (development and production); you can use one or the other by setting the environment variable `NODE_ENV`:
