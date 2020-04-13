@@ -48,7 +48,7 @@
         "oauth": 1,
         "key": "<zotero oauth key>",
         "secret": "<zotero oauth secret>",
-        "custom_params": { "identity": "1" }
+        "custom_params": { "identity": "0" }
       }
     }
   },
