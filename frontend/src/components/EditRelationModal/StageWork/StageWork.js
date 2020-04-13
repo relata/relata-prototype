@@ -81,17 +81,17 @@ class StageWork extends Component {
       <Card className="mt-3">
         <Card.Header>{heading}</Card.Header>
         <Card.Body>
-          <Tab.Container variant="success" defaultActiveKey="add-doi-pane">
+          <Tab.Container variant="success" defaultActiveKey="add-search-pane">
             <Row>
               <Col sm={3}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
-                    <Nav.Link eventKey="add-doi-pane">DOI</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
                     <Nav.Link eventKey="add-search-pane">
                       Metadata Search
                     </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="add-doi-pane">DOI</Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Col>
