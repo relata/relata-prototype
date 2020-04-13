@@ -73,7 +73,10 @@ class ContributionsModal extends Component {
         style={{
           borderLeft: `0.25rem solid ${color}`
         }}
-        onClick={() => selectWork(relation.workFrom.id)}
+        onClick={() => {
+          selectWork(relation.workTo.id);
+          this.props.toggleContributionsModal();
+        }}
         action
       >
         <span className="align-middle">
