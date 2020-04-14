@@ -127,7 +127,7 @@ class EditRelationModal extends Component {
     ) {
       selectWork();
     } else {
-      selectWork(workFromResult.id);
+      selectWork(workToResult.id);
     }
     toggleEditRelationModal();
     this.setState({ isSubmitting: false });
