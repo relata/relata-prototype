@@ -260,7 +260,7 @@ class Navigation extends Component {
       ) : null;
 
     return (
-      <Navbar id="navbar" bg="dark" variant="dark" expand="lg" fluid="true">
+      <Navbar id="navbar" bg="light" variant="light" expand="lg" fluid="true">
         <Button
           className="sr-only sr-only-focusable p-2 pl-3 pr-3"
           variant="light"
