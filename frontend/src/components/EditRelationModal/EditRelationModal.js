@@ -206,6 +206,9 @@ class EditRelationModal extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
+          <Alert variant="light">
+            All relation data are publicly and freely accessible. By submitting this relation, you agree to waive all copyright to it under the <Alert.Link href="https://creativecommons.org/publicdomain/zero/1.0/">Creative Commons Zero 1.0 Universal Public Domain Dedication</Alert.Link>.
+          </Alert>
           <Button variant="outline-secondary" onClick={toggleEditRelationModal}>
             Cancel
           </Button>
