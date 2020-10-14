@@ -74,15 +74,6 @@ export RELATA_SECRET='XXXXXXXXXXXXXXXX'
 
 Environment variables are used here for the security of the application. Your OAuth keys and Relata secret should remain private — do not include them in this repository or share them publicly!
 
-### Changing initial work in frontend
-
-By default, the work that first appears in the frontend is the one with `id = 1`. To change this, you must use the environment variable `REACT_APP_RELATA_INITIAL_WORK_ID`. If you add multiple IDs separated by commas, the frontend picks one at random:
-
-```bash
-# Comma-separated initial work IDs
-export REACT_APP_RELATA_INITIAL_WORK_ID='47,59,71'
-```
-
 ## Configuration
 
 The configuration files in the `config` folder should be used for non-sensitive configuration settings such as production URL and port, database filepath, etc. The different config files correspond to different environments (development and production); you can use one or the other by setting the environment variable `NODE_ENV`:
@@ -107,6 +98,7 @@ See the `relata` section of `default.json` to change the following Relata-specif
 
 * `aboutUrl`: URL to be used for the "About" link on top navbar. Default: `https://culanth.org/engagements/relata`.
 * `duplicateWorkThreshold`: The app uses a simple fuzzy text comparison of Chicago author-date citations to prevent the creation of duplicate works. (See the function `rejectDuplicateWork` in `src/services/works/works.hooks.js`.) This setting should be a fractional number between 0 and 1 representing the text similarity threshold at which two works are considered duplicates. Default: `0.67`.
+* `landingWorks`: The works that may appear in the landing page. This setting is an array of candidate selectors, e.g., `["7", "doi:10.1111/amet.12129"]`. If there are multiple candidates, the frontend picks one at random. If this setting is empty, the frontend uses the work with `id = 1`.
 * `oauthProviders`: Use this to define which OAuth providers are shown to the user, and in what order. Defaults: `zotero`, `mendeley`, `github`, and `google`.
   + Note: Adding further OAuth providers is complex, and requires additions to the backend code and database. This config setting is mostly a convenient way to hide or re-order the default providers.
 * `types`: Relation types to make available for user selection. Each type should include the following properties:

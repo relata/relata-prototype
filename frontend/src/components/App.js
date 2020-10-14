@@ -68,28 +68,25 @@ class App extends Component {
             showEditRelationModal: false
           });
         }
-
-        // Get config, set relataConfig
-        this.getRelataConfig();
-
-        // Login, set currentUser
-        this.login();
       });
   };
 
   componentDidMount() {
-    let { selector } = this.props.match.params;
-    if (selector === undefined) {
-      // Fetch initial work ID, which is an ordinary React environment variable
-      selector = 1;
-      if (process.env.REACT_APP_RELATA_INITIAL_WORK_ID) {
-        // Pick ID at random from comma-separated candidates
-        let candidates = process.env.REACT_APP_RELATA_INITIAL_WORK_ID.split(",");
+    // Get config, set relataConfig
+    this.getRelataConfig(() => {
+      let { selector } = this.props.match.params;
+      if (selector === undefined) {
+        // Get candidate landing works from config (or default to ID = 1)
+        let candidates = this.state.relataConfig.landingWorks || ["1"];
+        // Pick selector at random among candidates
         selector = candidates[Math.floor(Math.random() * candidates.length)];
       }
-    }
-    // Select a work and get Relata config to populate initial state
-    this.setInitialState(selector);
+      // Select a work and get Relata config to populate initial state
+      this.setInitialState(selector);
+    });
+
+    // Login, set currentUser
+    this.login();
   }
 
   // Log in via OAuth
@@ -116,12 +113,12 @@ class App extends Component {
   };
 
   // Fetch Relata configuration object from configuration JSON file
-  getRelataConfig = () => {
+  getRelataConfig = callback => {
     client
       .service("config")
       .find()
       .then(relataConfig => {
-        this.setState({ relataConfig: relataConfig });
+        this.setState({ relataConfig: relataConfig }, callback);
       });
   };
 
