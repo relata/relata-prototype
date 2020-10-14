@@ -26,7 +26,7 @@ const GlossaryModal = props => {
     const definition = relataConfig.types[relationType].definition;
     const color = getRelationColor(relationType);
     return (
-      <ListGroup.Item style={{ borderLeft: `0.25rem solid ${color}` }}>
+      <ListGroup.Item key={relationType} style={{ borderLeft: `0.25rem solid ${color}` }}>
         <b className="relation-lead">{relationType}</b> {definition}
       </ListGroup.Item>
     );

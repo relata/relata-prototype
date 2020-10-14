@@ -37,8 +37,12 @@ const handleSearchIndexQueries = async context => {
 // Get a work by its ID
 const getWork = async context => {
   const { app, id } = context;
-  const work = await app.service("works").get(id);
-  return work;
+  try {
+    const work = await app.service("works").get(id);
+    return work;
+  } catch (error) {
+    return null;
+  }
 };
 
 // Find a work by DOI
@@ -49,7 +53,7 @@ const findWorkByDoi = async context => {
   if (results.total > 0) {
     return results.data[0];
   } else {
-    return {};
+    return null;
   }
 };
 
@@ -133,10 +137,14 @@ const getRelations = async (app, work) => {
 // Build graph object representing a single work and its relations
 const makeGraph = async context => {
   let work;
-  if (context.id.startsWith("doi:")) {
+  if (typeof context.id === "string" && context.id.startsWith("doi:")) {
     work = await findWorkByDoi(context);
   } else {
     work = await getWork(context);
+  }
+  if (work == null) {
+    context.result = null;
+    return context;
   }
   const citations = makeCitations(work);
   const { relationsFrom, relationsTo } = await getRelations(context.app, work);

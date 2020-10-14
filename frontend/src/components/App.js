@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import GraphPane from "./GraphPane/GraphPane";
 import Navigation from "./Navigation/Navigation";
 import RelationsPane from "./RelationsPane/RelationsPane";
+import ErrorPane from "./ErrorPane/ErrorPane";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -21,7 +22,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentWork: { relationsFrom: [], relationsTo: [] },
+      currentWork: { id: null, relationsFrom: [], relationsTo: [] },
+      currentWorkNotFound: false,
       currentUser: null,
       relataConfig: {},
       stagedAnnotation: null,
@@ -33,6 +35,12 @@ class App extends Component {
       },
       showEditRelationModal: false
     };
+
+    this.props.history.listen((location, action) => {
+      if (this.props.match.params.selector !== this.state.currentWork.id) {
+        this.selectWork(this.props.match.params.selector, false);
+      }
+    });
   }
 
   // Fetch initial work, Relata config, and auth information. It's important
@@ -44,17 +52,22 @@ class App extends Component {
       .service("graphs")
       .get(selector)
       .then(graph => {
-        this.setState({
-          currentWork: graph,
-          stagedRelation: {
-            id: null,
-            type: null,
-            workFrom: null,
-            workTo: null,
-            annotation: null
-          },
-          showEditRelationModal: false
-        });
+        if (graph == null) {
+          this.setState({ currentWorkNotFound: true });
+        } else {
+          this.setState({
+            currentWork: graph,
+            currentWorkNotFound: false,
+            stagedRelation: {
+              id: null,
+              type: null,
+              workFrom: null,
+              workTo: null,
+              annotation: null
+            },
+            showEditRelationModal: false
+          });
+        }
 
         // Get config, set relataConfig
         this.getRelataConfig();
@@ -114,13 +127,19 @@ class App extends Component {
 
   // Fetch a work graph from the Feathers backend and refresh the frontend (if
   // called without arguments, will simply refresh the frontend for currentWork
-  selectWork = (workId = this.state.currentWork.id) => {
+  selectWork = (workId = this.state.currentWork.id, changeHistory = true) => {
     client
       .service("graphs")
       .get(workId)
       .then(graph => {
         this.setState({
           currentWork: graph
+        }, () => {
+          const newSelector = workId.toString();
+          this.props.match.params.selector = newSelector;
+          if (changeHistory) {
+            this.props.history.push("/" + newSelector);
+          }
         });
       });
   };
@@ -173,6 +192,7 @@ class App extends Component {
     const {
       currentUser,
       currentWork,
+      currentWorkNotFound,
       relataConfig,
       showEditRelationModal,
       stagedAnnotation,
@@ -199,18 +219,22 @@ class App extends Component {
         <Container fluid="true" className="mt-3">
           <Row>
             <Col sm={12} md={4} className="mb-3">
-              <RelationsPane
-                currentUser={currentUser}
-                currentWork={currentWork}
-                relataConfig={relataConfig}
-                selectWork={this.selectWork}
-                setStagedAnnotation={this.setStagedAnnotation}
-                setStagedRelation={this.setStagedRelation}
-                showEditRelationModal={showEditRelationModal}
-                stagedAnnotation={stagedAnnotation}
-                stagedRelation={stagedRelation}
-                toggleEditRelationModal={this.toggleEditRelationModal}
-              />
+              {currentWorkNotFound ? (
+                <ErrorPane code={404} />
+              ) : (
+                <RelationsPane
+                  currentUser={currentUser}
+                  currentWork={currentWork}
+                  relataConfig={relataConfig}
+                  selectWork={this.selectWork}
+                  setStagedAnnotation={this.setStagedAnnotation}
+                  setStagedRelation={this.setStagedRelation}
+                  showEditRelationModal={showEditRelationModal}
+                  stagedAnnotation={stagedAnnotation}
+                  stagedRelation={stagedRelation}
+                  toggleEditRelationModal={this.toggleEditRelationModal}
+                />
+              )}
             </Col>
             <Col sm={12} md={8}>
               <GraphPane
