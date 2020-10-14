@@ -150,6 +150,7 @@ const makeGraph = async context => {
   const { relationsFrom, relationsTo } = await getRelations(context.app, work);
   const graph = {
     id: work.id,
+    doi: work.data.DOI,
     ...citations,
     relationsFrom,
     relationsTo,

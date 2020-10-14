@@ -127,20 +127,30 @@ class App extends Component {
 
   // Fetch a work graph from the Feathers backend and refresh the frontend (if
   // called without arguments, will simply refresh the frontend for currentWork
-  selectWork = (workId = this.state.currentWork.id, changeHistory = true) => {
+  selectWork = (selector = this.state.currentWork.id, changeHistory = true) => {
     client
       .service("graphs")
-      .get(workId)
+      .get(selector)
       .then(graph => {
-        this.setState({
-          currentWork: graph
-        }, () => {
-          const newSelector = workId.toString();
-          this.props.match.params.selector = newSelector;
-          if (changeHistory) {
-            this.props.history.push("/" + newSelector);
-          }
-        });
+        if (graph == null) {
+          this.setState({ currentWorkNotFound: true });
+        } else {
+          this.setState({
+            currentWork: graph,
+            currentWorkNotFound: false
+          }, () => {
+            let newSelector;
+            if (graph.doi) {
+              newSelector = "doi:" + graph.doi;
+            } else {
+              newSelector = graph.id;
+            }
+            this.props.match.params.selector = newSelector;
+            if (changeHistory) {
+              this.props.history.push("/" + newSelector);
+            }
+          });
+        }
       });
   };
 
