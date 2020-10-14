@@ -41,6 +41,18 @@ const getWork = async context => {
   return work;
 };
 
+// Find a work by DOI
+const findWorkByDoi = async context => {
+  const { app, id } = context;
+  const doi = id.replace(/^(doi\:)/,"");
+  const results = await app.service("works").find({query: {data: {DOI: doi}}});
+  if (results.total > 0) {
+    return results.data[0];
+  } else {
+    return {};
+  }
+};
+
 // Get the total count of a work's further relations by its ID
 const getFurtherRelationsCount = async (app, workId, excludeWorkId) => {
   const queryResults = await app.service("relations").find({
@@ -120,7 +132,12 @@ const getRelations = async (app, work) => {
 
 // Build graph object representing a single work and its relations
 const makeGraph = async context => {
-  const work = await getWork(context);
+  let work;
+  if (context.id.startsWith("doi:")) {
+    work = await findWorkByDoi(context);
+  } else {
+    work = await getWork(context);
+  }
   const citations = makeCitations(work);
   const { relationsFrom, relationsTo } = await getRelations(context.app, work);
   const graph = {

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -38,18 +39,10 @@ class App extends Component {
   // to maintain this sequence; otherwise, the multiple initial API calls
   // cause cryptic GraphViz errors for some reason. This seems to be the
   // best workaround
-  setInitialState = () => {
-    // Fetch initial work ID, which is an ordinary React environment variable
-    // due to the issue described above
-    let initialWorkId = 1;
-    if (process.env.REACT_APP_RELATA_INITIAL_WORK_ID) {
-      // Pick ID at random from comma-separated candidates
-      let candidates = process.env.REACT_APP_RELATA_INITIAL_WORK_ID.split(",");
-      initialWorkId = candidates[Math.floor(Math.random() * candidates.length)];
-    }
+  setInitialState = selector => {
     client
       .service("graphs")
-      .get(initialWorkId)
+      .get(selector)
       .then(graph => {
         this.setState({
           currentWork: graph,
@@ -72,8 +65,18 @@ class App extends Component {
   };
 
   componentDidMount() {
+    let { selector } = this.props.match.params;
+    if (selector === undefined) {
+      // Fetch initial work ID, which is an ordinary React environment variable
+      selector = 1;
+      if (process.env.REACT_APP_RELATA_INITIAL_WORK_ID) {
+        // Pick ID at random from comma-separated candidates
+        let candidates = process.env.REACT_APP_RELATA_INITIAL_WORK_ID.split(",");
+        selector = candidates[Math.floor(Math.random() * candidates.length)];
+      }
+    }
     // Select a work and get Relata config to populate initial state
-    this.setInitialState();
+    this.setInitialState(selector);
   }
 
   // Log in via OAuth
@@ -222,4 +225,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
