@@ -51,6 +51,7 @@ class ContributionsModal extends Component {
   makeContributionRow = relation => {
     const { getRelationColor, selectWork } = this.props;
 
+    console.log("relation", relation);
     const workFrom = {
       ...relation.workFrom,
       ...makeCitations(relation.workFrom)
@@ -68,6 +69,7 @@ class ContributionsModal extends Component {
     const updatedTitle = format(updatedDate, "PPPPp");
     return (
       <ListGroup.Item
+        as="a"
         key={relation.id}
         className="paginated-results-item"
         style={{

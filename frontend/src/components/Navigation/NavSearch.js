@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import { AsyncTypeahead, defaultFilterBy } from "react-bootstrap-typeahead";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
+import { defaultFilterBy } from "react-bootstrap-typeahead/lib/utils/defaultFilterBy";
 import { compareTwoStrings } from "string-similarity";
 
 import { client } from "../../feathers";
@@ -56,7 +57,7 @@ class NavSearch extends Component {
       selectWork(selectedWork.id);
 
       // Clear input
-      this.typeahead.getInstance().clear();
+      this.typeahead.clear();
     }
   };
 

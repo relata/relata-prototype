@@ -11,14 +11,18 @@ Cite.CSL.register.addTemplate(templateName, template);
 const trimParentheses = citation => citation.replace(/^\(|\)$/g, "");
 
 const makeCitations = work => {
-  const cite = new Cite(work.data);
-  const citation = trimParentheses(
-    cite.format("citation", { template: templateName })
-  );
-  const bibliography = cite
-    .format("bibliography", { template: templateName })
-    .trim();
-  return { citation, bibliography };
+  try {
+    const cite = new Cite(work.data);
+    const citation = trimParentheses(
+      cite.format("citation", { template: templateName })
+    );
+    const bibliography = cite
+      .format("bibliography", { template: templateName })
+      .trim();
+    return { citation, bibliography };
+  } catch (error) {
+    return {};
+  }
 };
 
 export { makeCitations };

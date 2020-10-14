@@ -23,7 +23,7 @@ class GraphPane extends Component {
             .on("click", node => {
               selectWork(node.key);
             })
-            .on("keypress", node => {
+            .on("keypress", (node) => {
               if (d3.event.keyCode === 13) {
                 selectWork(node.key);
               }

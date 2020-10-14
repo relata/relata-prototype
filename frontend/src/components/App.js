@@ -223,7 +223,7 @@ class App extends Component {
         />
         {/* eslint-disable-next-line */}
         <a id="content" style={{ position: "absolute", top: 0 }}></a>
-        <Container fluid="true" className="mt-3">
+        <Container fluid className="mt-3">
           <Row>
             <Col sm={12} md={4} className="mb-3">
               {currentWorkNotFound ? (
