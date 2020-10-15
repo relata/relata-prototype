@@ -5,13 +5,13 @@ import LinkifyBibliography from "../../RelationsPane/LinkifyBibliography";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
-import Nav from "react-bootstrap/Nav";
+// import Nav from "react-bootstrap/Nav";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import Tooltip from "react-bootstrap/Tooltip";
 
-import AddDOIPane from "./AddDOIPane";
+// import AddDOIPane from "./AddDOIPane";
 import AddSearchPane from "./AddSearchPane";
 
 class StageWork extends Component {
@@ -83,6 +83,7 @@ class StageWork extends Component {
         <Card.Body>
           <Tab.Container variant="success" defaultActiveKey="add-search-pane">
             <Row>
+              {/*
               <Col sm={3}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
@@ -95,8 +96,10 @@ class StageWork extends Component {
                   </Nav.Item>
                 </Nav>
               </Col>
-              <Col sm={9}>
+              */}
+              <Col sm={12}>
                 <Tab.Content>
+                  {/*
                   <Tab.Pane eventKey="add-doi-pane">
                     <AddDOIPane
                       setTargetWork={this.setTargetWork}
@@ -104,6 +107,7 @@ class StageWork extends Component {
                       targetWork={targetWork}
                     />
                   </Tab.Pane>
+                  */}
                   <Tab.Pane eventKey="add-search-pane">
                     <AddSearchPane
                       setTargetWork={this.setTargetWork}
