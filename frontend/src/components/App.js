@@ -50,7 +50,7 @@ class App extends Component {
   setInitialState = selector => {
     client
       .service("graphs")
-      .get(selector)
+      .get(selector.replace("/", ","))
       .then(graph => {
         if (graph == null) {
           this.setState({ currentWorkNotFound: true });
@@ -127,7 +127,7 @@ class App extends Component {
   selectWork = (selector = this.state.currentWork.id, changeHistory = true) => {
     client
       .service("graphs")
-      .get(selector)
+      .get(selector.replace("/", ","))
       .then(graph => {
         if (graph == null) {
           this.setState({ currentWorkNotFound: true });
@@ -144,7 +144,7 @@ class App extends Component {
             }
             this.props.match.params.selector = newSelector;
             if (changeHistory) {
-              this.props.history.push("/" + newSelector);
+              this.props.history.push("/work/" + newSelector + "/");
             }
           });
         }

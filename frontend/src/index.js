@@ -12,7 +12,7 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={App} />
-      <Route exact path="/:selector+" component={App} />
+      <Route exact path="/work/:selector+/" component={App} />
     </Switch>
   </Router>
 , document.getElementById("root"));

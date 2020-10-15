@@ -51,7 +51,6 @@ class ContributionsModal extends Component {
   makeContributionRow = relation => {
     const { getRelationColor, selectWork } = this.props;
 
-    console.log("relation", relation);
     const workFrom = {
       ...relation.workFrom,
       ...makeCitations(relation.workFrom)

@@ -48,7 +48,7 @@ const getWork = async context => {
 // Find a work by DOI
 const findWorkByDoi = async context => {
   const { app, id } = context;
-  const doi = id.replace(/^(doi\:)/,"");
+  const doi = id.replace(/^(doi\:)/, "").replace(",", "/");
   const results = await app.service("works").find({query: {data: {DOI: doi}}});
   if (results.total > 0) {
     return results.data[0];
