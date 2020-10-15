@@ -50,7 +50,7 @@ class App extends Component {
   setInitialState = selector => {
     client
       .service("graphs")
-      .get(selector.replace("/", ","))
+      .get(selector.toString().replace("/", ","))
       .then(graph => {
         if (graph == null) {
           this.setState({ currentWorkNotFound: true });
@@ -127,7 +127,7 @@ class App extends Component {
   selectWork = (selector = this.state.currentWork.id, changeHistory = true) => {
     client
       .service("graphs")
-      .get(selector.replace("/", ","))
+      .get(selector.toString().replace("/", ","))
       .then(graph => {
         if (graph == null) {
           this.setState({ currentWorkNotFound: true });
