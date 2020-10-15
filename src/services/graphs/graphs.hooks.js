@@ -17,6 +17,9 @@ const handleSearchIndexQueries = async context => {
       const results = [];
       for (workId of workIds) {
         let graph = await service.get(workId);
+        if (graph == null) {
+          continue;
+        }
         let result = {
           id: graph.id,
           bibliography: graph.bibliography,
@@ -150,12 +153,14 @@ const makeGraph = async context => {
   const { relationsFrom, relationsTo } = await getRelations(context.app, work);
   const graph = {
     id: work.id,
-    doi: work.data.DOI,
     ...citations,
     relationsFrom,
     relationsTo,
     relationsCount: relationsFrom.length + relationsTo.length
   };
+  if (work.data.DOI) {
+    graph.doi = work.data.DOI;
+  }
   graph.digraph = await makeDigraph(graph);
 
   context.result = graph;

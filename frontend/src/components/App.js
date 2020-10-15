@@ -37,8 +37,9 @@ class App extends Component {
     };
 
     this.props.history.listen((location, action) => {
-      if (this.props.match.params.selector !== this.state.currentWork.id) {
-        this.selectWork(this.props.match.params.selector, false);
+      const selector = this.props.match.params.selector;
+      if (selector !== null && selector !== this.state.currentWork.id) {
+        this.selectWork(selector, false);
       }
     });
   }
@@ -125,11 +126,14 @@ class App extends Component {
   // Fetch a work graph from the Feathers backend and refresh the frontend (if
   // called without arguments, will simply refresh the frontend for currentWork
   selectWork = (selector = this.state.currentWork.id, changeHistory = true) => {
+    if (selector == null) {
+      return;
+    }
     client
       .service("graphs")
       .get(selector.toString().replace("/", ","))
       .then(graph => {
-        if (graph == null) {
+        if (graph == null && selector == this.state.currentWork.id) {
           this.setState({ currentWorkNotFound: true });
         } else {
           this.setState({

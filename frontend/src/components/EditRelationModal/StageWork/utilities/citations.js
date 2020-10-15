@@ -21,7 +21,7 @@ const makeCitations = work => {
       .trim();
     return { citation, bibliography };
   } catch (error) {
-    return {};
+    return { citation: "Error", bibliography: "Error" };
   }
 };
 
