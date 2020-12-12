@@ -6,6 +6,9 @@ import * as feathers from "@feathersjs/client";
 import * as auth from "@feathersjs/authentication-client";
 import * as $ from "jquery";
 import "bootstrap";
+import { Cite } from "@citation-js/core";
+import "@citation-js/plugin-csl";
+import "@citation-js/plugin-doi";
 import * as d3 from "d3";
 import "d3-graphviz";
 
@@ -21,6 +24,9 @@ client
 
 // Initialize reference to current work in focus
 let currentWork;
+
+// Export to browser for debugging
+window.client = client;
 
 const deleteRelation = async relationId => {
   const result = await client.service("relations").remove(relationId);
@@ -43,15 +49,18 @@ const login = async () => {
   }
 };
 
+window.login = login;
+
 const createLoginLink = () => {
   const loginLink = $("<a></a>")
     .attr({ href: "/oauth/github" })
     .html("Sign In via GitHub");
   $("#nav-login").html(loginLink);
+  $("#add-relation-button").prop("disabled", true);
 };
 
 const createAuthedUserLinks = user => {
-  const accountLink = $("<a></a>")
+  const contributionsLink = $("<a></a>")
     .attr({
       id: "contributions-modal-link",
       href: "#contributions-modal",
@@ -102,7 +111,7 @@ const createAuthedUserLinks = user => {
         $("#contributions-list").append(contributionItem);
       });
     });
-  $("#nav-account").html(accountLink);
+  $("#nav-account").html(contributionsLink);
 
   const githubUserLink = $("<a></a>")
     .attr({
@@ -120,14 +129,9 @@ const createAuthedUserLinks = user => {
   $("#nav-login")
     .empty()
     .append(["Signed in as ", githubUserLink, " (", logoutLink, ")"]);
+
+  $("#add-relation-button").prop("disabled", false);
 };
-
-// Export to browser for debugging
-window.client = client;
-window.login = login;
-
-// Attempt to login upon page load
-login();
 
 // Contributions
 
@@ -136,6 +140,48 @@ const findMyContributions = async () => {
   const contributions = await client.service("contributions").get(user._id);
   return contributions;
 };
+
+// Add relation
+
+let citeToAdd = null;
+
+const getCiteFromDoi = async doi => {
+  const cite = await Cite.async(doi);
+  return cite;
+};
+window.getCiteFromDoi = getCiteFromDoi;
+
+$("#check-doi-button").click(async event => {
+  const doi = $("#doi-input").val();
+  try {
+    const cite = await getCiteFromDoi(doi);
+    $("#doi-form-group").addClass("has-success");
+    $("#doi-result").text("DOI lookup successful!");
+    citeToAdd = cite;
+  } catch (error) {
+    $("#doi-result").text("");
+    $("#doi-form-group").removeClass("has-success");
+    citeToAdd = null;
+  }
+});
+
+$("#submit-add-relation-modal").click(async event => {
+  console.log(citeToAdd);
+  if (citeToAdd == null) {
+    return;
+  }
+  const citeCsl = citeToAdd.get()[0];
+  const currentWorkCsl = await client.service("works").get(currentWork);
+  const newRelation = {
+    relation_from: currentWorkCsl,
+    relation_to: citeCsl,
+    relation_type: $("#relation-type-select").val(),
+    annotation: $("#annotation-textarea").val()
+  };
+  const result = await client.service("relations").create(newRelation);
+  console.log(result);
+  focusOnWork(currentWork);
+});
 
 // Graph UI
 
@@ -178,7 +224,9 @@ const focusOnWork = async id => {
     .renderDot(data.digraph, updateDOM);
 
   // Update current citation
-  $("#current-work-citation").html(data.work.htmlCitation);
+  $("#current-work-citation, #current-work-citation-add-relation").html(
+    data.work.htmlCitation
+  );
 
   // Map related-to works to left-hand panels
   $(".results-list").empty();
@@ -201,6 +249,9 @@ const updateDOM = () => {
     focusOnWork(instance.attributes.id.slice(5));
   });
 };
+
+// Attempt to login upon page load
+login();
 
 // Select an arbitrary work to kick things off
 focusOnWork("9XihvtxArmDbTwlK");
