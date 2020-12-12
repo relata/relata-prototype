@@ -11,8 +11,8 @@ const getWork = async context => {
 const getFurtherRelationsCount = async (relatedWorkId, currentWorkId, app) => {
   // Get a count of further relations to and from this work
   const relations = await app.service("relations").find({
+    $limit: 0, // We only want to count relations, not get them
     query: {
-      $limit: 0, // We only want to count relations, not get them
       $or: [{ relation_to: relatedWorkId }, { relation_from: relatedWorkId }],
       // Exclude relations to the current work, since those are in the graph
       relation_to: { $ne: currentWorkId },

@@ -67,10 +67,66 @@
           <div class="modal-body contributions-list-container">
             <p>You have contributed the following relations:</p>
             <ul id="contributions-list" class="list-group">
+              <!--  -->
             </ul>
           </div>
           <div class="modal-footer">
             <button id="close-contributions-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="add-relation-modal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="add-relation-model-label"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="add-relation-model-label">Add Relation</h2>
+          </div>
+          <div class="modal-body">
+            <p>Add a relation to the following work:</p>
+            <div class="panel panel-default" style="border-color: #000">
+              <div id="current-work-citation-add-relation" class="panel-body">
+                <!-- -->
+              </div>
+            </div>
+            <div>
+              <div id="doi-form-group" class="form-group">
+                <label for="doi-input">DOI</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="doi-input" placeholder="e.g., 10.1177/1463499602002003805">
+                  <span class="input-group-btn">
+                    <button id="check-doi-button" class="btn btn-default" type="button">Check DOI</button>
+                  </span>
+                </div>
+                <p id="doi-result" class="help-block"><!-- --></p>
+              </div>
+              <div class="form-group">
+                <label for="relation-type-select">Relation Type</label>
+                <select id="relation-type-select" class="form-control">
+                  <option value="absence">absence</option>
+                  <option value="criticism">criticism</option>
+                  <option value="critique">critique</option>
+                  <option value="extension">extension</option>
+                  <option value="omission">omission</option>
+                  <option value="rejoinder">rejoinder</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="annotation-textarea">Annotation</label>
+                <textarea class="form-control" id="annotation-textarea" placeholder="Further remarks on this relation" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="cancel-add-relation-modal" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button id="submit-add-relation-modal" type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
           </div>
         </div>
       </div>
@@ -84,7 +140,7 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Search critiques, extensions, absences of..."
+                placeholder="Search works…"
                 disabled
               />
             </div>
@@ -95,7 +151,7 @@
             </div>
           </div>
           <div class="row container-fluid">
-            <button type="button" class="btn btn-success pull-right disabled">
+            <button id="add-relation-button" type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#add-relation-modal" disabled>
               Add Relation
             </button>
           </div>

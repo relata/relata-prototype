@@ -93,7 +93,7 @@ module.exports = {
     find: [],
     get: [],
     create: [
-      authenticate("jwt"),
+      // authenticate("jwt"),
       required(
         "relation_type",
         "relation_from",
