@@ -80,7 +80,6 @@ class NavSearch extends Component {
         onSearch={this.onSearch}
         maxHeight="67vh"
         placeholder="Type to search for works in Relata…"
-        selectHintOnEnter
         clearButton
       />
     );

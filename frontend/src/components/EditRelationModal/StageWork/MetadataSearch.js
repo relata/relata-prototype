@@ -97,6 +97,7 @@ class MetadataSearch extends Component {
 
     return (
       <AsyncTypeahead
+        id="metadata-search"
         isLoading={isLoading}
         delay={670}
         labelKey="citation"
@@ -108,7 +109,6 @@ class MetadataSearch extends Component {
         onSearch={this.onSearch}
         maxHeight={"33vh"}
         placeholder="Type to search for works via CrossRef…"
-        selectHintOnEnter
         clearButton
       />
     );

@@ -133,7 +133,7 @@ class App extends Component {
       .service("graphs")
       .get(selector.toString().replace("/", ","))
       .then(graph => {
-        if (graph == null && selector == this.state.currentWork.id) {
+        if (graph === null && selector === this.state.currentWork.id) {
           this.setState({ currentWorkNotFound: true });
         } else {
           this.setState({
