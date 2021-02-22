@@ -14,7 +14,7 @@ class GitHubStrategy extends OAuthStrategy {
   async getEntityData(profile, entity) {
     const baseData = await super.getEntityData(profile);
     const { login, name, email } = profile;
-    const displayName = entity?.displayName || name || login;
+    const displayName = entity ? entity.displayName : name || login;
 
     return {
       ...baseData,
@@ -33,7 +33,7 @@ class GoogleStrategy extends OAuthStrategy {
       ...baseData,
       email: profile.email,
       username: profile.email,
-      displayName: entity?.displayName || profile.name
+      displayName: entity ? entity.displayName : profile.name
     };
   }
 }
@@ -42,7 +42,7 @@ class MendeleyStrategy extends OAuthStrategy {
   async getEntityData(profile, entity) {
     const baseData = await super.getEntityData(profile);
     const { display_name, email, folder } = profile;
-    const displayName = entity?.displayName || display_name || folder;
+    const displayName = entity ? entity.displayName : display_name || folder;
 
     return {
       ...baseData,
@@ -67,7 +67,7 @@ class ZoteroStrategy extends OAuthStrategy {
     return {
       ...baseData,
       username: profile.username,
-      displayName: entity?.displayName || profile.username
+      displayName: entity ? entity.displayName : profile.username
     };
   }
 }
