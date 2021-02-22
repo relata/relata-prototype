@@ -13,6 +13,7 @@
     "d3-graphviz": "^2.6.1",
     "fibers": "^5.0.0",
     "jquery": "^3.5.1",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.3",
     "react-bootstrap-typeahead": "^5.1.4",

@@ -15,6 +15,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "academicons/css/academicons.min.css";
 import "./App.scss";
 
+import jwt from "jsonwebtoken";
+
 import { client } from "../feathers";
 
 class App extends Component {
@@ -91,18 +93,32 @@ class App extends Component {
   }
 
   // Log in via OAuth
-  login = (refresh = false) => {
+  login = async () => {
     console.log("Logging in or re-authenticating…");
     // Attempt to re-authenticate
-    client
-      .reAuthenticate(refresh)
-      .then(({ user }) => {
-        console.log("Authenticated");
-        this.setState({ currentUser: user });
-      })
-      .catch(error => {
-        console.log("Failed to authenticate:", error);
-      });
+    const accessToken = await client.authentication.getAccessToken();
+    if (accessToken) {
+      const exp = jwt.decode(accessToken).exp;
+      if (Date.now() < exp * 1000) {
+        client
+          .authenticate({
+            strategy: "jwt",
+            accessToken: accessToken
+          })
+          .then(({ user }) => {
+            console.log("Authenticated");
+            this.setState({ currentUser: user });
+          })
+          .catch(error => {
+            console.log("Failed to authenticate:", error);
+          });
+      } else {
+        console.log("Expired authentication token");
+        client.authentication.removeAccessToken();
+      }
+    } else {
+      console.log("No authentication token found");
+    }
   };
 
   // Log out from OAuth session
