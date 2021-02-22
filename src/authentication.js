@@ -11,10 +11,10 @@ const {
 } = require("@feathersjs/authentication-oauth");
 
 class GitHubStrategy extends OAuthStrategy {
-  async getEntityData(profile) {
+  async getEntityData(profile, entity) {
     const baseData = await super.getEntityData(profile);
     const { login, name, email } = profile;
-    const displayName = name || login;
+    const displayName = entity?.displayName || name || login;
 
     return {
       ...baseData,
@@ -26,23 +26,23 @@ class GitHubStrategy extends OAuthStrategy {
 }
 
 class GoogleStrategy extends OAuthStrategy {
-  async getEntityData(profile) {
+  async getEntityData(profile, entity) {
     const baseData = await super.getEntityData(profile);
 
     return {
       ...baseData,
       email: profile.email,
       username: profile.email,
-      displayName: profile.name
+      displayName: entity?.displayName || profile.name
     };
   }
 }
 
 class MendeleyStrategy extends OAuthStrategy {
-  async getEntityData(profile) {
+  async getEntityData(profile, entity) {
     const baseData = await super.getEntityData(profile);
     const { display_name, email, folder } = profile;
-    const displayName = display_name || folder;
+    const displayName = entity?.displayName || display_name || folder;
 
     return {
       ...baseData,
@@ -61,13 +61,13 @@ class ZoteroStrategy extends OAuthStrategy {
     };
   }
 
-  async getEntityData(profile) {
+  async getEntityData(profile, entity) {
     const baseData = await super.getEntityData(profile);
 
     return {
       ...baseData,
       username: profile.username,
-      displayName: profile.username
+      displayName: entity?.displayName || profile.username
     };
   }
 }
