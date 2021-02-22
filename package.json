@@ -54,7 +54,7 @@
     "pluralize": "^8.0.0",
     "sequelize": "^6.5.0",
     "serve-favicon": "^2.5.0",
-    "sqlite3": "^5.0.1",
+    "sqlite3": "^5.0.2",
     "string-similarity": "^4.0.4",
     "winston": "^3.3.3"
   },
