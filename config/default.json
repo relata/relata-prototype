@@ -56,7 +56,7 @@
   "relata": {
     "aboutUrl": "https://culanth.org/engagements/relata",
     "duplicateWorkThreshold": 0.67,
-    "landingWorks": ["7", "doi:10.1111/amet.12129"],
+    "landingWorks": ["1"],
     "oauthProviders": [
       { "id": "zotero", "name": "Zotero", "iconClass": "ai ai-zotero" },
       { "id": "mendeley", "name": "Mendeley" },
